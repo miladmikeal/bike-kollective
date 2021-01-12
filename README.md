@@ -4,6 +4,6 @@
 
 TODO
 
-## Getting Started
+## Getting Started:
 
 `npm start`
