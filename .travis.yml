@@ -1,9 +1,23 @@
 
 language: node_js
+
+env:
+  global:
+    - NODE_VERSION=stable
+
 cache:
   directories:
-  - node_modules
+    - node_modules
+
 install:
-- npm install
+  - curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
+  - export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+  - nvm install $NODE_VERSION
+  - nvm use $NODE_VERSION
+  - nvm alias default $NODE_VERSION
+
+  # - npm i -g expo-cli
+  - npm ci
+
 script:
-- npm test
+  - npm test
