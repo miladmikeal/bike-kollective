@@ -15,8 +15,7 @@ install:
   - nvm install $NODE_VERSION
   - nvm use $NODE_VERSION
   - nvm alias default $NODE_VERSION
-
-  # - npm i -g expo-cli
+  
   - npm ci
 
 script:
