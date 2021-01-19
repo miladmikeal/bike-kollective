@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { TEST_VAR } from '@env';
+import { TEST_VAR } from 'react-native-dotenv';
 
 export default function App() {
   console.log('test var: ', TEST_VAR);
