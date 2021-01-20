@@ -1,4 +1,5 @@
 import React from 'react';
+import { registerRootComponent } from 'expo';
 import {
   Container,
   Header,
@@ -29,6 +30,7 @@ const App = () => (
     </Header>
     <Content>
       <Text>{TEST_VAR}</Text>
+      <Text>Hot reload test</Text>
     </Content>
     <Footer>
       <FooterTab>
@@ -40,4 +42,4 @@ const App = () => (
   </Container>
 );
 
-export default App;
+export default registerRootComponent(App);
