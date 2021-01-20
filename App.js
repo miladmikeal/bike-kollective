@@ -1,25 +1,43 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {
+  Container,
+  Header,
+  Body,
+  Title,
+  Left,
+  Right,
+  Icon,
+  Content,
+  Text,
+  Button,
+  Footer,
+  FooterTab
+} from 'native-base';
+// eslint-disable-next-line import/no-unresolved
 import { TEST_VAR } from '@env';
 
-export default function App() {
-  console.log('test var: ', TEST_VAR);
-
-  return (
-    <View style={styles.container}>
+const App = () => (
+  <Container>
+    <Header color="primary">
+      <Left>
+        <Icon name='menu' />
+      </Left>
+      <Body>
+        <Title>BikeKollective</Title>
+      </Body>
+      <Right />
+    </Header>
+    <Content>
       <Text>{TEST_VAR}</Text>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+    </Content>
+    <Footer>
+      <FooterTab>
+        <Button full>
+          <Text>Footer</Text>
+        </Button>
+      </FooterTab>
+    </Footer>
+  </Container>
+);
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
