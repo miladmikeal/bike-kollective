@@ -3,21 +3,21 @@ import PropTypes from 'prop-types';
 import { Button, Container, Content, Text } from 'native-base';
 
 
-const BikeDetails = ({ navigation }) => (
+const AddBikeWaiver = ({ navigation }) => (
     <Container>
         <Content>
-            <Text>Hello Bike Details Screen!</Text>
-            <Button onPress={() =>navigation.push('CheckoutConfirmation')}>
-                <Text>To Bike Checkout Confirmation</Text>
+            <Text>Hello Add Bike Waiver!</Text>
+            <Button onPress={() =>navigation.push('AddBikeSubmit')}>
+                <Text>To add bike submit</Text>
             </Button>
         </Content>
     </Container>
 )
 
-BikeDetails.propTypes = {
+AddBikeWaiver.propTypes = {
     navigation: PropTypes.shape({
         push: PropTypes.func.isRequired
     }).isRequired
 }
 
-export default BikeDetails;
+export default AddBikeWaiver;

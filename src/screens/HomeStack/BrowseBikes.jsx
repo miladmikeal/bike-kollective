@@ -1,5 +1,6 @@
 import React from 'react';
-import { Container, Content, Button } from 'native-base';
+import PropTypes from 'prop-types';
+import { Button, Container, Content, Text } from 'native-base';
 
 
 const BrowseBikes = ({ navigation }) => (
@@ -12,5 +13,11 @@ const BrowseBikes = ({ navigation }) => (
         </Content>
     </Container>
 )
+
+BrowseBikes.propTypes = {
+    navigation: PropTypes.shape({
+        push: PropTypes.func.isRequired
+    }).isRequired
+}
 
 export default BrowseBikes;

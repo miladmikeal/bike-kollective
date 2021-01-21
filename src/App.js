@@ -1,13 +1,13 @@
 import React from 'react';
 import { registerRootComponent } from 'expo';
 import { NavigationContainer } from '@react-navigation/native';
-import HomeStack from './navigation/HomeStack';
+import TabNavigator from './navigation/TabNavigator';
 // eslint-disable-next-line import/no-unresolved
 import { TEST_VAR } from '@env';
 
 const App = () => (
   <NavigationContainer>
-    <HomeStack/>
+    <TabNavigator/>
   </NavigationContainer>
 );
 
