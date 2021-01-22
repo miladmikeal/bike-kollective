@@ -1,14 +1,6 @@
 import * as firebase from 'firebase';
 import 'firebase/firestore';
-import {
-  TEST_VAR,
-  apiKey,
-  authDomain,
-  projectId,
-  storageBucket,
-  messagingSenderId,
-  appId,
-} from '@env';
+import { apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId } from '@env';
 
 const firebaseConfig = {
   apiKey,
