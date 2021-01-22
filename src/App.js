@@ -2,12 +2,11 @@ import React from 'react';
 import { registerRootComponent } from 'expo';
 import { NavigationContainer } from '@react-navigation/native';
 import TabNavigator from './navigation/TabNavigator';
-// eslint-disable-next-line import/no-unresolved
-import { TEST_VAR } from '@env';
+import firebase from '../config/firebase.config.js';
 
 const App = () => (
   <NavigationContainer>
-    <TabNavigator/>
+    <TabNavigator />
   </NavigationContainer>
 );
 
