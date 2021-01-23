@@ -18,7 +18,6 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "googleMapsApiKey": "TOKEN_HERE"
     },
     "android": {
       "adaptiveIcon": {
