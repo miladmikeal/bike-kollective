@@ -34,7 +34,8 @@ BrowseBikesMap.propTypes = {
         style: PropTypes.string.isRequired,
         rating: PropTypes.number.isRequired,
         latitude: PropTypes.number.isRequired,
-        longitude: PropTypes.number.isRequired
+        longitude: PropTypes.number.isRequired,
+        keywords: PropTypes.string.isRequired
     })).isRequired
 }
 

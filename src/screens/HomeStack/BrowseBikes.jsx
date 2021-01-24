@@ -30,7 +30,8 @@ const BrowseBikes = ({navigation}) => {
                 'style': 'Mountain',
                 'rating': 5,
                 'latitude': 37.79825,
-                'longitude': -122.4424
+                'longitude': -122.4424,
+                'keywords': '1x,full-sus'
             },
             {
                 'id': '2',
@@ -39,7 +40,8 @@ const BrowseBikes = ({navigation}) => {
                 'style': 'Mountain',
                 'rating': 3,
                 'latitude': 37.77825,
-                'longitude': -122.4224
+                'longitude': -122.4224,
+                'keywords': '1x,full-sus'
             },
             {
                 'id': '3',
@@ -48,7 +50,8 @@ const BrowseBikes = ({navigation}) => {
                 'style': 'Mountain',
                 'rating': 4,
                 'latitude': 37.78425,
-                'longitude': -122.4394
+                'longitude': -122.4394,
+                'keywords': '1x,full-sus'
             }
         ]
     }
