@@ -12,30 +12,23 @@ import {
 
 const BrowseBikes = ({ navigation }) => (
     <Container>
-        <MapView
-            initialRegion={{
-                latitude: 37.78825,
-                longitude: -122.4324,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
-            }}
-        />
-    </Container>
-)
-
-/*
-const BrowseBikes = ({ navigation }) => (
-    <Container>
         <Grid>
             <Row>
                 <MapView
+                    style={{
+                        flex: 1
+                    }}
                     initialRegion={{
                         latitude: 37.78825,
                         longitude: -122.4324,
                         latitudeDelta: 0.0922,
                         longitudeDelta: 0.0421,
                     }}
-                />
+                >
+                    <MapView.Marker
+                        coordinate={{latitude: 37.78825, longitude: -122.4324}}
+                    />
+                </MapView>
             </Row>
             <Row>
                 <Grid>
@@ -52,7 +45,6 @@ const BrowseBikes = ({ navigation }) => (
         </Grid>
     </Container>
 )
-*/
 
 BrowseBikes.propTypes = {
     navigation: PropTypes.shape({

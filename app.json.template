@@ -20,6 +20,7 @@
       "supportsTablet": true,
     },
     "android": {
+      "package": "bikekollective.android",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
@@ -28,8 +29,7 @@
         "googleMaps": {
           "apiKey": "TOKEN_HERE"
         }
-      },
-      "package": "bikekollective.android"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
