@@ -1,6 +1,12 @@
-import * as firebase from 'firebase';
-import 'firebase/firestore';
-import { apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId } from '@env';
+import {
+  apiKey,
+  authDomain,
+  projectId,
+  storageBucket,
+  messagingSenderId,
+  appId
+  // eslint-disable-next-line import/no-unresolved
+} from '@env';
 
 const firebaseConfig = {
   apiKey,
@@ -11,4 +17,4 @@ const firebaseConfig = {
   appId,
 };
 
-export default firebase.initializeApp(firebaseConfig);
+export default firebaseConfig;
