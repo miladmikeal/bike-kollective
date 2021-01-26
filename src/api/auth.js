@@ -2,7 +2,7 @@ import * as firebase from "firebase";
 import "firebase/firestore";
 import { Alert } from "react-native";
 
-export async function signUp(email, password, lastName, firstName) {
+export const signUp = async (email, password, lastName, firstName) => {
   try {
     await firebase.auth().createUserWithEmailAndPassword(email, password);
     const { currentUser } = firebase.auth();
@@ -20,7 +20,7 @@ export async function signUp(email, password, lastName, firstName) {
   }
 }
 
-export async function signIn(email, password) {
+export const signIn = async (email, password) => {
   try {
     await firebase
       .auth()
@@ -30,7 +30,7 @@ export async function signIn(email, password) {
   }
 }
 
-export async function logout() {
+export const logout = async () => {
   try {
     await firebase.auth().signOut();
   } catch (err) {
