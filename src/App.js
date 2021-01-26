@@ -11,6 +11,7 @@ import firebaseConfig from '../config/firebase.config.js';
 const App = () => {
   const [currentUser, setCurrentUser] = useState(null);
   if (!firebase.apps.length) {
+    // eslint-disable-next-line no-console
     console.log('Connected with Firebase')
     firebase.initializeApp(firebaseConfig);
   }

@@ -13,7 +13,7 @@ import {
 import PropTypes from 'prop-types';
 import { signIn } from '../../api/auth';
 
-export default function SignIn({ navigation }) {
+const SignIn = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -68,3 +68,5 @@ SignIn.propTypes = {
     navigate: PropTypes.func.isRequired
   }).isRequired
 }
+
+export default SignIn;
