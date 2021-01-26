@@ -1,18 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import * as firebase from 'firebase';
 import PropTypes from 'prop-types';
+import { Alert } from 'react-native';
 import {
     Button,
     Container,
     Grid,
     Row,
     Text,
-    Spinner
+    Spinner,
+    H1
 } from 'native-base';
 import BrowseBikesMap from '../../components/BrowseBikesMap';
+import { logout } from '../../api/auth';
 
-const BrowseBikes = ({navigation}) => {
+const BrowseBikes = ({ navigation }) => {
+    const currentUserUID = firebase.auth().currentUser.uid;
+    const [firstName, setFirstName] = useState('');
     const [data, setData] = useState();
     const [err, setErr] = useState();
+
+    useEffect(() => {
+        async function getUserInfo() {
+            const doc = await firebase
+                .firestore()
+                .collection('users')
+                .doc(currentUserUID)
+                .get();
+
+            if (!doc.exists) {
+                Alert.alert('No user data found!')
+            } else {
+                const dataObj = doc.data();
+                setFirstName(dataObj.firstName)
+            }
+        }
+        getUserInfo();
+    })
 
     // sleep simulates taking time to read from the datastore
     function sleep(ms) {
@@ -56,6 +80,11 @@ const BrowseBikes = ({navigation}) => {
         ]
     }
 
+    function handlePress() {
+        logout();
+        navigation.replace('AuthStack');
+    }
+
     if (!data && !err) {
         getBikes()
             .then((bikes) => {
@@ -75,9 +104,9 @@ const BrowseBikes = ({navigation}) => {
     }
 
     if (!data) {
-        return  (
+        return (
             <Container>
-                <Spinner/>
+                <Spinner />
             </Container>
         )
     }
@@ -86,7 +115,10 @@ const BrowseBikes = ({navigation}) => {
         <Container>
             <Grid>
                 <Row>
-                    <BrowseBikesMap bikes={data}/>
+                    <BrowseBikesMap bikes={data} />
+                </Row>
+                <Row>
+                    <H1>Hello {firstName} with ID: {currentUserUID}</H1>
                 </Row>
                 <Row>
                     <Grid>
@@ -94,8 +126,13 @@ const BrowseBikes = ({navigation}) => {
                             <Text>Hello Bike Browsing Screen!</Text>
                         </Row>
                         <Row>
-                            <Button onPress={() =>navigation.push('BikeDetails')}>
+                            <Button onPress={() => navigation.push('BikeDetails')}>
                                 <Text>To Bike Details</Text>
+                            </Button>
+                        </Row>
+                        <Row>
+                            <Button light onPress={handlePress}>
+                                <Text>Logout</Text>
                             </Button>
                         </Row>
                     </Grid>
@@ -107,7 +144,8 @@ const BrowseBikes = ({navigation}) => {
 
 BrowseBikes.propTypes = {
     navigation: PropTypes.shape({
-        push: PropTypes.func.isRequired
+        push: PropTypes.func.isRequired,
+        replace: PropTypes.func.isRequired
     }).isRequired
 }
 
