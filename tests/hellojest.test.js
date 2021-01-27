@@ -1,3 +1,6 @@
-test("A dummy test to verify our tests are running", () => {
-    expect(true).toBe(true);
-})
+/* eslint-disable */
+test('A dummy test to verify our tests are running', () => {
+  expect(true).toBe(true);
+});
+
+/* eslint-enable */
