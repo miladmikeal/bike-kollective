@@ -6,13 +6,12 @@ import TabNavigator from './navigation/TabNavigator';
 import AuthStack from './navigation/AuthStack';
 import firebaseConfig from '../config/firebase.config.js';
 
-
-
 const App = () => {
   const [currentUser, setCurrentUser] = useState(null);
+
   if (!firebase.apps.length) {
     // eslint-disable-next-line no-console
-    console.log('Connected with Firebase')
+    console.log('Connected with Firebase');
     firebase.initializeApp(firebaseConfig);
   }
 
@@ -26,13 +25,9 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      {currentUser !== null ? (
-        <TabNavigator />
-      ) : (
-          <AuthStack />
-        )}
+      {currentUser !== null ? <TabNavigator /> : <AuthStack />}
     </NavigationContainer>
-  )
+  );
 };
 
 export default registerRootComponent(App);
