@@ -17,8 +17,8 @@ const BrowseBikesMap = ({bikes}) => (
         {bikes.map(bike => (
             <MapView.Marker
                 coordinate={{
-                    latitude: bike.latitude,
-                    longitude: bike.longitude
+                    latitude: bike.g.geopoint.U,
+                    longitude: bike.g.geopoint.k,
                 }}
                 key={bike.id}
             />
@@ -32,10 +32,17 @@ BrowseBikesMap.propTypes = {
         name: PropTypes.string.isRequired,
         frame: PropTypes.string.isRequired,
         style: PropTypes.string.isRequired,
-        rating: PropTypes.number.isRequired,
-        latitude: PropTypes.number.isRequired,
-        longitude: PropTypes.number.isRequired,
-        keywords: PropTypes.string.isRequired
+        keywords: PropTypes.string.isRequired,
+        pic_url: PropTypes.string.isRequired,
+        user_id: PropTypes.string.isRequired,
+        checked_out: PropTypes.bool.isRequired,
+        distance: PropTypes.number.isRequired,
+        g: PropTypes.shape({
+           geopoint: PropTypes.shape({
+               U: PropTypes.number,
+               k: PropTypes.number
+           })
+        })
     })).isRequired
 }
 

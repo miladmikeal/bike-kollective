@@ -13,6 +13,7 @@ import {
 } from 'native-base';
 import BrowseBikesMap from '../../components/BrowseBikesMap';
 import { logout } from '../../api/auth';
+import { getGeoStore } from '../../api/geofirestore';
 
 const BrowseBikes = ({ navigation }) => {
     const currentUserUID = firebase.auth().currentUser.uid;
@@ -38,46 +39,26 @@ const BrowseBikes = ({ navigation }) => {
         getUserInfo();
     })
 
-    // sleep simulates taking time to read from the datastore
-    function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
+    // getBikes will retrieve the bike data from firebase that is
+    // within a radiusKm km distance from centerpoint
+    async function getBikes(centerPoint, radiusKm) {    
+        const geostore = getGeoStore();
+        const query = geostore.collection('bikes').near({
+            center: centerPoint,
+            radius: radiusKm
+        });
 
-    // getBikes will retrieve the bike data from firebase. For now I'm going to send mock data.
-    async function getBikes() {
-        await sleep(1000);
-        return [
-            {
-                'id': '1',
-                'name': 'specialized camber',
-                'frame': 'large',
-                'style': 'Mountain',
-                'rating': 5,
-                'latitude': 37.79825,
-                'longitude': -122.4424,
-                'keywords': '1x,full-sus'
-            },
-            {
-                'id': '2',
-                'name': 'giant trance',
-                'frame': 'small',
-                'style': 'Mountain',
-                'rating': 3,
-                'latitude': 37.77825,
-                'longitude': -122.4224,
-                'keywords': '1x,full-sus'
-            },
-            {
-                'id': '3',
-                'name': 'giant stance',
-                'frame': 'medium',
-                'style': 'Mountain',
-                'rating': 4,
-                'latitude': 37.78425,
-                'longitude': -122.4394,
-                'keywords': '1x,full-sus'
-            }
-        ]
+        const bikeDocs = await query.get();
+
+        const bikes = [];
+        bikeDocs.docs.forEach((bike, index) => {
+            bikes.push(bike.data());
+            bikes[index].id = bike.id;
+            bikes[index].distance = bike.distance;
+        })
+
+        console.log(bikes);
+        return bikes
     }
 
     function handlePress() {
@@ -86,7 +67,10 @@ const BrowseBikes = ({ navigation }) => {
     }
 
     if (!data && !err) {
-        getBikes()
+        // TODO - use location data for this
+        const centerPoint = new firebase.firestore.GeoPoint(37.78825, -122.4324);
+        const radiusKm = 100;
+        getBikes(centerPoint, radiusKm)
             .then((bikes) => {
                 setData(bikes)
             })
