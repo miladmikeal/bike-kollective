@@ -13,12 +13,18 @@ import {
 } from 'native-base';
 import BrowseBikesMap from '../../components/BrowseBikesMap';
 import { logout } from '../../api/auth';
+import { getGeoStore } from '../../api/geofirestore';
+import Bike from '../../../models/Bike';
+import LocationServices from '../../../utility/location';
 
 const BrowseBikes = ({ navigation }) => {
     const currentUserUID = firebase.auth().currentUser.uid;
     const [firstName, setFirstName] = useState('');
     const [data, setData] = useState();
     const [err, setErr] = useState();
+    const [searchRadiusKm, setSearchRadiusKm] = useState(50);
+    const [locationGranted, setLocationGranted] = useState(false);
+    const [location, setLocation] = useState();
 
     useEffect(() => {
         async function getUserInfo() {
@@ -38,46 +44,37 @@ const BrowseBikes = ({ navigation }) => {
         getUserInfo();
     })
 
-    // sleep simulates taking time to read from the datastore
-    function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
+    // getBikes will retrieve the bike data from firebase that is
+    // within a radiusKm km distance from centerpoint
+    async function getBikes(centerPoint, radiusKm) {    
+        const geostore = getGeoStore();
+        const query = geostore.collection('bikes').near({
+            center: centerPoint,
+            radius: radiusKm
+        });
 
-    // getBikes will retrieve the bike data from firebase. For now I'm going to send mock data.
-    async function getBikes() {
-        await sleep(1000);
-        return [
-            {
-                'id': '1',
-                'name': 'specialized camber',
-                'frame': 'large',
-                'style': 'Mountain',
-                'rating': 5,
-                'latitude': 37.79825,
-                'longitude': -122.4424,
-                'keywords': '1x,full-sus'
-            },
-            {
-                'id': '2',
-                'name': 'giant trance',
-                'frame': 'small',
-                'style': 'Mountain',
-                'rating': 3,
-                'latitude': 37.77825,
-                'longitude': -122.4224,
-                'keywords': '1x,full-sus'
-            },
-            {
-                'id': '3',
-                'name': 'giant stance',
-                'frame': 'medium',
-                'style': 'Mountain',
-                'rating': 4,
-                'latitude': 37.78425,
-                'longitude': -122.4394,
-                'keywords': '1x,full-sus'
-            }
-        ]
+        const bikeDocs = await query.get();
+
+        const bikes = [];
+        bikeDocs.docs.forEach((bikeDoc) => {
+            const bikeProperties = bikeDoc.data();
+            const bike = new Bike(
+                bikeDoc.id,
+                bikeProperties.checked_out,
+                bikeProperties.frame,
+                bikeProperties.g.geohash,
+                bikeProperties.g.geopoint.U,
+                bikeProperties.g.geopoint.k,
+                bikeProperties.keywords,
+                bikeProperties.name,
+                bikeProperties.pic_url,
+                bikeProperties.style,
+                bikeProperties.user_id,
+                bikeProperties.distance
+                )
+            bikes.push(bike);
+        });
+        return bikes
     }
 
     function handlePress() {
@@ -85,8 +82,24 @@ const BrowseBikes = ({ navigation }) => {
         navigation.replace('AuthStack');
     }
 
-    if (!data && !err) {
-        getBikes()
+    if (!locationGranted) {
+        LocationServices.getLocationPermission()
+        .then((permission) => setLocationGranted(permission));
+    }
+
+    if (!location) {
+        LocationServices.getCurrentLocation().then((currentLocation) => {
+            setLocation({
+                latitude: currentLocation.coords.latitude,
+                longitude: currentLocation.coords.longitude
+            })
+        });
+    }
+
+    if (location && !data && !err) {
+        const centerPoint = new firebase.firestore.GeoPoint(location.latitude, location.longitude);
+        const radiusKm = searchRadiusKm;
+        getBikes(centerPoint, radiusKm)
             .then((bikes) => {
                 setData(bikes)
             })
@@ -115,7 +128,7 @@ const BrowseBikes = ({ navigation }) => {
         <Container>
             <Grid>
                 <Row>
-                    <BrowseBikesMap bikes={data} />
+                    <BrowseBikesMap bikes={data} location={location} />
                 </Row>
                 <Row>
                     <H1>Hello {firstName} with ID: {currentUserUID}</H1>
