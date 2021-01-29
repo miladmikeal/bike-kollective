@@ -6,8 +6,6 @@ import TabNavigator from './navigation/TabNavigator';
 import AuthStack from './navigation/AuthStack';
 import firebaseConfig from '../config/firebase.config.js';
 
-
-
 const App = () => {
   const [currentUser, setCurrentUser] = useState(null);
   if (!firebase.apps.length) {

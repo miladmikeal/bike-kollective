@@ -17,6 +17,7 @@
     "expo-constants": "~9.3.3",
     "expo-status-bar": "~1.0.3",
     "firebase": "7.9.0",
+    "geofirestore": "^4.4.1",
     "jest": "^26.6.3",
     "native-base": "^2.15.2",
     "prop-types": "^15.7.2",
