@@ -1,13 +1,17 @@
 // class definition for Bike entity
 
 export default class Bike {
-  constructor(id, name, frame, style, rating, location, keywords) {
+  // We can adjust constructor values as needed
+  constructor(id, checkedOut, frame, geoHash, keywords, name, picUrl, style, userId) {
     this.id = id;
-    this.name = name;
-    this.style = style;
-    this.rating = rating;
-    this.location = location;
-    this.keywords = keywords;
+    this.checkedOut = checkedOut; // Boolean
+    this.frame = frame; // String
+    this.geoHash = geoHash; // Map
+    this.keywords = keywords; // String array
+    this.name = name; // String
+    this.picUrl = picUrl; // Url
+    this.style = style; // String
+    this.userId = userId; // String
   }
 
   getBikeId() {
