@@ -22,4 +22,6 @@ export default class Bike {
   getLatitude = () => this.latitude;
 
   getLongitude = () => this.longitude;
+
+  getCheckedOut = () => this.checkedOut;
 }

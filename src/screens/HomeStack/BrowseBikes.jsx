@@ -15,12 +15,16 @@ import BrowseBikesMap from '../../components/BrowseBikesMap';
 import { logout } from '../../api/auth';
 import { getGeoStore } from '../../api/geofirestore';
 import Bike from '../../../models/Bike';
+import LocationServices from '../../../utility/location';
 
 const BrowseBikes = ({ navigation }) => {
     const currentUserUID = firebase.auth().currentUser.uid;
     const [firstName, setFirstName] = useState('');
     const [data, setData] = useState();
     const [err, setErr] = useState();
+    const [searchRadiusKm, setSearchRadiusKm] = useState(50);
+    const [locationGranted, setLocationGranted] = useState(false);
+    const [location, setLocation] = useState();
 
     useEffect(() => {
         async function getUserInfo() {
@@ -70,8 +74,6 @@ const BrowseBikes = ({ navigation }) => {
                 )
             bikes.push(bike);
         });
-
-        console.log(bikes);
         return bikes
     }
 
@@ -80,10 +82,23 @@ const BrowseBikes = ({ navigation }) => {
         navigation.replace('AuthStack');
     }
 
-    if (!data && !err) {
-        // TODO - use location data for this
-        const centerPoint = new firebase.firestore.GeoPoint(37.78825, -122.4324);
-        const radiusKm = 100;
+    if (!locationGranted) {
+        LocationServices.getLocationPermission()
+        .then((permission) => setLocationGranted(permission));
+    }
+
+    if (!location) {
+        LocationServices.getCurrentLocation().then((currentLocation) => {
+            setLocation({
+                latitude: currentLocation.coords.latitude,
+                longitude: currentLocation.coords.longitude
+            })
+        });
+    }
+
+    if (location && !data && !err) {
+        const centerPoint = new firebase.firestore.GeoPoint(location.latitude, location.longitude);
+        const radiusKm = searchRadiusKm;
         getBikes(centerPoint, radiusKm)
             .then((bikes) => {
                 setData(bikes)
@@ -113,7 +128,7 @@ const BrowseBikes = ({ navigation }) => {
         <Container>
             <Grid>
                 <Row>
-                    <BrowseBikesMap bikes={data} />
+                    <BrowseBikesMap bikes={data} location={location} />
                 </Row>
                 <Row>
                     <H1>Hello {firstName} with ID: {currentUserUID}</H1>
