@@ -14,6 +14,7 @@ import {
 import BrowseBikesMap from '../../components/BrowseBikesMap';
 import { logout } from '../../api/auth';
 import { getGeoStore } from '../../api/geofirestore';
+import Bike from '../../../models/Bike';
 
 const BrowseBikes = ({ navigation }) => {
     const currentUserUID = firebase.auth().currentUser.uid;
@@ -51,11 +52,24 @@ const BrowseBikes = ({ navigation }) => {
         const bikeDocs = await query.get();
 
         const bikes = [];
-        bikeDocs.docs.forEach((bike, index) => {
-            bikes.push(bike.data());
-            bikes[index].id = bike.id;
-            bikes[index].distance = bike.distance;
-        })
+        bikeDocs.docs.forEach((bikeDoc) => {
+            const bikeProperties = bikeDoc.data();
+            const bike = new Bike(
+                bikeDoc.id,
+                bikeProperties.checked_out,
+                bikeProperties.frame,
+                bikeProperties.g.geohash,
+                bikeProperties.g.geopoint.U,
+                bikeProperties.g.geopoint.k,
+                bikeProperties.keywords,
+                bikeProperties.name,
+                bikeProperties.pic_url,
+                bikeProperties.style,
+                bikeProperties.user_id,
+                bikeProperties.distance
+                )
+            bikes.push(bike);
+        });
 
         console.log(bikes);
         return bikes

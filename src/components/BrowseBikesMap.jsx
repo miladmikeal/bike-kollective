@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import MapView from 'react-native-maps';
+import Bike from '../../models/Bike';
 
 const BrowseBikesMap = ({bikes}) => (
     <MapView
@@ -17,8 +18,8 @@ const BrowseBikesMap = ({bikes}) => (
         {bikes.map(bike => (
             <MapView.Marker
                 coordinate={{
-                    latitude: bike.g.geopoint.U,
-                    longitude: bike.g.geopoint.k,
+                    latitude: bike.getLatitude(),
+                    longitude: bike.getLongitude(),
                 }}
                 key={bike.id}
             />
@@ -27,23 +28,7 @@ const BrowseBikesMap = ({bikes}) => (
 )
 
 BrowseBikesMap.propTypes = {
-    bikes: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        frame: PropTypes.string.isRequired,
-        style: PropTypes.string.isRequired,
-        keywords: PropTypes.string.isRequired,
-        pic_url: PropTypes.string.isRequired,
-        user_id: PropTypes.string.isRequired,
-        checked_out: PropTypes.bool.isRequired,
-        distance: PropTypes.number.isRequired,
-        g: PropTypes.shape({
-           geopoint: PropTypes.shape({
-               U: PropTypes.number,
-               k: PropTypes.number
-           })
-        })
-    })).isRequired
+    bikes: PropTypes.arrayOf(PropTypes.instanceOf(Bike)).isRequired
 }
 
 export default BrowseBikesMap
