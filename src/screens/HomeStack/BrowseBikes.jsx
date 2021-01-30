@@ -9,9 +9,11 @@ import {
     Row,
     Text,
     Spinner,
-    H1
+    H1,
+    Content
 } from 'native-base';
 import BrowseBikesMap from '../../components/BrowseBikesMap';
+import BrowseBikesList from '../../components/BrowseBikesList';
 import { logout } from '../../api/auth';
 import { getGeoStore } from '../../api/geofirestore';
 import Bike from '../../../models/Bike';
@@ -131,6 +133,28 @@ const BrowseBikes = ({ navigation }) => {
                     <BrowseBikesMap bikes={data} location={location} />
                 </Row>
                 <Row>
+                    <Content>
+                        <BrowseBikesList bikes={data} searchRadiusKm={searchRadiusKm} />
+                    </Content>
+                </Row>
+            </Grid>
+        </Container>
+    )
+}
+
+BrowseBikes.propTypes = {
+    navigation: PropTypes.shape({
+        push: PropTypes.func.isRequired,
+        replace: PropTypes.func.isRequired
+    }).isRequired
+}
+
+export default BrowseBikes;
+
+
+// TODO - delete this stuff
+/*
+                <Row>
                     <H1>Hello {firstName} with ID: {currentUserUID}</H1>
                 </Row>
                 <Row>
@@ -150,16 +174,4 @@ const BrowseBikes = ({ navigation }) => {
                         </Row>
                     </Grid>
                 </Row>
-            </Grid>
-        </Container>
-    )
-}
-
-BrowseBikes.propTypes = {
-    navigation: PropTypes.shape({
-        push: PropTypes.func.isRequired,
-        replace: PropTypes.func.isRequired
-    }).isRequired
-}
-
-export default BrowseBikes;
+*/
