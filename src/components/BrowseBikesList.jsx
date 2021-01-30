@@ -5,7 +5,7 @@ import Bike from '../../models/Bike';
 import BrowseBikesListItem from './BrowseBikesListItem';
 import { kmToMile } from '../../utility/distanceConversion';
 
-const BrowseBikesList = ({bikes, searchRadiusKm}) => {
+const BrowseBikesList = ({bikes, searchRadiusKm, navigation}) => {
     // Verify that the query returned at least one open bike
     let availableBikes = 0;
     for (let i = 0; i < bikes.length; i += 1) {
@@ -19,7 +19,7 @@ const BrowseBikesList = ({bikes, searchRadiusKm}) => {
         return (
             <List>
                 <ListItem>
-                    <Text>There are no bikes within the {kmToMile(searchRadiusKm)} mile search range.</Text>
+                    <Text>There are no bikes within the {kmToMile(searchRadiusKm).toFixed(2)} mile search range.</Text>
                 </ListItem>
             </List>
         )
@@ -31,7 +31,7 @@ const BrowseBikesList = ({bikes, searchRadiusKm}) => {
                 bikes.map(bike => {
                     if (!bike.getCheckedOut()) {
                         return (
-                        <BrowseBikesListItem bike={bike} />
+                        <BrowseBikesListItem key={bike.getBikeId()} bike={bike} navigation={navigation}/>
                         );
                     }
                     return null;
@@ -43,7 +43,10 @@ const BrowseBikesList = ({bikes, searchRadiusKm}) => {
 
 BrowseBikesList.propTypes = {
     bikes: PropTypes.arrayOf(PropTypes.instanceOf(Bike)).isRequired,
-    searchRadiusKm: PropTypes.number.isRequired
+    searchRadiusKm: PropTypes.number.isRequired,
+    navigation: PropTypes.shape({
+        push: PropTypes.func.isRequired,
+    }).isRequired
 }
 
 export default BrowseBikesList

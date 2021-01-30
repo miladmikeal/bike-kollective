@@ -134,7 +134,7 @@ const BrowseBikes = ({ navigation }) => {
                 </Row>
                 <Row>
                     <Content>
-                        <BrowseBikesList bikes={data} searchRadiusKm={searchRadiusKm} />
+                        <BrowseBikesList bikes={data} searchRadiusKm={searchRadiusKm} navigation={navigation} />
                     </Content>
                 </Row>
             </Grid>
