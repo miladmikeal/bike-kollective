@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import * as firebase from 'firebase';
 import PropTypes from 'prop-types';
-import { Alert } from 'react-native';
 import {
     Button,
     Container,
@@ -11,38 +10,20 @@ import {
     Spinner,
     H1
 } from 'native-base';
+import { AuthContext } from '../../context/AuthProvider';
 import BrowseBikesMap from '../../components/BrowseBikesMap';
-import { logout } from '../../api/auth';
+import { signOut } from '../../api/auth';
 import { getGeoStore } from '../../api/geofirestore';
 import Bike from '../../../models/Bike';
 import LocationServices from '../../../utility/location';
 
 const BrowseBikes = ({ navigation }) => {
-    const currentUserUID = firebase.auth().currentUser.uid;
-    const [firstName, setFirstName] = useState('');
+    const { currentUser } = useContext(AuthContext);
     const [data, setData] = useState();
     const [err, setErr] = useState();
     const [searchRadiusKm, setSearchRadiusKm] = useState(50);
     const [locationGranted, setLocationGranted] = useState(false);
     const [location, setLocation] = useState();
-
-    useEffect(() => {
-        async function getUserInfo() {
-            const doc = await firebase
-                .firestore()
-                .collection('users')
-                .doc(currentUserUID)
-                .get();
-
-            if (!doc.exists) {
-                Alert.alert('No user data found!')
-            } else {
-                const dataObj = doc.data();
-                setFirstName(dataObj.firstName)
-            }
-        }
-        getUserInfo();
-    })
 
     // getBikes will retrieve the bike data from firebase that is
     // within a radiusKm km distance from centerpoint
@@ -78,7 +59,7 @@ const BrowseBikes = ({ navigation }) => {
     }
 
     function handlePress() {
-        logout();
+        signOut();
         navigation.replace('AuthStack');
     }
 
@@ -131,7 +112,9 @@ const BrowseBikes = ({ navigation }) => {
                     <BrowseBikesMap bikes={data} location={location} />
                 </Row>
                 <Row>
-                    <H1>Hello {firstName} with ID: {currentUserUID}</H1>
+                    {currentUser && (
+                        <H1>Hello {currentUser.firstName}</H1>
+                    )}
                 </Row>
                 <Row>
                     <Grid>
