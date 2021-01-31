@@ -12,6 +12,6 @@ const AuthStack = () => (
     <AuthStackNav.Screen name="SignIn" component={SignIn} />
     <AuthStackNav.Screen name="SignUp" component={SignUp} />
   </AuthStackNav.Navigator>
-)
+);
 
 export default AuthStack;

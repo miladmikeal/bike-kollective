@@ -7,11 +7,11 @@ import CheckoutConfirmation from '../screens/HomeStack/CheckoutConfirmation';
 const HomeStackNav = createStackNavigator();
 
 const HomeStack = () => (
-    <HomeStackNav.Navigator initialRouteName="BrowseBikes">
-        <HomeStackNav.Screen name="BrowseBikes" component={BrowseBikes} />
-        <HomeStackNav.Screen name="BikeDetails" component={BikeDetails} />
-        <HomeStackNav.Screen name="CheckoutConfirmation" component={CheckoutConfirmation} />
-    </HomeStackNav.Navigator>
-)
+  <HomeStackNav.Navigator initialRouteName="BrowseBikes">
+    <HomeStackNav.Screen name="BrowseBikes" component={BrowseBikes} />
+    <HomeStackNav.Screen name="BikeDetails" component={BikeDetails} />
+    <HomeStackNav.Screen name="CheckoutConfirmation" component={CheckoutConfirmation} />
+  </HomeStackNav.Navigator>
+);
 
 export default HomeStack;

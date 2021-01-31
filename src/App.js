@@ -26,7 +26,7 @@ const App = () => {
   useEffect(() => {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        getUserInfo(user.uid).then(data => setCurrentUser(data))
+        getUserInfo(user.uid).then(data => setCurrentUser(data));
       }
     });
     setLoading(false);
@@ -39,7 +39,7 @@ const App = () => {
           <Spinner />
         </Content>
       </Container>
-    )
+    );
   }
 
   return (

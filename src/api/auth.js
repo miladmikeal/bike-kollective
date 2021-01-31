@@ -4,15 +4,15 @@ import { Alert } from "react-native";
 
 export const getUserInfo = async (uid) => {
   const db = firebase.firestore();
-    const userRef = await db.collection("users")
-      .doc(uid)
-      .get();
+  const userRef = await db.collection("users")
+    .doc(uid)
+    .get();
 
-    if (!userRef.exists) {
-      Alert.alert('No user data found!')
-    }
-    return userRef.data();
-}
+  if (!userRef.exists) {
+    Alert.alert('No user data found!');
+  }
+  return userRef.data();
+};
 
 export const signUp = async (email, password, lastName, firstName) => {
   try {
@@ -30,7 +30,7 @@ export const signUp = async (email, password, lastName, firstName) => {
   } catch (err) {
     Alert.alert("There is something wrong!!!!", err.message);
   }
-}
+};
 
 // eslint-disable-next-line consistent-return
 export const signIn = async (email, password) => {
@@ -44,7 +44,7 @@ export const signIn = async (email, password) => {
   } catch (err) {
     Alert.alert("There is something wrong!", err.message);
   }
-}
+};
 
 export const signOut = async () => {
   try {
@@ -52,4 +52,4 @@ export const signOut = async () => {
   } catch (err) {
     Alert.alert('There is something wrong!', err.message);
   }
-}
+};

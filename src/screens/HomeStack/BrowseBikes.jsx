@@ -2,12 +2,18 @@ import React, { useState, useEffect } from 'react';
 import * as firebase from 'firebase';
 import PropTypes from 'prop-types';
 import { Alert } from 'react-native';
-import { Button, Container, Grid, Row, Text, Spinner, H1 } from 'native-base';
+import {
+  Button,
+  Container,
+  Grid,
+  Row,
+  Text,
+  Spinner,
+  H1
+} from 'native-base';
 import BrowseBikesMap from '../../components/BrowseBikesMap';
-/* eslint-disable*/
-import { logout } from '../../api/auth';
-import { getGeoStore } from '../../api/geofirestore';
-import Bike from '../../models/Bike';
+import { getBikesWithinRadius } from '../../api/bikes';
+import { signOut } from '../../api/auth';
 import LocationServices from '../../utility/location';
 
 const BrowseBikes = ({ navigation }) => {
@@ -15,13 +21,18 @@ const BrowseBikes = ({ navigation }) => {
   const [firstName, setFirstName] = useState('');
   const [data, setData] = useState();
   const [err, setErr] = useState();
+  // eslint-disable-next-line no-unused-vars
   const [searchRadiusKm, setSearchRadiusKm] = useState(50);
   const [locationGranted, setLocationGranted] = useState(false);
   const [location, setLocation] = useState();
 
   useEffect(() => {
     async function getUserInfo() {
-      const doc = await firebase.firestore().collection('users').doc(currentUserUID).get();
+      const doc = await firebase
+        .firestore()
+        .collection('users')
+        .doc(currentUserUID)
+        .get();
 
       if (!doc.exists) {
         Alert.alert('No user data found!');
@@ -33,41 +44,8 @@ const BrowseBikes = ({ navigation }) => {
     getUserInfo();
   });
 
-  // getBikes will retrieve the bike data from firebase that is
-  // within a radiusKm km distance from centerpoint
-  async function getBikes(centerPoint, radiusKm) {
-    const geostore = getGeoStore();
-    const query = geostore.collection('bikes').near({
-      center: centerPoint,
-      radius: radiusKm,
-    });
-
-    const bikeDocs = await query.get();
-
-    const bikes = [];
-    bikeDocs.docs.forEach((bikeDoc) => {
-      const bikeProperties = bikeDoc.data();
-      const bike = new Bike(
-        bikeDoc.id,
-        bikeProperties.checked_out,
-        bikeProperties.frame,
-        bikeProperties.g.geohash,
-        bikeProperties.g.geopoint.U,
-        bikeProperties.g.geopoint.k,
-        bikeProperties.keywords,
-        bikeProperties.name,
-        bikeProperties.pic_url,
-        bikeProperties.style,
-        bikeProperties.user_id,
-        bikeProperties.distance
-      );
-      bikes.push(bike);
-    });
-    return bikes;
-  }
-
   function handlePress() {
-    logout();
+    signOut();
     navigation.replace('AuthStack');
   }
 
@@ -87,7 +65,7 @@ const BrowseBikes = ({ navigation }) => {
   if (location && !data && !err) {
     const centerPoint = new firebase.firestore.GeoPoint(location.latitude, location.longitude);
     const radiusKm = searchRadiusKm;
-    getBikes(centerPoint, radiusKm)
+    getBikesWithinRadius(centerPoint, radiusKm)
       .then((bikes) => {
         setData(bikes);
       })

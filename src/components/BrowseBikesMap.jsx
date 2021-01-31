@@ -21,7 +21,7 @@ const BrowseBikesMap = ({ bikes, location }) => (
       longitudeDelta: LONGITUDE_DELTA,
     }}
   >
-    {bikes.map((bike) => {
+    {bikes.map(bike => {
       if (!bike.getCheckedOut()) {
         return (
           <MapView.Marker
