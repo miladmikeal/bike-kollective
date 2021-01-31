@@ -7,8 +7,8 @@ import {
   Content,
   Grid,
   Row,
-  Spinner,
   Text,
+  Spinner
 } from 'native-base';
 import BrowseBikesMap from '../../components/BrowseBikesMap';
 import BrowseBikesList from '../../components/BrowseBikesList';
@@ -19,7 +19,7 @@ import LocationServices from '../../utility/location';
 const BrowseBikes = ({ navigation }) => {
   const currentUserUID = firebase.auth().currentUser.uid;
   const [firstName, setFirstName] = useState('');
-  const [data, setData] = useState([]);
+  const [data, setData] = useState();
   const [err, setErr] = useState();
   // eslint-disable-next-line no-unused-vars
   const [searchRadiusKm, setSearchRadiusKm] = useState(50);
@@ -65,10 +65,8 @@ const BrowseBikes = ({ navigation }) => {
   if (location && !data && !err) {
     const centerPoint = new firebase.firestore.GeoPoint(location.latitude, location.longitude);
     const radiusKm = searchRadiusKm;
-    console.log('hello world');
     getBikesWithinRadius(centerPoint, radiusKm)
       .then((bikes) => {
-        console.log('The bikes are: bikes');
         setData(bikes);
       })
       .catch((e) => {
@@ -84,7 +82,7 @@ const BrowseBikes = ({ navigation }) => {
     );
   }
 
-  if (!data || !location) {
+  if (!data) {
     return (
       <Container>
         <Spinner />
@@ -111,33 +109,8 @@ const BrowseBikes = ({ navigation }) => {
 BrowseBikes.propTypes = {
   navigation: PropTypes.shape({
     push: PropTypes.func.isRequired,
-    replace: PropTypes.func.isRequired
-  }).isRequired
+    replace: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default BrowseBikes;
-
-
-// TODO - delete this stuff
-/*
-                <Row>
-                    <H1>Hello {firstName} with ID: {currentUserUID}</H1>
-                </Row>
-                <Row>
-                    <Grid>
-                        <Row>
-                            <Text>Hello Bike Browsing Screen!</Text>
-                        </Row>
-                        <Row>
-                            <Button onPress={() => navigation.push('BikeDetails')}>
-                                <Text>To Bike Details</Text>
-                            </Button>
-                        </Row>
-                        <Row>
-                            <Button light onPress={handlePress}>
-                                <Text>Logout</Text>
-                            </Button>
-                        </Row>
-                    </Grid>
-                </Row>
-*/
