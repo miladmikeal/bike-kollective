@@ -3,15 +3,15 @@ import * as firebase from 'firebase';
 import PropTypes from 'prop-types';
 import { Alert } from 'react-native';
 import {
-  Button,
   Container,
+  Content,
   Grid,
   Row,
   Text,
-  Spinner,
-  H1
+  Spinner
 } from 'native-base';
 import BrowseBikesMap from '../../components/BrowseBikesMap';
+import BrowseBikesList from '../../components/BrowseBikesList';
 import { getBikesWithinRadius } from '../../api/bikes';
 import { signOut } from '../../api/auth';
 import LocationServices from '../../utility/location';
@@ -97,26 +97,9 @@ const BrowseBikes = ({ navigation }) => {
           <BrowseBikesMap bikes={data} location={location} />
         </Row>
         <Row>
-          <H1>
-            Hello {firstName} with ID: {currentUserUID}
-          </H1>
-        </Row>
-        <Row>
-          <Grid>
-            <Row>
-              <Text>Hello Bike Browsing Screen!</Text>
-            </Row>
-            <Row>
-              <Button onPress={() => navigation.push('BikeDetails')}>
-                <Text>To Bike Details</Text>
-              </Button>
-            </Row>
-            <Row>
-              <Button light onPress={handlePress}>
-                <Text>Logout</Text>
-              </Button>
-            </Row>
-          </Grid>
+          <Content>
+            <BrowseBikesList bikes={data} searchRadiusKm={searchRadiusKm} navigation={navigation} />
+          </Content>
         </Row>
       </Grid>
     </Container>

@@ -5,7 +5,8 @@ import { getGeoStore } from './geofirestore';
 import Bike from '../models/Bike';
 
 // getBikes will retrieve the bike data from firebase that is
-// within a radiusKm km distance from centerpoint
+// within a radiusKm km distance from centerpoint, sort the bikes,
+// and return them from nearest to farthest.
 export const getBikesWithinRadius = async (centerPoint, radiusKm) => {    
   const geostore = getGeoStore();
   const query = geostore.collection('bikes').near({
@@ -30,10 +31,11 @@ export const getBikesWithinRadius = async (centerPoint, radiusKm) => {
       bikeProperties.pic_url,
       bikeProperties.style,
       bikeProperties.user_id,
-      bikeProperties.distance
+      bikeDoc.distance
     );
     bikes.push(bike);
   });
+  bikes.sort((a, b) => (a.distance > b.distance) ? 1 : -1);
   return bikes;
 };
 
