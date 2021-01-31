@@ -13,8 +13,8 @@ import {
 } from 'native-base';
 import BrowseBikesMap from '../../components/BrowseBikesMap';
 import { getBikesWithinRadius } from '../../api/bikes';
-import { logout } from '../../api/auth';
-import LocationServices from '../../../utility/location';
+import { signOut } from '../../api/auth';
+import LocationServices from '../../utility/location';
 
 const BrowseBikes = ({ navigation }) => {
   const currentUserUID = firebase.auth().currentUser.uid;
@@ -45,20 +45,19 @@ const BrowseBikes = ({ navigation }) => {
   });
 
   function handlePress() {
-    logout();
+    signOut();
     navigation.replace('AuthStack');
   }
 
   if (!locationGranted) {
-    LocationServices.getLocationPermission()
-      .then((permission) => setLocationGranted(permission));
+    LocationServices.getLocationPermission().then((permission) => setLocationGranted(permission));
   }
 
   if (!location) {
     LocationServices.getCurrentLocation().then((currentLocation) => {
       setLocation({
         latitude: currentLocation.coords.latitude,
-        longitude: currentLocation.coords.longitude
+        longitude: currentLocation.coords.longitude,
       });
     });
   }
@@ -98,7 +97,9 @@ const BrowseBikes = ({ navigation }) => {
           <BrowseBikesMap bikes={data} location={location} />
         </Row>
         <Row>
-          <H1>Hello {firstName} with ID: {currentUserUID}</H1>
+          <H1>
+            Hello {firstName} with ID: {currentUserUID}
+          </H1>
         </Row>
         <Row>
           <Grid>
@@ -125,8 +126,8 @@ const BrowseBikes = ({ navigation }) => {
 BrowseBikes.propTypes = {
   navigation: PropTypes.shape({
     push: PropTypes.func.isRequired,
-    replace: PropTypes.func.isRequired
-  }).isRequired
+    replace: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default BrowseBikes;

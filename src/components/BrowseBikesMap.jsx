@@ -2,17 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import MapView from 'react-native-maps';
 import { Icon } from 'native-base';
-import Bike from '../../models/Bike';
+import Bike from '../models/Bike';
 
 // These define the initial zoom level of the map and probably
 // don't need to be modified
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = 0.0421;
 
-const BrowseBikesMap = ({bikes, location}) => (
+const BrowseBikesMap = ({ bikes, location }) => (
   <MapView
     style={{
-      flex: 1
+      flex: 1,
     }}
     initialRegion={{
       latitude: location.latitude,
@@ -27,7 +27,7 @@ const BrowseBikesMap = ({bikes, location}) => (
           <MapView.Marker
             coordinate={{
               latitude: bike.getLatitude(),
-              longitude: bike.getLongitude()
+              longitude: bike.getLongitude(),
             }}
             key={bike.id}
           />
@@ -39,9 +39,11 @@ const BrowseBikesMap = ({bikes, location}) => (
     <MapView.Marker
       coordinate={{
         latitude: location.latitude,
-        longitude: location.longitude
+        longitude: location.longitude,
       }}
-    ><Icon name='locate'/></MapView.Marker>
+    >
+      <Icon name="locate" />
+    </MapView.Marker>
   </MapView>
 );
 
@@ -49,8 +51,8 @@ BrowseBikesMap.propTypes = {
   bikes: PropTypes.arrayOf(PropTypes.instanceOf(Bike)).isRequired,
   location: PropTypes.shape({
     latitude: PropTypes.number,
-    longitude: PropTypes.number
-  }).isRequired
+    longitude: PropTypes.number,
+  }).isRequired,
 };
 
 export default BrowseBikesMap;
