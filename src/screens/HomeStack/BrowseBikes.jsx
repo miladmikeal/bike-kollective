@@ -65,8 +65,10 @@ const BrowseBikes = ({ navigation }) => {
   if (location && !data && !err) {
     const centerPoint = new firebase.firestore.GeoPoint(location.latitude, location.longitude);
     const radiusKm = searchRadiusKm;
+    console.log('hello world');
     getBikesWithinRadius(centerPoint, radiusKm)
       .then((bikes) => {
+        console.log('The bikes are: bikes');
         setData(bikes);
       })
       .catch((e) => {
@@ -82,12 +84,12 @@ const BrowseBikes = ({ navigation }) => {
     );
   }
 
-  if (!data) {
+  if (!data || !location) {
     return (
       <Container>
         <Spinner />
       </Container>
-    )
+    );
   }
 
   return (
