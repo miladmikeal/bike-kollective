@@ -72,7 +72,7 @@ const BrowseBikes = ({ navigation }) => {
                 bikeProperties.pic_url,
                 bikeProperties.style,
                 bikeProperties.user_id,
-                bikeProperties.distance
+                bikeDoc.distance
                 )
             bikes.push(bike);
         });

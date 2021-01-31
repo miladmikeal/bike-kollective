@@ -41,7 +41,7 @@ const BrowseBikesMap = ({bikes, location}) => (
                 latitude: location.latitude,
                 longitude: location.longitude
             }}
-        ><Icon name='locate'/></MapView.Marker>
+        ><Icon type='MaterialIcons' name='my-location' style={{color: 'blue'}}/></MapView.Marker>
     </MapView>
 )
 

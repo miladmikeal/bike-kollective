@@ -19,31 +19,29 @@ import { kmToMile } from '../../utility/distanceConversion';
 // Pic -> Frame -> Style -> Distance (miles) -> rating -> next icon
 // Incorporate Listitem Selected later
 const BrowseBikesListItem = ({bike, navigation}) => (
-    <ListItem>
-        <Left>
-            <Thumbnail circle source={{ uri: bike.picUrl}} />
-        </Left>
-        <Body>
-            <Grid>
-                <Row>
-                    <Col>
-                        <Text>Frame</Text>
-                        <Text note>{bike.frame}</Text>
-                    </Col>
-                    <Col>
-                        <Text>Style</Text>
-                        <Text note>{bike.style}</Text>
-                    </Col>
-                    <Col>
-                        <Text>Distance</Text>
-                        <Text note>{kmToMile(bike.distance).toFixed(2)} miles</Text>
-                    </Col>
-                </Row>
-            </Grid>
-        </Body>
+    <ListItem keyExtractor={{item: bike, index: bike.id}}>
+        <Grid>
+            <Row>
+                <Col>
+                    <Thumbnail circle source={{ uri: bike.picUrl}} />
+                </Col>
+                <Col>
+                    <Text>Frame</Text>
+                    <Text note>{bike.frame}</Text>
+                </Col>
+                <Col>
+                    <Text>Style</Text>
+                    <Text note>{bike.style}</Text>
+                </Col>
+                <Col>
+                    <Text>Distance</Text>
+                    <Text note>{kmToMile(bike.distance).toFixed(1)} mi</Text>
+                </Col>
+            </Row>
+        </Grid>
         <Right>
-            <Button transparent onPress={() => navigation.push('BikeDetails')}>
-                <Icon name='home' />
+            <Button transparent iconRight onPress={() => navigation.push('BikeDetails', {bike: {bike}})}>
+                <Icon type='MaterialIcons' name='navigate-next' style={{color: 'gray'}}/>
             </Button>
         </Right>
     </ListItem>
