@@ -2,7 +2,7 @@ import * as firebase from "firebase";
 import "firebase/firestore";
 import { Alert } from "react-native";
 import { getGeoStore } from './geofirestore';
-import Bike from '../../models/Bike';
+import Bike from '../models/Bike';
 
 // getBikes will retrieve the bike data from firebase that is
 // within a radiusKm km distance from centerpoint
