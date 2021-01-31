@@ -4,15 +4,15 @@ import { Alert } from "react-native";
 
 export const getUserInfo = async (uid) => {
   const db = firebase.firestore();
-    const userRef = await db.collection("users")
-      .doc(uid)
-      .get();
+  const userRef = await db.collection("users")
+    .doc(uid)
+    .get();
 
-    if (!userRef.exists) {
-      Alert.alert('No user data found!')
-    }
-    return userRef.data();
-}
+  if (!userRef.exists) {
+    Alert.alert('No user data found!');
+  }
+  return userRef.data();
+};
 
 export const signUp = async (email, password, lastName, firstName) => {
   try {
