@@ -7,7 +7,7 @@ import BrowseBikesMap from '../../components/BrowseBikesMap';
 import { logout } from '../../api/auth';
 import { getGeoStore } from '../../api/geofirestore';
 import Bike from '../../models/Bike';
-import LocationServices from '../../../utility/location';
+import LocationServices from '../../utility/location';
 
 const BrowseBikes = ({ navigation }) => {
   const currentUserUID = firebase.auth().currentUser.uid;
