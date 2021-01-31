@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Alert } from 'react-native';
 import { Button, Container, Grid, Row, Text, Spinner, H1 } from 'native-base';
 import BrowseBikesMap from '../../components/BrowseBikesMap';
+/* eslint-disable*/
 import { logout } from '../../api/auth';
 import { getGeoStore } from '../../api/geofirestore';
 import Bike from '../../models/Bike';
@@ -14,7 +15,6 @@ const BrowseBikes = ({ navigation }) => {
   const [firstName, setFirstName] = useState('');
   const [data, setData] = useState();
   const [err, setErr] = useState();
-  /* eslint-disable*/
   const [searchRadiusKm, setSearchRadiusKm] = useState(50);
   const [locationGranted, setLocationGranted] = useState(false);
   const [location, setLocation] = useState();

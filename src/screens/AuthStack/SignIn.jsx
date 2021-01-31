@@ -1,13 +1,14 @@
 /* eslint-disable no-shadow */
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Alert, ScrollView, Keyboard, Image, TouchableWithoutFeedback } from 'react-native';
 import { Content, Button, Form, Input, Text, H1, View } from 'native-base';
 import PropTypes from 'prop-types';
-import { signIn } from '../../api/auth';
+import { AuthContext } from '../../context/AuthProvider';
 import globalStyles from '../../styles/styles';
 import bikeKollective from '../../../assets/bikeKollective.png';
 
 const SignIn = ({ navigation }) => {
+  const { login } = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -20,7 +21,7 @@ const SignIn = ({ navigation }) => {
       Alert.alert('Password field is required.');
     }
 
-    signIn(email, password);
+    login(email, password);
     setEmail('');
     setPassword('');
   };
