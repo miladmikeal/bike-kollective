@@ -61,12 +61,12 @@ const SignIn = ({ navigation }) => {
       </ScrollView>
     </Container>
   );
-}
+};
 
 SignIn.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired
   }).isRequired
-}
+};
 
 export default SignIn;

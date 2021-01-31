@@ -21,6 +21,7 @@ const BrowseBikes = ({ navigation }) => {
   const [firstName, setFirstName] = useState('');
   const [data, setData] = useState();
   const [err, setErr] = useState();
+  // eslint-disable-next-line no-unused-vars
   const [searchRadiusKm, setSearchRadiusKm] = useState(50);
   const [locationGranted, setLocationGranted] = useState(false);
   const [location, setLocation] = useState();
@@ -34,14 +35,14 @@ const BrowseBikes = ({ navigation }) => {
         .get();
 
       if (!doc.exists) {
-        Alert.alert('No user data found!')
+        Alert.alert('No user data found!');
       } else {
         const dataObj = doc.data();
-        setFirstName(dataObj.firstName)
+        setFirstName(dataObj.firstName);
       }
     }
     getUserInfo();
-  })
+  });
 
   function handlePress() {
     logout();

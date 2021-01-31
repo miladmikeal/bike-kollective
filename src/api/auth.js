@@ -18,7 +18,7 @@ export const signUp = async (email, password, lastName, firstName) => {
   } catch (err) {
     Alert.alert("There is something wrong!!!!", err.message);
   }
-}
+};
 
 export const signIn = async (email, password) => {
   try {
@@ -28,7 +28,7 @@ export const signIn = async (email, password) => {
   } catch (err) {
     Alert.alert("There is something wrong!", err.message);
   }
-}
+};
 
 export const logout = async () => {
   try {
@@ -36,4 +36,4 @@ export const logout = async () => {
   } catch (err) {
     Alert.alert('There is something wrong!', err.message);
   }
-}
+};

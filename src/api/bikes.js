@@ -46,23 +46,23 @@ export const getBikes = async () => {
     const bikes = [];
 
     bikeDocs.docs.forEach((bikeDoc) => {
-    const bikeProperties = bikeDoc.data();
-    const bike = new Bike(
-      bikeDoc.id,
-      bikeProperties.checked_out,
-      bikeProperties.frame,
-      bikeProperties.g.geohash,
-      bikeProperties.g.geopoint.U,
-      bikeProperties.g.geopoint.k,
-      bikeProperties.keywords,
-      bikeProperties.name,
-      bikeProperties.pic_url,
-      bikeProperties.style,
-      bikeProperties.user_id,
-      bikeProperties.distance
-    );
-    bikes.push(bike);
-  });
+      const bikeProperties = bikeDoc.data();
+      const bike = new Bike(
+        bikeDoc.id,
+        bikeProperties.checked_out,
+        bikeProperties.frame,
+        bikeProperties.g.geohash,
+        bikeProperties.g.geopoint.U,
+        bikeProperties.g.geopoint.k,
+        bikeProperties.keywords,
+        bikeProperties.name,
+        bikeProperties.pic_url,
+        bikeProperties.style,
+        bikeProperties.user_id,
+        bikeProperties.distance
+      );
+      bikes.push(bike);
+    });
     return bikes;
   } catch(err) {
     Alert.alert("There is something wrong!!!!", err.message);

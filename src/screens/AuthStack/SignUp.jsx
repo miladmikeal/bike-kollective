@@ -111,12 +111,12 @@ const SignUp = ({ navigation }) => {
       </ScrollView>
     </Container>
   );
-}
+};
 
 SignUp.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired
   }).isRequired
-}
+};
 
 export default SignUp;
