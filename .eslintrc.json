@@ -26,13 +26,36 @@
     ],
     "rules": {
         // allow .js files to contain JSX code
-        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-        "import/extensions": "off"
+        "react/jsx-filename-extension": [
+            1,
+            {
+                "extensions": [
+                    ".js",
+                    ".jsx"
+                ]
+            }
+        ],
+        "import/extensions": "off",
+        "consistent-returns": "false",
+        "indent": [
+            "error",
+            2
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
+        "no-multi-spaces": [
+            "error"
+        ]
     },
     "settings": {
         "import/resolver": {
             "node": {
-                "extensions": [".js", ".jsx"]
+                "extensions": [
+                    ".js",
+                    ".jsx"
+                ]
             }
         }
     }
