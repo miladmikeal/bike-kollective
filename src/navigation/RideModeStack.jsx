@@ -6,10 +6,10 @@ import DropOffSubmit from '../screens/RideModeStack/DropOffSubmit';
 const RideModeStackNav = createStackNavigator();
 
 const RideModeStack = () => (
-    <RideModeStackNav.Navigator initialRouteName="RideModeHome">
-        <RideModeStackNav.Screen name="RideModeHome" component={RideModeHome} />
-        <RideModeStackNav.Screen name="DropOffSubmit" component={DropOffSubmit} />
-    </RideModeStackNav.Navigator>
-)
+  <RideModeStackNav.Navigator initialRouteName="RideModeHome">
+    <RideModeStackNav.Screen name="RideModeHome" component={RideModeHome} />
+    <RideModeStackNav.Screen name="DropOffSubmit" component={DropOffSubmit} />
+  </RideModeStackNav.Navigator>
+);
 
 export default RideModeStack;

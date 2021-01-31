@@ -14,7 +14,7 @@ export default class Bike {
     this.picUrl = picUrl; // Url
     this.style = style; // String
     this.userId = userId; // String
-    this.distance = distance // Distance of the bike from the user (when queried!)
+    this.distance = distance; // Distance of the bike from the user (when queried!)
   }
 
   getBikeId = () => this.id;

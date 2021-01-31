@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { List, ListItem, Text } from 'native-base';
-import Bike from '../../models/Bike';
+import Bike from '../models/Bike';
 import BrowseBikesListItem from './BrowseBikesListItem';
 import { kmToMile } from '../../utility/distanceConversion';
 

@@ -7,11 +7,11 @@ import AddBikeSubmit from '../screens/AddBikeStack/AddBikeSubmit';
 const AddBikeStackNav = createStackNavigator();
 
 const AddBikeStack = () => (
-    <AddBikeStackNav.Navigator initialRouteName="BrowseBikes">
-        <AddBikeStackNav.Screen name="AddBikeForm" component={AddBikeForm} />
-        <AddBikeStackNav.Screen name="AddBikeWaiver" component={AddBikeWaiver} />
-        <AddBikeStackNav.Screen name="AddBikeSubmit" component={AddBikeSubmit} />
-    </AddBikeStackNav.Navigator>
-)
+  <AddBikeStackNav.Navigator initialRouteName="BrowseBikes">
+    <AddBikeStackNav.Screen name="AddBikeForm" component={AddBikeForm} />
+    <AddBikeStackNav.Screen name="AddBikeWaiver" component={AddBikeWaiver} />
+    <AddBikeStackNav.Screen name="AddBikeSubmit" component={AddBikeSubmit} />
+  </AddBikeStackNav.Navigator>
+);
 
 export default AddBikeStack;

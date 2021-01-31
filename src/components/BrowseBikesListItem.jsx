@@ -13,7 +13,7 @@ import {
     Thumbnail,
     Text
 } from 'native-base';
-import Bike from '../../models/Bike';
+import Bike from '../models/Bike';
 import { kmToMile } from '../../utility/distanceConversion';
 
 // Pic -> Frame -> Style -> Distance (miles) -> rating -> next icon
