@@ -13,11 +13,11 @@ import {
 import BrowseBikesMap from '../../components/BrowseBikesMap';
 import BrowseBikesList from '../../components/BrowseBikesList';
 import { getBikesWithinRadius } from '../../api/bikes';
-import { signOut } from '../../api/auth';
 import LocationServices from '../../utility/location';
 
 const BrowseBikes = ({ navigation }) => {
   const currentUserUID = firebase.auth().currentUser.uid;
+  // eslint-disable-next-line no-unused-vars
   const [firstName, setFirstName] = useState('');
   const [data, setData] = useState();
   const [err, setErr] = useState();
@@ -43,11 +43,6 @@ const BrowseBikes = ({ navigation }) => {
     }
     getUserInfo();
   });
-
-  function handlePress() {
-    signOut();
-    navigation.replace('AuthStack');
-  }
 
   if (!locationGranted) {
     LocationServices.getLocationPermission().then((permission) => setLocationGranted(permission));
