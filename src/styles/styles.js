@@ -7,6 +7,9 @@ const globalStyles = StyleSheet.create({
     marginRight: 10,
     padding: 20,
   },
+  mapContainer: {
+    flex: 1,
+  },
 });
 
 export default globalStyles;
