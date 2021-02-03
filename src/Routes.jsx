@@ -14,9 +14,11 @@ const Routes = () => {
   const [loading, setLoading] = useState(true);
 
   function onAuthStateChanged(user) {
-    getUserInfo(user.uid)
-      .then(data => setCurrentUser(data))
-      .catch(err => Alert.alert(err.message));
+    if (user) {
+      getUserInfo(user.uid)
+        .then(data => setCurrentUser(data))
+        .catch(err => Alert.alert(err.message));
+    }
     if (loading) setLoading(false);
   }
 
