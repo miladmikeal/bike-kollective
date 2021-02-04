@@ -5,48 +5,46 @@ import Bike from '../models/Bike';
 import BrowseBikesListItem from './BrowseBikesListItem';
 import { kmToMile } from '../../utility/distanceConversion';
 
-const BrowseBikesList = ({bikes, searchRadiusKm, navigation}) => {
-    // Verify that the query returned at least one open bike
-    let availableBikes = 0;
-    for (let i = 0; i < bikes.length; i += 1) {
-        if (!bikes[i].getCheckedOut()) {
-            availableBikes += 1;
-            break;
-        }
+const BrowseBikesList = ({ bikes, searchRadiusKm, navigation }) => {
+  // Verify that the query returned at least one open bike
+  let availableBikes = 0;
+  for (let i = 0; i < bikes.length; i += 1) {
+    if (!bikes[i].getCheckedOut()) {
+      availableBikes += 1;
+      break;
     }
+  }
 
-    if (availableBikes === 0) {
-        return (
-            <List>
-                <ListItem>
-                    <Text>There are no bikes within the {kmToMile(searchRadiusKm).toFixed(2)} mile search range.</Text>
-                </ListItem>
-            </List>
-        )
-    }
-
+  if (availableBikes === 0) {
     return (
-        <List>
-            {
-                bikes.map(bike => {
-                    if (!bike.getCheckedOut()) {
-                        return (
-                        <BrowseBikesListItem key={bike.getBikeId()} bike={bike} navigation={navigation}/>
-                        );
-                    }
-                    return null;
-                })
-            }
-        </List>
-    )
-}
+      <List>
+        <ListItem>
+          <Text>
+            There are no bikes within the {kmToMile(searchRadiusKm).toFixed(2)} mile search range.
+          </Text>
+        </ListItem>
+      </List>
+    );
+  }
+
+  return (
+    <List>
+      {bikes.map((bike) => {
+        if (!bike.getCheckedOut()) {
+          return <BrowseBikesListItem key={bike.getBikeId()} bike={bike} navigation={navigation} />;
+        }
+        return null;
+      })}
+    </List>
+  );
+};
 
 BrowseBikesList.propTypes = {
-    bikes: PropTypes.arrayOf(PropTypes.instanceOf(Bike)).isRequired,
-    searchRadiusKm: PropTypes.number.isRequired,
-    navigation: PropTypes.shape({
-        push: PropTypes.func.isRequired,
-    }).isRequired
-}
+  bikes: PropTypes.arrayOf(PropTypes.instanceOf(Bike)).isRequired,
+  searchRadiusKm: PropTypes.number.isRequired,
+  navigation: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
 
-export default BrowseBikesList
+export default BrowseBikesList;
