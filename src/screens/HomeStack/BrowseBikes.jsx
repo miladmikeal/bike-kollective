@@ -2,17 +2,12 @@ import React, { useState, useEffect } from 'react';
 import * as firebase from 'firebase';
 import PropTypes from 'prop-types';
 import { Alert } from 'react-native';
-import {
-  Container,
-  Content,
-  Grid,
-  Row,
-  Text,
-  Spinner
-} from 'native-base';
+import { Container, Content, Grid, Row, Text, Spinner } from 'native-base';
 import BrowseBikesMap from '../../components/BrowseBikesMap';
 import BrowseBikesList from '../../components/BrowseBikesList';
 import { getBikesWithinRadius } from '../../api/bikes';
+// eslint-disable-next-line no-unused-vars
+import { bikeRatings } from '../../api/bikeRatings';
 import LocationServices from '../../utility/location';
 
 const BrowseBikes = ({ navigation }) => {
@@ -28,11 +23,7 @@ const BrowseBikes = ({ navigation }) => {
 
   useEffect(() => {
     async function getUserInfo() {
-      const doc = await firebase
-        .firestore()
-        .collection('users')
-        .doc(currentUserUID)
-        .get();
+      const doc = await firebase.firestore().collection('users').doc(currentUserUID).get();
 
       if (!doc.exists) {
         Alert.alert('No user data found!');
