@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { Button, Content, Input, Text } from 'native-base';
+import { Button, Content, Input, Picker, Text, View } from 'native-base';
 import globalStyles from '../styles/styles';
 
 const initialValues = {
@@ -13,9 +13,13 @@ const initialValues = {
 };
 
 const AddBikeFormSchema = Yup.object().shape({
-  name: Yup.string().required('name is required').max(50),
-  style: Yup.string().required('bike style is required').max(8),
-  size: Yup.string().required('bike size is required'),
+  name: Yup.string().required('Name is required').max(50),
+  style: Yup.string().required('Style is required').max(8),
+  size: Yup.string().required('Size is required').test(
+    'is not prompt',
+    'Size is required',
+    (value) => value !== 'Size'
+  ),
   keywords: Yup.string(),
 });
 
@@ -33,30 +37,59 @@ const AddBikeForm = ({ navigation }) => (
     {(formikProps) => (
       <Content>
         <Input
-          placeholder="name"
+          placeholder='Name'
           onChangeText={formikProps.handleChange('name')}
-          value={formikProps.values.name}
           style={globalStyles.addBikeInput}
         />
-        <Text>{ formikProps.touched.name && formikProps.errors.name }</Text>
+        {(formikProps.touched.name && formikProps.errors.name) &&
+          <Text style={globalStyles.addBikeErrorText}>
+            {formikProps.errors.name}
+          </Text>
+        }
         <Input
-          placeholder="style"
+          placeholder='Style'
           onChangeText={formikProps.handleChange('style')}
           value={formikProps.values.style}
           style={globalStyles.addBikeInput}
         />
+        {(formikProps.touched.style && formikProps.errors.style) &&
+          <Text style={globalStyles.addBikeErrorText}>
+            {formikProps.errors.style}
+          </Text>
+        }
+        <View style={globalStyles.addBikePickerView}>
+          <Picker
+            note
+            mode="dropdown"
+            style={globalStyles.addBikePicker}
+            placeholder='Size'
+            selectedValue={formikProps.values.size}
+            onValueChange={formikProps.handleChange('size')}
+          >
+            <Picker.Item label='Size' value='Size' />
+            <Picker.Item label='Child' value='Child' />
+            <Picker.Item label='Small' value='Small' />
+            <Picker.Item label='Medium' value='Medium' />
+            <Picker.Item label='Large' value='Large' />
+            <Picker.Item label='XL' value='XL' />
+          </Picker>
+        </View>
+        {(formikProps.touched.size && formikProps.errors.size) &&
+          <Text style={globalStyles.addBikeErrorText}>
+            {formikProps.errors.size}
+          </Text>
+        }
         <Input
-          placeholder="size"
-          onChangeText={formikProps.handleChange('size')}
-          value={formikProps.values.nasizeme}
-          style={globalStyles.addBikeInput}
-        />
-        <Input
-          placeholder="keywords"
+          placeholder='keywords (must be comma seperated)'
           onChangeText={formikProps.handleChange('keywords')}
           value={formikProps.values.keywords}
           style={globalStyles.addBikeInput}
         />
+        {(formikProps.touched.keywords && formikProps.errors.keywords) &&
+          <Text style={globalStyles.addBikeErrorText}>
+            {formikProps.errors.keywords}
+          </Text>
+        }
         <Button
           onPress={formikProps.handleSubmit}
           style={globalStyles.addBikeButton}
@@ -75,3 +108,19 @@ AddBikeForm.propTypes = {
 };
 
 export default AddBikeForm;
+
+
+
+/*
+        <Input
+          placeholder='size'
+          onChangeText={formikProps.handleChange('size')}
+          value={formikProps.values.size}
+          style={globalStyles.addBikeInput}
+        />
+        {(formikProps.touched.size && formikProps.errors.size) &&
+          <Text style={globalStyles.addBikeErrorText}>
+            {formikProps.errors.size}
+          </Text>
+        }
+*/
