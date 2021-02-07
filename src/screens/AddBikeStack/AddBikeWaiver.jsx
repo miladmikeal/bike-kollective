@@ -26,6 +26,9 @@ const AddBikeWaiver = ({ navigation, route }) => {
           <Unorderedlist>
             <Text>This bike will become a part of the bike-kollective and you will no longer be the owner of the bike</Text>
           </Unorderedlist>
+          <Unorderedlist>
+            <Text>The lock combination, {bike.lock}, is correct.</Text>
+          </Unorderedlist>
         </View>
         <Button
           onPress={() => navigation.push('AddBikeSubmit', { bike: { bike }, location: { location } })}
@@ -50,6 +53,7 @@ AddBikeWaiver.propTypes = {
           style: PropTypes.string.isRequired,
           frame: PropTypes.string.isRequired,
           keywords: PropTypes.string,
+          lock: PropTypes.number.isRequired
         }).isRequired,
       }).isRequired,
       location: PropTypes.shape({

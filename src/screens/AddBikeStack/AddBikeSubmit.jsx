@@ -66,6 +66,7 @@ AddBikeSubmit.propTypes = {
           style: PropTypes.string.isRequired,
           frame: PropTypes.string.isRequired,
           keywords: PropTypes.string,
+          lock: PropTypes.number.isRequired
         }).isRequired,
       }).isRequired,
       location: PropTypes.shape({

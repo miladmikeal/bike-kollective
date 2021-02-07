@@ -39,6 +39,7 @@ const AddBikeForm = ({ navigation }) => {
     LocationServices.getLocationPermission().then((permission) => setLocationGranted(permission));
   }
 
+  // TODO implement logic to update location every couple seconds
   if (!location) {
     LocationServices.getCurrentLocation().then((currentLocation) => {
       setLocation({
