@@ -2,7 +2,7 @@
 
 export default class Bike {
   // We can adjust constructor values as needed
-  constructor(id, checkedOut, frame, geoHash, latitude, longitude, keywords, name, picUrl, style, userId, distance) {
+  constructor(id, checkedOut, frame, geoHash, latitude, longitude, keywords, name, picUrl, style, userId, distance, lock) {
     this.id = id;
     this.checkedOut = checkedOut; // Boolean
     this.frame = frame; // String
@@ -15,6 +15,7 @@ export default class Bike {
     this.style = style; // String
     this.userId = userId; // String
     this.distance = distance; // Distance of the bike from the user (when queried!)
+    this.lock = lock; // Number, combination of the bike lock
   }
 
   getBikeId = () => this.id;

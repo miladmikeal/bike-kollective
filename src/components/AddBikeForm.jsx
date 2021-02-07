@@ -1,21 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { Button, Content, Input, Picker, Text, View } from 'native-base';
 import globalStyles from '../styles/styles';
+import LocationServices from '../utility/location';
 
 const initialValues = {
   name: '',
   style: '',
-  size: '',
+  frame: '',
   keywords: '',
 };
 
 const AddBikeFormSchema = Yup.object().shape({
   name: Yup.string().required('Name is required').max(50),
   style: Yup.string().required('Style is required').max(8),
-  size: Yup.string().required('Size is required').test(
+  frame: Yup.string().required('Size is required').test(
     'is not prompt',
     'Size is required',
     (value) => value !== 'Size'
@@ -29,8 +30,23 @@ const AddBikeFormSchema = Yup.object().shape({
 });
 
 const AddBikeForm = ({ navigation }) => {
+  const [locationGranted, setLocationGranted] = useState(false);
+  const [location, setLocation] = useState();
 
-  const handleSubmit = (values) => navigation.push('AddBikeWaiver', { values: { values } });
+  const handleSubmit = (values) => navigation.push('AddBikeWaiver', { values: { values }, location: { location } });
+
+  if (!locationGranted) {
+    LocationServices.getLocationPermission().then((permission) => setLocationGranted(permission));
+  }
+
+  if (!location) {
+    LocationServices.getCurrentLocation().then((currentLocation) => {
+      setLocation({
+        latitude: currentLocation.coords.latitude,
+        longitude: currentLocation.coords.longitude,
+      });
+    });
+  }
 
   return (
     <Formik
@@ -67,8 +83,8 @@ const AddBikeForm = ({ navigation }) => {
               mode="dropdown"
               style={globalStyles.addBikePicker}
               placeholder='Size'
-              selectedValue={formikProps.values.size}
-              onValueChange={formikProps.handleChange('size')}
+              selectedValue={formikProps.values.frame}
+              onValueChange={formikProps.handleChange('frame')}
             >
               <Picker.Item label='Size' value='Size' />
               <Picker.Item label='Child' value='Child' />
@@ -78,9 +94,9 @@ const AddBikeForm = ({ navigation }) => {
               <Picker.Item label='XL' value='XL' />
             </Picker>
           </View>
-          {(formikProps.touched.size && formikProps.errors.size) &&
+          {(formikProps.touched.frame && formikProps.errors.frame) &&
             <Text style={globalStyles.addBikeErrorText}>
-              {formikProps.errors.size}
+              {formikProps.errors.frame}
             </Text>
           }
           <Input
@@ -115,7 +131,7 @@ const AddBikeForm = ({ navigation }) => {
         </Content>
       )}
     </Formik>
-  )
+  );
 };
 
 AddBikeForm.propTypes = {
@@ -125,19 +141,3 @@ AddBikeForm.propTypes = {
 };
 
 export default AddBikeForm;
-
-
-
-/*
-        <Input
-          placeholder='size'
-          onChangeText={formikProps.handleChange('size')}
-          value={formikProps.values.size}
-          style={globalStyles.addBikeInput}
-        />
-        {(formikProps.touched.size && formikProps.errors.size) &&
-          <Text style={globalStyles.addBikeErrorText}>
-            {formikProps.errors.size}
-          </Text>
-        }
-*/

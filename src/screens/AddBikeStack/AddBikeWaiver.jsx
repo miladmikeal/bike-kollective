@@ -3,27 +3,32 @@ import PropTypes from 'prop-types';
 import { Button, Container, Content, Text, Title } from 'native-base';
 import globalStyles from '../../styles/styles';
 
-// TODO axe this comment block
-// console.log(route.params.values.values);
+const AddBikeWaiver = ({ navigation, route }) => {
+  const bike = route.params.values.values;
+  const location = route.params.location.location;
 
-const AddBikeWaiver = ({ navigation, route }) => (
-  <Container>
-    <Content>
-      <Title style={globalStyles.title}>
-        <Text style={globalStyles.titleText}>
-          Release of Interest
+  return (
+    <Container>
+      <Content>
+        <Title style={globalStyles.title}>
+          <Text style={globalStyles.titleText}>
+            Release of Interest
+          </Text>
+        </Title>
+        <Text>
+          PLEASE READ CAREFULLY BEFORE SIGNING
         </Text>
-      </Title>
-      <Text>
-        PLEASE READ CAREFULLY BEFORE SIGNING
-      </Text>
-      <Text>Hello Add Bike Waiver!</Text>
-      <Button onPress={() =>navigation.push('AddBikeSubmit')}>
-        <Text>To add bike submit</Text>
-      </Button>
-    </Content>
-  </Container>
-);
+        <Text>Hello Add Bike Waiver!</Text>
+        <Button
+          onPress={() => navigation.push('AddBikeSubmit', { bike: { bike }, location: { location } })}
+          style={globalStyles.addBikeButton}
+        >
+          <Text>Agree</Text>
+        </Button>
+      </Content>
+    </Container>
+  );
+};
 
 AddBikeWaiver.propTypes = {
   navigation: PropTypes.shape({
@@ -35,10 +40,16 @@ AddBikeWaiver.propTypes = {
         values: PropTypes.shape({
           name: PropTypes.string.isRequired,
           style: PropTypes.string.isRequired,
-          size: PropTypes.string.isRequired,
+          frame: PropTypes.string.isRequired,
           keywords: PropTypes.string,
-        }).isRequired
+        }).isRequired,
       }).isRequired,
+      location: PropTypes.shape({
+        location: PropTypes.shape({
+          latitude: PropTypes.number.isRequired,
+          longitude: PropTypes.number.isRequired
+        })
+      }).isRequired
     }).isRequired,
   }).isRequired,
 };
