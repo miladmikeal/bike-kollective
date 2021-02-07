@@ -27,6 +27,10 @@ const globalStyles = StyleSheet.create({
     color: '#38ACEC',
     fontSize: 24,
   },
+  addBikeInfoView: {
+    width: '90%',
+    alignSelf: 'center'
+  },
   addBikeInput: {
     borderWidth: 1,
     borderColor: 'gray',
@@ -65,6 +69,11 @@ const globalStyles = StyleSheet.create({
     width: '90%',
     alignSelf: 'center',
     color: 'red'
+  },
+  addBikeSubmitImage: {
+    width: 567*0.6,
+    height: 450*0.6,
+    alignSelf: 'center',
   }
 });
 

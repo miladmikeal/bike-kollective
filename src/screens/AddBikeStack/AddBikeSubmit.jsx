@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Alert, Image } from 'react-native';
-import { Button, Container, Content, Text, Title } from 'native-base';
+import { Button, Container, Content, Text, Title, View } from 'native-base';
 import * as firebase from "firebase";
 import confirmation from '../../../assets/confirmation.png';
 import globalStyles from '../../styles/styles';
@@ -12,19 +12,20 @@ const AddBikeSubmit = ({ navigation, route }) => {
   const bike = route.params.bike.bike;
   const location = route.params.location.location;
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     const geostore = getGeoStore();
     const bikeData = bike;
     bikeData.coordinates = new firebase.firestore.GeoPoint(location.latitude, location.longitude);
     // TODO - remove this when camera is integrated
     bikeData.pic_url = 'https://firebasestorage.googleapis.com/v0/b/bikekollective-434ce.appspot.com/o/bikeKollective.png?alt=media&token=c0420ea5-624b-43f7-b1d0-d4ddd24525c3';
     
-    saveBike(geostore, bike)
-      .then(() => {
-        Alert.alert('Your bike has been added to the bike-kollective. Thanks for your participation!');
-        navigation.navigate('HomeStack', { screen: 'BrowseBikes' });
-      })
-      .onError((err) => Alert.alert('There was an error saving the bike to the data store' + err));
+    try {
+      await saveBike(geostore, bike)
+    } catch (err) {
+      Alert.alert(`There was an unexpected error saving the bike to the data store: ${err}`);
+    }
+    Alert.alert('Your bike has been added to the bike-kollective. Thanks for your participation!');
+    navigation.navigate('AddBikeFormScreen');
   };
 
   return (
@@ -35,11 +36,13 @@ const AddBikeSubmit = ({ navigation, route }) => {
             Thank you!
           </Text>
         </Title>
-        <Image source={confirmation} />
-        <Text>
-          Please confirm you want to donate your bicycle to the bike-kollective.
-          Power to the people!
-        </Text>
+        <Image style={globalStyles.addBikeSubmitImage} source={confirmation} />
+        <View style={globalStyles.addBikeInfoView}>
+          <Text>
+            Please confirm you want to donate your bicycle to the bike-kollective.
+            Power to the people!
+          </Text>
+        </View>
         <Button
           onPress={handleConfirm}
           style={globalStyles.addBikeButton}

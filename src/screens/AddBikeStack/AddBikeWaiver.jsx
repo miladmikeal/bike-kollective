@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Container, Content, Text, Title } from 'native-base';
+import { Button, Container, Content, Text, Title,View } from 'native-base';
+import Unorderedlist from 'react-native-unordered-list';
 import globalStyles from '../../styles/styles';
 
 const AddBikeWaiver = ({ navigation, route }) => {
@@ -15,10 +16,17 @@ const AddBikeWaiver = ({ navigation, route }) => {
             Release of Interest
           </Text>
         </Title>
-        <Text>
-          PLEASE READ CAREFULLY BEFORE SIGNING
-        </Text>
-        <Text>Hello Add Bike Waiver!</Text>
+        <View style={globalStyles.addBikeInfoView}>
+          <Text>
+            PLEASE READ CAREFULLY BEFORE SIGNING
+          </Text>
+          <Unorderedlist>
+            <Text>You agree that you are the sole and legal owner of the bike.</Text>
+          </Unorderedlist>
+          <Unorderedlist>
+            <Text>This bike will become a part of the bike-kollective and you will no longer be the owner of the bike</Text>
+          </Unorderedlist>
+        </View>
         <Button
           onPress={() => navigation.push('AddBikeSubmit', { bike: { bike }, location: { location } })}
           style={globalStyles.addBikeButton}

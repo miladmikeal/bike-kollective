@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Container, Content, Text, Title } from 'native-base';
+import { Container, Content, Text, Title } from 'native-base';
 import AddBikeForm from '../../components/AddBikeForm';
 import globalStyles from '../../styles/styles';
-import { Alert } from 'react-native';
 
 const AddBikeFormScreen = ({ navigation }) => (
   <Container>
