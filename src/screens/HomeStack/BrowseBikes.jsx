@@ -6,8 +6,6 @@ import { Container, Content, Grid, Row, Text, Spinner } from 'native-base';
 import BrowseBikesMap from '../../components/BrowseBikesMap';
 import BrowseBikesList from '../../components/BrowseBikesList';
 import { getBikesWithinRadius } from '../../api/bikes';
-// eslint-disable-next-line no-unused-vars
-import { bikeRatings } from '../../api/bikeRatings';
 import LocationServices from '../../utility/location';
 
 const BrowseBikes = ({ navigation }) => {
