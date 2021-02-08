@@ -1,10 +1,9 @@
 import React from 'react';
 import { View, TextInput } from 'react-native';
-// import { Feather } from '@expo/vector-icons';
 import globalStyles from '../styles/styles';
 
 const SearchBar = () => (
-  <View style={globalStyles.backgroundStyle}>
+  <View style={globalStyles.textInputContainer}>
     <TextInput autoCapitalize="none" autoCorrect={false} placeholder="Get Directions" />
   </View>
 );

@@ -7,19 +7,13 @@ const globalStyles = StyleSheet.create({
     marginRight: 10,
     padding: 20,
   },
-  mapContainer: {
-    flex: 1,
-  },
-  map: {
-    ...StyleSheet.absoluteFillObject,
-  },
   // For text input
   inputStyle: {
     flex: 1,
     fontSize: 18,
   },
   // Container/styling for text input above
-  backgroundStyle: {
+  textInputContainer: {
     marginTop: 15,
     marginBottom: 10,
     backgroundColor: '#F0EEEE',

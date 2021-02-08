@@ -1,4 +1,6 @@
+/* eslint-disable no-use-before-define */
 import React from 'react';
+import { StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import MapView from 'react-native-maps';
 import {
@@ -6,7 +8,6 @@ import {
   // eslint-disable-next-line import/no-unresolved
 } from '@env';
 import MapViewDirections from 'react-native-maps-directions';
-import globalStyles from '../styles/styles';
 
 // These define the initial zoom level of the map and probably
 // don't need to be modified
@@ -16,7 +17,7 @@ const LONGITUDE_DELTA = 0.0421;
 const RideModeMap = ({ location }) => (
   <>
     <MapView
-      style={globalStyles.mapContainer}
+      style={styles.mapContainer}
       initialRegion={{
         latitude: location.latitude,
         longitude: location.longitude,
@@ -33,6 +34,12 @@ const RideModeMap = ({ location }) => (
     />
   </>
 );
+
+const styles = StyleSheet.create({
+  mapContainer: {
+    flex: 1,
+  },
+});
 
 RideModeMap.propTypes = {
   location: PropTypes.shape({

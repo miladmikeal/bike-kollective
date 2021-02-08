@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Container, Content, Text, Grid, Row, Spinner } from 'native-base';
-import MapView from 'react-native-maps';
+import { Button, Container, Text, Spinner } from 'native-base';
 
 import SearchBar from '../../components/SearchBar';
 import RideModeMap from '../../components/RideModeMap';
 import LocationServices from '../../utility/location';
 
 import globalStyles from '../../styles/styles';
-
-// 75.142.251.156
-// 75.142.251.156
 
 const RideModeHome = ({ navigation }) => {
   const [location, setLocation] = useState();
@@ -31,7 +27,7 @@ const RideModeHome = ({ navigation }) => {
       </Container>
     );
   }
-  // console.log(location);
+
   return (
     <Container>
       <RideModeMap location={location} />
