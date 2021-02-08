@@ -10,6 +10,25 @@ const globalStyles = StyleSheet.create({
   mapContainer: {
     flex: 1,
   },
+  map: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  // For text input
+  inputStyle: {
+    flex: 1,
+    fontSize: 18,
+  },
+  // Container/styling for text input above
+  backgroundStyle: {
+    marginTop: 15,
+    marginBottom: 10,
+    backgroundColor: '#F0EEEE',
+    height: 50,
+    borderRadius: 5,
+    marginHorizontal: 15,
+    // allow TextInput and icon to show up on same line
+    flexDirection: 'row',
+  },
 });
 
 export default globalStyles;
