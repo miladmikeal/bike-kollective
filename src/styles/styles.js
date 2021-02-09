@@ -7,8 +7,21 @@ const globalStyles = StyleSheet.create({
     marginRight: 10,
     padding: 20,
   },
-  mapContainer: {
+  // For text input
+  inputStyle: {
     flex: 1,
+    fontSize: 18,
+  },
+  // Container/styling for text input above
+  textInputContainer: {
+    marginTop: 15,
+    marginBottom: 10,
+    backgroundColor: '#F0EEEE',
+    height: 50,
+    borderRadius: 5,
+    marginHorizontal: 15,
+    // allow TextInput and icon to show up on same line
+    flexDirection: 'row',
   },
 });
 
