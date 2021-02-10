@@ -11,30 +11,42 @@ import {
   Thumbnail,
   Text,
 } from 'native-base';
+import { TouchableOpacity } from 'react-native';
 import Bike from '../models/Bike';
 import { kmToMile } from '../../utility/distanceConversion';
 import globalStyles from '../styles/styles';
 
 // Pic -> Frame -> Style -> Distance (miles) -> rating -> next icon
 // Incorporate Listitem Selected later
-const BrowseBikesListItem = ({ bike, navigation }) => (
-  <ListItem keyExtractor={{ item: bike, index: bike.id }}>
-    <Grid>
+const BrowseBikesListItem = ({ bike, navigation, selectedBikeID, setSelectedBikeID  }) => (
+  <ListItem
+    keyExtractor={{ item: bike, index: bike.id }}
+    selected={bike.id === selectedBikeID}
+  >
+    <Grid style={{ flex: 1 }}>
       <Row>
         <Col>
-          <Thumbnail circle source={{ uri: bike.picUrl }} />
+          <TouchableOpacity onPress={() => {setSelectedBikeID(bike.id); }}>
+            <Thumbnail circle source={{ uri: bike.picUrl }} />
+          </TouchableOpacity>
         </Col>
         <Col>
-          <Text>Frame</Text>
-          <Text note>{bike.frame}</Text>
+          <TouchableOpacity onPress={() => {setSelectedBikeID(bike.id); }}>
+            <Text>Frame</Text>
+            <Text note>{bike.frame}</Text>
+          </TouchableOpacity>
         </Col>
         <Col>
-          <Text>Style</Text>
-          <Text note>{bike.style}</Text>
+          <TouchableOpacity onPress={() => {setSelectedBikeID(bike.id); }}>
+            <Text>Style</Text>
+            <Text note>{bike.style}</Text>
+          </TouchableOpacity>
         </Col>
         <Col>
-          <Text>Distance</Text>
-          <Text note>{kmToMile(bike.distance).toFixed(1)} mi</Text>
+          <TouchableOpacity onPress={() => {setSelectedBikeID(bike.id); }}>
+            <Text>Distance</Text>
+            <Text note>{kmToMile(bike.distance).toFixed(1)} mi</Text>
+          </TouchableOpacity>
         </Col>
       </Row>
     </Grid>
@@ -55,6 +67,8 @@ BrowseBikesListItem.propTypes = {
   navigation: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  selectedBikeID: PropTypes.string.isRequired,
+  setSelectedBikeID: PropTypes.func.isRequired
 };
 
 export default BrowseBikesListItem;

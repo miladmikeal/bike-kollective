@@ -10,7 +10,7 @@ import globalStyles from '../styles/styles';
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = 0.0421;
 
-const BrowseBikesMap = ({ bikes, location }) => (
+const BrowseBikesMap = ({ bikes, location, selectedBikeID, setSelectedBikeID }) => (
   <MapView
     style={globalStyles.mapContainer}
     initialRegion={{
@@ -22,13 +22,22 @@ const BrowseBikesMap = ({ bikes, location }) => (
   >
     {bikes.map(bike => {
       if (!bike.getCheckedOut()) {
+        let markerColor = 'red';
+        if (bike.id === selectedBikeID) {
+          markerColor = 'blue';
+        }
         return (
           <MapView.Marker
             coordinate={{
               latitude: bike.getLatitude(),
               longitude: bike.getLongitude(),
             }}
-            key={bike.id}
+            onPress={() => { setSelectedBikeID(bike.id); }}
+            pinColor={markerColor}
+
+            // MapView markers will only rerender if a different key is used.
+            // https://github.com/react-native-maps/react-native-maps/issues/1611
+            key={`${bike.id}${Date.now()}`}
           />
         );
       }
@@ -52,6 +61,8 @@ BrowseBikesMap.propTypes = {
     latitude: PropTypes.number,
     longitude: PropTypes.number,
   }).isRequired,
+  selectedBikeID: PropTypes.string.isRequired,
+  setSelectedBikeID: PropTypes.func.isRequired
 };
 
 export default BrowseBikesMap;
