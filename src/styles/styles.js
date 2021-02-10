@@ -87,6 +87,9 @@ const globalStyles = StyleSheet.create({
     width: 567*0.6,
     height: 450*0.6,
     alignSelf: 'center',
+  },
+  mapContainer: {
+    flex: 1
   }
 });
 
