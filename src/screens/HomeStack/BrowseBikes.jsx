@@ -18,6 +18,7 @@ const BrowseBikes = ({ navigation }) => {
   const [searchRadiusKm, setSearchRadiusKm] = useState(50);
   const [locationGranted, setLocationGranted] = useState(false);
   const [location, setLocation] = useState();
+  const [selectedBikeID, setSelectedBikeID] = useState('');
 
   useEffect(() => {
     async function getUserInfo() {
@@ -78,11 +79,11 @@ const BrowseBikes = ({ navigation }) => {
     <Container>
       <Grid>
         <Row>
-          <BrowseBikesMap bikes={data} location={location} />
+          <BrowseBikesMap bikes={data} location={location} selectedBikeID={selectedBikeID} setSelectedBikeID={setSelectedBikeID}/>
         </Row>
         <Row>
           <Content>
-            <BrowseBikesList bikes={data} searchRadiusKm={searchRadiusKm} navigation={navigation} />
+            <BrowseBikesList bikes={data} searchRadiusKm={searchRadiusKm} navigation={navigation} selectedBikeID={selectedBikeID} setSelectedBikeID={setSelectedBikeID}/>
           </Content>
         </Row>
       </Grid>

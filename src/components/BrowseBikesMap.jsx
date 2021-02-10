@@ -10,7 +10,7 @@ import globalStyles from '../styles/styles';
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = 0.0421;
 
-const BrowseBikesMap = ({ bikes, location }) => (
+const BrowseBikesMap = ({ bikes, location, selectedBikeID, setSelectedBikeID }) => (
   <MapView
     style={globalStyles.mapContainer}
     initialRegion={{
@@ -52,6 +52,8 @@ BrowseBikesMap.propTypes = {
     latitude: PropTypes.number,
     longitude: PropTypes.number,
   }).isRequired,
+  selectedBikeID: PropTypes.string.isRequired,
+  setSelectedBikeID: PropTypes.func.isRequired
 };
 
 export default BrowseBikesMap;
