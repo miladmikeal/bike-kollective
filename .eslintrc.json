@@ -48,7 +48,8 @@
         ],
         "no-multi-spaces": [
             "error"
-        ]
+        ],
+        "prefer-destructuring": "off"
     },
     "settings": {
         "import/resolver": {

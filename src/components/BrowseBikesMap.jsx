@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import MapView from 'react-native-maps';
 import { Icon } from 'native-base';
 import Bike from '../models/Bike';
+import globalStyles from '../styles/styles';
 
 // These define the initial zoom level of the map and probably
 // don't need to be modified
@@ -11,9 +12,7 @@ const LONGITUDE_DELTA = 0.0421;
 
 const BrowseBikesMap = ({ bikes, location }) => (
   <MapView
-    style={{
-      flex: 1,
-    }}
+    style={globalStyles.mapContainer}
     initialRegion={{
       latitude: location.latitude,
       longitude: location.longitude,
@@ -42,7 +41,7 @@ const BrowseBikesMap = ({ bikes, location }) => (
         longitude: location.longitude,
       }}
     >
-      <Icon type='MaterialIcons' name='my-location' style={{color: 'blue'}}/>
+      <Icon type='MaterialIcons' name='my-location' style={globalStyles.currentLocationIcon}/>
     </MapView.Marker>
   </MapView>
 );
