@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Container, Content, Text, Grid, Row, Spinner } from 'native-base';
+import { Button, Container, Text, Spinner } from 'native-base';
+
+import SearchBar from '../../components/SearchBar';
 import RideModeMap from '../../components/RideModeMap';
 import LocationServices from '../../utility/location';
+
+import globalStyles from '../../styles/styles';
 
 const RideModeHome = ({ navigation }) => {
   const [location, setLocation] = useState();
@@ -26,16 +30,11 @@ const RideModeHome = ({ navigation }) => {
 
   return (
     <Container>
-      <Grid>
-        <Row>
-          <RideModeMap location={location} />
-        </Row>
-      </Grid>
-      <Content>
-        <Button onPress={() => navigation.push('DropOffSubmit')}>
-          <Text>To bike drop off submit</Text>
-        </Button>
-      </Content>
+      <RideModeMap location={location} />
+      <SearchBar style={globalStyles.inputStyle} />
+      <Button onPress={() => navigation.push('DropOffSubmit')}>
+        <Text>To bike drop off submit</Text>
+      </Button>
     </Container>
   );
 };
