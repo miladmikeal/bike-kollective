@@ -1,44 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Container, Text, Spinner } from 'native-base';
+import { Button, Container, Text } from 'native-base';
 
-import SearchBar from '../../components/SearchBar';
-import RideModeMap from '../../components/RideModeMap';
-import LocationServices from '../../utility/location';
-
-import globalStyles from '../../styles/styles';
-
-const RideModeHome = ({ navigation }) => {
-  const [location, setLocation] = useState();
-
-  useEffect(() => {
-    LocationServices.getCurrentLocation().then((currentLocation) =>
-      setLocation({
-        latitude: currentLocation.coords.latitude,
-        longitude: currentLocation.coords.longitude,
-      })
-    );
-  }, []);
-
-  if (!location) {
-    return (
-      <Container>
-        <Spinner />
-      </Container>
-    );
-  }
-
-  return (
-    <Container>
-      <RideModeMap location={location} />
-      <SearchBar style={globalStyles.inputStyle} />
-      <Button onPress={() => navigation.push('DropOffSubmit')}>
-        <Text>To bike drop off submit</Text>
-      </Button>
-    </Container>
-  );
-};
-
+const RideModeHome = ({ navigation }) => (
+  <Container>
+    <Button onPress={() => navigation.push('DropOffSubmit')}>
+      <Text>To bike drop off submit</Text>
+    </Button>
+  </Container>
+);
 RideModeHome.propTypes = {
   navigation: PropTypes.shape({
     push: PropTypes.func.isRequired,
