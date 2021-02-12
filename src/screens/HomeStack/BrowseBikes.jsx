@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import * as firebase from 'firebase';
 import PropTypes from 'prop-types';
 import { Alert, Modal } from 'react-native';
-import { Container, Content, Grid, Row, Text, Spinner } from 'native-base';
+import { Container, Content, Fab, Grid, Icon, Row, Text, Spinner } from 'native-base';
+import BrowseBikesFab from '../../components/BrowseBikesFab';
 import BrowseBikesForm from '../../components/BrowseBikesForm';
 import BrowseBikesMap from '../../components/BrowseBikesMap';
 import BrowseBikesList from '../../components/BrowseBikesList';
@@ -20,7 +21,7 @@ const BrowseBikes = ({ navigation }) => {
   const [locationGranted, setLocationGranted] = useState(false);
   const [location, setLocation] = useState();
   const [selectedBikeID, setSelectedBikeID] = useState('');
-  const [modalVisible, setModalVisible] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
   const [filterValues, setFilterValues] = useState({
     name: '',
     style: '',
@@ -92,7 +93,6 @@ const BrowseBikes = ({ navigation }) => {
           setFilterValues={setFilterValues}
         />
       </Modal>
-
       <Grid>
         <Row>
           <BrowseBikesMap bikes={data} location={location} selectedBikeID={selectedBikeID} setSelectedBikeID={setSelectedBikeID}/>
@@ -103,6 +103,13 @@ const BrowseBikes = ({ navigation }) => {
           </Content>
         </Row>
       </Grid>
+      <BrowseBikesFab
+        centerPoint={new firebase.firestore.GeoPoint(location.latitude, location.longitude)}
+        radiusKm={searchRadiusKm}
+        setData={setData}
+        setErr={setErr}
+        setModalVisible={setModalVisible}
+      />
     </Container>
   );
 };
