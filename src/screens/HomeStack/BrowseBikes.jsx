@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import * as firebase from 'firebase';
 import PropTypes from 'prop-types';
-import { Alert } from 'react-native';
+import { Alert, Modal } from 'react-native';
 import { Container, Content, Grid, Row, Text, Spinner } from 'native-base';
+import BrowseBikesForm from '../../components/BrowseBikesForm';
 import BrowseBikesMap from '../../components/BrowseBikesMap';
 import BrowseBikesList from '../../components/BrowseBikesList';
 import { getBikesWithinRadius } from '../../api/bikes';
@@ -19,6 +20,13 @@ const BrowseBikes = ({ navigation }) => {
   const [locationGranted, setLocationGranted] = useState(false);
   const [location, setLocation] = useState();
   const [selectedBikeID, setSelectedBikeID] = useState('');
+  const [modalVisible, setModalVisible] = useState(true);
+  const [filterValues, setFilterValues] = useState({
+    name: '',
+    style: '',
+    frame: 'Size', // Native Base Pickers do not show placeholders, so this is a workaround
+    keywords: ''
+  });
 
   useEffect(() => {
     async function getUserInfo() {
@@ -77,6 +85,14 @@ const BrowseBikes = ({ navigation }) => {
 
   return (
     <Container>
+      <Modal visible={modalVisible}>
+        <BrowseBikesForm
+          setModalVisible={setModalVisible}
+          filterValues={filterValues}
+          setFilterValues={setFilterValues}
+        />
+      </Modal>
+
       <Grid>
         <Row>
           <BrowseBikesMap bikes={data} location={location} selectedBikeID={selectedBikeID} setSelectedBikeID={setSelectedBikeID}/>
