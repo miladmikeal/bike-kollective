@@ -84,6 +84,8 @@ const BrowseBikes = ({ navigation }) => {
     );
   }
 
+  // filteredBikes 
+
   return (
     <Container>
       <Modal visible={modalVisible}>
