@@ -18,6 +18,17 @@ test('Filter bikes returns all bikes on when filter values empty', () => {
   expect(filteredBikes.length).toBe(3);
 });
 
+test('Filter bikes returns all bikes on when placeholder frame values used', () => {
+  let filterValues = {
+    name: '',
+    style: '',
+    frame: 'Size',
+    keywords: ''
+  }
+  const filteredBikes = filterBikes(testBikes, filterValues);
+  expect(filteredBikes.length).toBe(3);
+});
+
 test('Filter bikes returns 1 bike when frame filtered to Medium', () => {
   let filterValues = {
     name: 'test bike',

@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import * as firebase from 'firebase';
 import PropTypes from 'prop-types';
 import { Alert, Modal } from 'react-native';
-import { Container, Content, Fab, Grid, Icon, Row, Text, Spinner } from 'native-base';
+import { Container, Content, Grid, Row, Text, Spinner } from 'native-base';
 import BrowseBikesFab from '../../components/BrowseBikesFab';
 import BrowseBikesForm from '../../components/BrowseBikesForm';
 import BrowseBikesMap from '../../components/BrowseBikesMap';
 import BrowseBikesList from '../../components/BrowseBikesList';
 import { getBikesWithinRadius } from '../../api/bikes';
 import LocationServices from '../../utility/location';
+import filterBikes from '../../utility/filterBikes';
+import { mileToKm } from '../../utility/distanceConversion';
 
 const BrowseBikes = ({ navigation }) => {
   const currentUserUID = firebase.auth().currentUser.uid;
@@ -17,7 +19,7 @@ const BrowseBikes = ({ navigation }) => {
   const [data, setData] = useState();
   const [err, setErr] = useState();
   // eslint-disable-next-line no-unused-vars
-  const [searchRadiusKm, setSearchRadiusKm] = useState(50);
+  const [searchRadiusMi, setSearchRadiusMi] = useState(50);
   const [locationGranted, setLocationGranted] = useState(false);
   const [location, setLocation] = useState();
   const [selectedBikeID, setSelectedBikeID] = useState('');
@@ -43,6 +45,19 @@ const BrowseBikes = ({ navigation }) => {
     getUserInfo();
   });
 
+  useEffect(() => {
+    const centerPoint = new firebase.firestore.GeoPoint(location.latitude, location.longitude);
+    const radiusKm = mileToKm(searchRadiusMi);
+    getBikesWithinRadius(centerPoint, radiusKm)
+      .then((bikes) => {
+        setData(bikes);
+      })
+      .catch((e) => {
+        setErr(e);
+      });
+      // intentionally leaving location out of the dep array as we don't want to repull on location udpate
+  }, [searchRadiusMi]);
+
   if (!locationGranted) {
     LocationServices.getLocationPermission().then((permission) => setLocationGranted(permission));
   }
@@ -58,7 +73,7 @@ const BrowseBikes = ({ navigation }) => {
 
   if (location && !data && !err) {
     const centerPoint = new firebase.firestore.GeoPoint(location.latitude, location.longitude);
-    const radiusKm = searchRadiusKm;
+    const radiusKm = mileToKm(searchRadiusMi);
     getBikesWithinRadius(centerPoint, radiusKm)
       .then((bikes) => {
         setData(bikes);
@@ -84,7 +99,7 @@ const BrowseBikes = ({ navigation }) => {
     );
   }
 
-  // filteredBikes 
+  const filteredBikes = filterBikes(data, filterValues);
 
   return (
     <Container>
@@ -97,17 +112,17 @@ const BrowseBikes = ({ navigation }) => {
       </Modal>
       <Grid>
         <Row>
-          <BrowseBikesMap bikes={data} location={location} selectedBikeID={selectedBikeID} setSelectedBikeID={setSelectedBikeID}/>
+          <BrowseBikesMap bikes={filteredBikes} location={location} selectedBikeID={selectedBikeID} setSelectedBikeID={setSelectedBikeID}/>
         </Row>
         <Row>
           <Content>
-            <BrowseBikesList bikes={data} searchRadiusKm={searchRadiusKm} navigation={navigation} selectedBikeID={selectedBikeID} setSelectedBikeID={setSelectedBikeID}/>
+            <BrowseBikesList bikes={filteredBikes} searchRadiusMi={searchRadiusMi} navigation={navigation} selectedBikeID={selectedBikeID} setSelectedBikeID={setSelectedBikeID}/>
           </Content>
         </Row>
       </Grid>
       <BrowseBikesFab
         centerPoint={new firebase.firestore.GeoPoint(location.latitude, location.longitude)}
-        radiusKm={searchRadiusKm}
+        radiusMi={searchRadiusMi}
         setData={setData}
         setErr={setErr}
         setModalVisible={setModalVisible}

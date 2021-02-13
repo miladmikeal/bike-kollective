@@ -20,7 +20,7 @@ function filterBikes(bikes, filterValues) {
     if (filterValues.style && !bike.style.includes(filterValues.style)) {
       return;
     }
-    if (filterValues.frame && !bike.frame.includes(filterValues.frame)) {
+    if (filterValues.frame && filterValues.frame !== 'Size' && !bike.frame.includes(filterValues.frame)) {
       return;
     }
     let bikeKeywords = [];

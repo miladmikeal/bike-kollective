@@ -3,8 +3,9 @@ import * as firebase from 'firebase';
 import PropTypes from 'prop-types';
 import { Button, Fab, Icon } from 'native-base';
 import { getBikesWithinRadius } from '../api/bikes';
+import { mileToKm } from '../utility/distanceConversion';
 
-const BrowseBikesFab = ({ centerPoint, radiusKm, setData, setErr, setModalVisible }) => {
+const BrowseBikesFab = ({ centerPoint, radiusMi, setData, setErr, setModalVisible }) => {
   const [fabActive, setFabActive] = useState(false);
 
   return (
@@ -22,7 +23,7 @@ const BrowseBikesFab = ({ centerPoint, radiusKm, setData, setErr, setModalVisibl
       </Button>
 
       <Button onPress={() => {
-        getBikesWithinRadius(centerPoint, radiusKm)
+        getBikesWithinRadius(centerPoint, mileToKm(radiusMi))
           .then((bikes) => {
             setData(bikes);
           })
@@ -40,7 +41,7 @@ const BrowseBikesFab = ({ centerPoint, radiusKm, setData, setErr, setModalVisibl
 
 BrowseBikesFab.propTypes = {
   centerPoint: PropTypes.instanceOf(firebase.firestore.GeoPoint).isRequired,
-  radiusKm: PropTypes.number.isRequired,
+  radiusMi: PropTypes.number.isRequired,
   setData: PropTypes.func.isRequired,
   setErr: PropTypes.func.isRequired,
   setModalVisible: PropTypes.func.isRequired
