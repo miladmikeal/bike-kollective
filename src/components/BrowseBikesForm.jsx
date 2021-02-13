@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { Button, Content, Input, Picker, Text, View } from 'native-base';
+import Slider from '@react-native-community/slider';
 import globalStyles from '../styles/styles';
 
 const BrowseBikesFormSchema = Yup.object().shape({
@@ -10,17 +11,18 @@ const BrowseBikesFormSchema = Yup.object().shape({
   style: Yup.string().max(8),
   frame: Yup.string(),
   keywords: Yup.string(),
-  //TODO - distance slider
+  distanceMi: Yup.number()
 });
 
 const BrowseBikesForm = ({ setModalVisible, filterValues, setFilterValues }) => {
-  console.log(filterValues);
   const initialValues = {
     name: filterValues.name,
     style: filterValues.style,
     frame: filterValues.frame,
     keywords: filterValues.keywords,
+    distanceMi: filterValues.distanceMi
   };
+  console.log(initialValues);
 
   const handleSubmit = (values) => {
     setModalVisible(false);
@@ -90,6 +92,15 @@ const BrowseBikesForm = ({ setModalVisible, filterValues, setFilterValues }) => 
               {formikProps.errors.keywords}
             </Text>
           }
+          <Text>Search Radius: {formikProps.values.distanceMi} mi</Text>
+          <Slider
+            style={{width: '90%'}}
+            minimumValue={1}
+            maximumValue={75}
+            value={formikProps.values.distanceMi}
+            step={0.5}
+            onValueChange={(dist) => formikProps.setFieldValue('distanceMi', dist)}
+          />
           <Button
             onPress={formikProps.handleSubmit}
             style={globalStyles.addBikeButton}
@@ -115,7 +126,8 @@ BrowseBikesForm.propTypes = {
     name: PropTypes.string,
     style: PropTypes.string,
     frame: PropTypes.string,
-    keywords: PropTypes.string
+    keywords: PropTypes.string,
+    distanceMi: PropTypes.number
   }).isRequired
 };
 

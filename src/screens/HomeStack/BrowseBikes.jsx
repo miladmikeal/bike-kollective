@@ -28,8 +28,11 @@ const BrowseBikes = ({ navigation }) => {
     name: '',
     style: '',
     frame: 'Size', // Native Base Pickers do not show placeholders, so this is a workaround
-    keywords: ''
+    keywords: '',
+    distanceMi: 25
   });
+
+  console.log(filterValues);
 
   useEffect(() => {
     async function getUserInfo() {
@@ -58,12 +61,14 @@ const BrowseBikes = ({ navigation }) => {
     });
   }
 
-  if (location && !data && !err) {
+  if (location && !err && (!data || searchRadiusMi !== filterValues.distanceMi)) {
+    console.log('running getbikesinradius. radius');
     const centerPoint = new firebase.firestore.GeoPoint(location.latitude, location.longitude);
-    const radiusKm = mileToKm(searchRadiusMi);
+    const radiusKm = mileToKm(filterValues.distanceMi);
     getBikesWithinRadius(centerPoint, radiusKm)
       .then((bikes) => {
         setData(bikes);
+        setSearchRadiusMi(filterValues.distanceMi);
       })
       .catch((e) => {
         setErr(e);

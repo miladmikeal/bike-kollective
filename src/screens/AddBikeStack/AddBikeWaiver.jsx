@@ -29,6 +29,9 @@ const AddBikeWaiver = ({ navigation, route }) => {
           <Unorderedlist>
             <Text>The lock combination, {bike.lock}, is correct.</Text>
           </Unorderedlist>
+          <Unorderedlist>
+            <Text>The bike is located at your device's curent location ({location.latitude}, {location.longitude}).</Text>
+          </Unorderedlist>
         </View>
         <Button
           onPress={() => navigation.push('AddBikeSubmit', { bike: { bike }, location: { location } })}
@@ -53,7 +56,7 @@ AddBikeWaiver.propTypes = {
           style: PropTypes.string.isRequired,
           frame: PropTypes.string.isRequired,
           keywords: PropTypes.string,
-          lock: PropTypes.number.isRequired
+          lock: PropTypes.string.isRequired
         }).isRequired,
       }).isRequired,
       location: PropTypes.shape({
