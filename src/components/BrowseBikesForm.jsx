@@ -14,6 +14,7 @@ const BrowseBikesFormSchema = Yup.object().shape({
 });
 
 const BrowseBikesForm = ({ setModalVisible, filterValues, setFilterValues }) => {
+  console.log(filterValues);
   const initialValues = {
     name: filterValues.name,
     style: filterValues.style,
@@ -37,6 +38,7 @@ const BrowseBikesForm = ({ setModalVisible, filterValues, setFilterValues }) => 
           <Input
             placeholder='Name'
             onChangeText={formikProps.handleChange('name')}
+            value={formikProps.values.name}
             style={globalStyles.addBikeInput}
           />
           {(formikProps.touched.name && formikProps.errors.name) &&
@@ -93,6 +95,12 @@ const BrowseBikesForm = ({ setModalVisible, filterValues, setFilterValues }) => 
             style={globalStyles.addBikeButton}
           >
             <Text>Filter</Text>
+          </Button>
+          <Button
+            onPress={() => setModalVisible(false)}
+            style={globalStyles.cancelButton}
+          >
+            <Text>Cancel</Text>
           </Button>
         </Content>
       )}

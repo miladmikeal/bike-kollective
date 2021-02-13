@@ -11,7 +11,7 @@ const BrowseBikesFab = ({ centerPoint, radiusMi, setData, setErr, setModalVisibl
   return (
     <Fab
       active={fabActive}
-      direction='left'
+      direction='up'
       position='bottomRight'
       containerStyle={{}}
       onPress={() => { setFabActive(!fabActive); }}

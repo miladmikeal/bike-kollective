@@ -78,6 +78,16 @@ const globalStyles = StyleSheet.create({
     borderRadius: 4,
     textAlign: 'center'
   },
+  cancelButton: {
+    alignSelf: 'center',
+    flex: 1,
+    width: '90%',
+    margin: 5,
+    padding: 10,
+    borderRadius: 4,
+    textAlign: 'center',
+    backgroundColor: 'red'
+  },
   addBikeErrorText: {
     width: '90%',
     alignSelf: 'center',

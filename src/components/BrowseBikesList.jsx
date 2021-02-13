@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { List, ListItem, Text } from 'native-base';
 import Bike from '../models/Bike';
 import BrowseBikesListItem from './BrowseBikesListItem';
-import { mileToKm } from '../utility/distanceConversion';
 
 const BrowseBikesList = ({ bikes, searchRadiusMi, navigation, selectedBikeID, setSelectedBikeID }) => {
   // Verify that the query returned at least one open bike
@@ -20,7 +19,7 @@ const BrowseBikesList = ({ bikes, searchRadiusMi, navigation, selectedBikeID, se
       <List>
         <ListItem>
           <Text>
-            There are no bikes within the {searchRadiusMi.toFixed(2)} mile search range.
+            There are no bikes within the {searchRadiusMi.toFixed(2)} mile search range that match your filter criteria.
           </Text>
         </ListItem>
       </List>

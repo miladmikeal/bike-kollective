@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import * as firebase from 'firebase';
 import PropTypes from 'prop-types';
 import { Alert, Modal } from 'react-native';
-import { Container, Content, Grid, Row, Text, Spinner } from 'native-base';
+import { Button, Container, Content, Grid, Row, Text, Spinner } from 'native-base';
 import BrowseBikesFab from '../../components/BrowseBikesFab';
 import BrowseBikesForm from '../../components/BrowseBikesForm';
 import BrowseBikesMap from '../../components/BrowseBikesMap';
@@ -19,7 +19,7 @@ const BrowseBikes = ({ navigation }) => {
   const [data, setData] = useState();
   const [err, setErr] = useState();
   // eslint-disable-next-line no-unused-vars
-  const [searchRadiusMi, setSearchRadiusMi] = useState(50);
+  const [searchRadiusMi, setSearchRadiusMi] = useState(25);
   const [locationGranted, setLocationGranted] = useState(false);
   const [location, setLocation] = useState();
   const [selectedBikeID, setSelectedBikeID] = useState('');
@@ -44,19 +44,6 @@ const BrowseBikes = ({ navigation }) => {
     }
     getUserInfo();
   });
-
-  useEffect(() => {
-    const centerPoint = new firebase.firestore.GeoPoint(location.latitude, location.longitude);
-    const radiusKm = mileToKm(searchRadiusMi);
-    getBikesWithinRadius(centerPoint, radiusKm)
-      .then((bikes) => {
-        setData(bikes);
-      })
-      .catch((e) => {
-        setErr(e);
-      });
-      // intentionally leaving location out of the dep array as we don't want to repull on location udpate
-  }, [searchRadiusMi]);
 
   if (!locationGranted) {
     LocationServices.getLocationPermission().then((permission) => setLocationGranted(permission));
