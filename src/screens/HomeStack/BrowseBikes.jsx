@@ -63,8 +63,7 @@ const BrowseBikes = ({ navigation }) => {
 
   if (location && !err && (!data || searchRadiusMi !== filterValues.distanceMi)) {
     const centerPoint = new firebase.firestore.GeoPoint(location.latitude, location.longitude);
-    const radiusKm = mileToKm(filterValues.distanceMi);
-    getBikesWithinRadius(centerPoint, radiusKm)
+    getBikesWithinRadius(centerPoint, mileToKm(filterValues.distanceMi))
       .then((bikes) => {
         setData(bikes);
         setSearchRadiusMi(filterValues.distanceMi);

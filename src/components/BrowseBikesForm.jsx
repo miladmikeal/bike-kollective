@@ -22,7 +22,6 @@ const BrowseBikesForm = ({ setModalVisible, filterValues, setFilterValues }) => 
     keywords: filterValues.keywords,
     distanceMi: filterValues.distanceMi
   };
-  console.log(initialValues);
 
   const handleSubmit = (values) => {
     setModalVisible(false);

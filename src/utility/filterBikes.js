@@ -3,7 +3,7 @@ import Bike from '../models/Bike';
 
 /*
   filterBikes will take an array of bikes and an object of filter
-  criteria. It will then filter the array and return an arrar of
+  criteria. It will then filter the array and return an array of
   only those objects that match the filter criteria.
 */
 function filterBikes(bikes, filterValues) {
@@ -27,7 +27,6 @@ function filterBikes(bikes, filterValues) {
     if (bike.keywords) {
       bikeKeywords = bike.keywords.split(',');
     }
-
     for (let i = 0; i < filterKeywords.length; i += 1) {
       if (!bikeKeywords.includes(filterKeywords[i])) {
         return;
