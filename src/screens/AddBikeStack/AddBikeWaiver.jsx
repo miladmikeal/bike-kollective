@@ -30,7 +30,7 @@ const AddBikeWaiver = ({ navigation, route }) => {
             <Text>The lock combination, {bike.lock}, is correct.</Text>
           </Unorderedlist>
           <Unorderedlist>
-            <Text>The bike is located at your device's curent location ({location.latitude}, {location.longitude}).</Text>
+            <Text>The bike is located at your device's curent location ({location.latitude.toFixed(3)}, {location.longitude.toFixed(3)}).</Text>
           </Unorderedlist>
         </View>
         <Button

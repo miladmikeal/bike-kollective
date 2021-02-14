@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import * as firebase from 'firebase';
 import PropTypes from 'prop-types';
 import { Alert, Modal } from 'react-native';
-import { Button, Container, Content, Grid, Row, Text, Spinner } from 'native-base';
+import { Container, Content, Grid, Row, Text, Spinner } from 'native-base';
 import BrowseBikesFab from '../../components/BrowseBikesFab';
 import BrowseBikesForm from '../../components/BrowseBikesForm';
 import BrowseBikesMap from '../../components/BrowseBikesMap';
@@ -12,6 +12,8 @@ import LocationServices from '../../utility/location';
 import filterBikes from '../../utility/filterBikes';
 import { mileToKm } from '../../utility/distanceConversion';
 
+const DEFAULT_SEARCH_RADIUS_MILES = 25;
+
 const BrowseBikes = ({ navigation }) => {
   const currentUserUID = firebase.auth().currentUser.uid;
   // eslint-disable-next-line no-unused-vars
@@ -19,7 +21,7 @@ const BrowseBikes = ({ navigation }) => {
   const [data, setData] = useState();
   const [err, setErr] = useState();
   // eslint-disable-next-line no-unused-vars
-  const [searchRadiusMi, setSearchRadiusMi] = useState(25);
+  const [searchRadiusMi, setSearchRadiusMi] = useState(DEFAULT_SEARCH_RADIUS_MILES);
   const [locationGranted, setLocationGranted] = useState(false);
   const [location, setLocation] = useState();
   const [selectedBikeID, setSelectedBikeID] = useState('');
@@ -29,10 +31,8 @@ const BrowseBikes = ({ navigation }) => {
     style: '',
     frame: 'Size', // Native Base Pickers do not show placeholders, so this is a workaround
     keywords: '',
-    distanceMi: 25
+    distanceMi: DEFAULT_SEARCH_RADIUS_MILES
   });
-
-  console.log(filterValues);
 
   useEffect(() => {
     async function getUserInfo() {
@@ -62,7 +62,6 @@ const BrowseBikes = ({ navigation }) => {
   }
 
   if (location && !err && (!data || searchRadiusMi !== filterValues.distanceMi)) {
-    console.log('running getbikesinradius. radius');
     const centerPoint = new firebase.firestore.GeoPoint(location.latitude, location.longitude);
     const radiusKm = mileToKm(filterValues.distanceMi);
     getBikesWithinRadius(centerPoint, radiusKm)

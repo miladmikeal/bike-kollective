@@ -19,7 +19,7 @@ const BrowseBikesList = ({ bikes, searchRadiusMi, navigation, selectedBikeID, se
       <List>
         <ListItem>
           <Text>
-            There are no bikes within the {searchRadiusMi.toFixed(2)} mile search range that match your filter criteria.
+            There are no bikes within the {searchRadiusMi.toFixed(1)} mile search range that match your filter criteria.
           </Text>
         </ListItem>
       </List>
