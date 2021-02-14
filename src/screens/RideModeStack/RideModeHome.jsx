@@ -10,6 +10,7 @@ import globalStyles from '../../styles/styles';
 
 const RideModeHome = ({ navigation }) => {
   const [location, setLocation] = useState();
+  const [destination, setDestination] = useState();
 
   useEffect(() => {
     LocationServices.getCurrentLocation().then((currentLocation) =>
@@ -30,8 +31,12 @@ const RideModeHome = ({ navigation }) => {
 
   return (
     <Container>
-      <RideModeMap location={location} />
-      <SearchBar style={globalStyles.inputStyle} />
+      <RideModeMap location={location} destination={destination} />
+      <SearchBar
+        destination={destination}
+        onDestinationChange={(newDestination) => setDestination(newDestination)}
+        style={globalStyles.inputStyle}
+      />
       <Button onPress={() => navigation.push('DropOffSubmit')}>
         <Text>To bike drop off submit</Text>
       </Button>
