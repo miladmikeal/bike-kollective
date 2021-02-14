@@ -5,10 +5,12 @@ import { Icon } from 'native-base';
 import Bike from '../models/Bike';
 import globalStyles from '../styles/styles';
 
-// These define the initial zoom level of the map and probably
-// don't need to be modified
-const LATITUDE_DELTA = 0.0922;
-const LONGITUDE_DELTA = 0.0421;
+// This defines the initial zoom level of the map
+// Roughly 40 miles wide the in the middle of the US
+const LATITUDE_DELTA = 0.461;
+
+// This ratio is important for the map to not look distorted
+const LONGITUDE_DELTA = 0.456616052060738 * LATITUDE_DELTA;
 
 const BrowseBikesMap = ({ bikes, location, selectedBikeID, setSelectedBikeID }) => (
   <MapView

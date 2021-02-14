@@ -13,12 +13,12 @@ import {
 } from 'native-base';
 import { TouchableOpacity } from 'react-native';
 import Bike from '../models/Bike';
-import { kmToMile } from '../../utility/distanceConversion';
+import { kmToMile } from '../utility/distanceConversion';
 import globalStyles from '../styles/styles';
 
 // Pic -> Frame -> Style -> Distance (miles) -> rating -> next icon
 // Incorporate Listitem Selected later
-const BrowseBikesListItem = ({ bike, navigation, selectedBikeID, setSelectedBikeID  }) => (
+const BrowseBikesListItem = ({ bike, navigation, selectedBikeID, setSelectedBikeID }) => (
   <ListItem
     keyExtractor={{ item: bike, index: bike.id }}
     selected={bike.id === selectedBikeID}
