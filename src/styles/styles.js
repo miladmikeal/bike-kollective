@@ -100,6 +100,10 @@ const globalStyles = StyleSheet.create({
   },
   mapContainer: {
     flex: 1
+  },
+  defaultWidth: {
+    width: '90%',
+    alignSelf: 'center'
   }
 });
 

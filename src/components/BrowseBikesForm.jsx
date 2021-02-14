@@ -91,9 +91,9 @@ const BrowseBikesForm = ({ setModalVisible, filterValues, setFilterValues }) => 
               {formikProps.errors.keywords}
             </Text>
           }
-          <Text>Search Radius: {formikProps.values.distanceMi} mi</Text>
+          <Text style={globalStyles.defaultWidth}>Search Radius: {formikProps.values.distanceMi} mi</Text>
           <Slider
-            style={{width: '90%'}}
+            style={globalStyles.defaultWidth}
             minimumValue={1}
             maximumValue={75}
             value={formikProps.values.distanceMi}
