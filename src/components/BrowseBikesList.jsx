@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import { List, ListItem, Text } from 'native-base';
 import Bike from '../models/Bike';
 import BrowseBikesListItem from './BrowseBikesListItem';
-import { kmToMile } from '../../utility/distanceConversion';
 
-const BrowseBikesList = ({ bikes, searchRadiusKm, navigation, selectedBikeID, setSelectedBikeID }) => {
+const BrowseBikesList = ({ bikes, searchRadiusMi, navigation, selectedBikeID, setSelectedBikeID }) => {
   // Verify that the query returned at least one open bike
   let availableBikes = 0;
   for (let i = 0; i < bikes.length; i += 1) {
@@ -20,7 +19,7 @@ const BrowseBikesList = ({ bikes, searchRadiusKm, navigation, selectedBikeID, se
       <List>
         <ListItem>
           <Text>
-            There are no bikes within the {kmToMile(searchRadiusKm).toFixed(2)} mile search range.
+            There are no bikes within the {searchRadiusMi.toFixed(1)} mile search range that match your filter criteria.
           </Text>
         </ListItem>
       </List>
@@ -47,7 +46,7 @@ const BrowseBikesList = ({ bikes, searchRadiusKm, navigation, selectedBikeID, se
 
 BrowseBikesList.propTypes = {
   bikes: PropTypes.arrayOf(PropTypes.instanceOf(Bike)).isRequired,
-  searchRadiusKm: PropTypes.number.isRequired,
+  searchRadiusMi: PropTypes.number.isRequired,
   navigation: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,

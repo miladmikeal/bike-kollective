@@ -14,8 +14,8 @@ import MapViewDirections from 'react-native-maps-directions';
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = 0.0421;
 
-const RideModeMap = ({ location }) => (
-  <>
+const RideModeMap = ({ location, destination }) => {
+  if (!destination) {
     <MapView
       style={styles.mapContainer}
       initialRegion={{
@@ -24,16 +24,30 @@ const RideModeMap = ({ location }) => (
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA,
       }}
-    />
-    <MapViewDirections
-      origin={location}
-      destination={{ latitude: 30.77, longitude: -111 }}
-      apikey={GOOGLE_MAPS_APIKEY}
-      strokeWidth={3}
-      strokeColor="hotpink"
-    />
-  </>
-);
+    />;
+  }
+
+  return (
+    <>
+      <MapView
+        style={styles.mapContainer}
+        initialRegion={{
+          latitude: location.latitude,
+          longitude: location.longitude,
+          latitudeDelta: LATITUDE_DELTA,
+          longitudeDelta: LONGITUDE_DELTA,
+        }}
+      />
+      <MapViewDirections
+        origin={location}
+        destination={{ latitude: 30.77, longitude: -111 }}
+        apikey={GOOGLE_MAPS_APIKEY}
+        strokeWidth={3}
+        strokeColor="hotpink"
+      />
+    </>
+  );
+};
 
 const styles = StyleSheet.create({
   mapContainer: {

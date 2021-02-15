@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import * as firebase from 'firebase';
 import PropTypes from 'prop-types';
-import { Alert } from 'react-native';
+import { Alert, Modal } from 'react-native';
 import { Container, Content, Grid, Row, Text, Spinner } from 'native-base';
+import BrowseBikesFab from '../../components/BrowseBikesFab';
+import BrowseBikesForm from '../../components/BrowseBikesForm';
 import BrowseBikesMap from '../../components/BrowseBikesMap';
 import BrowseBikesList from '../../components/BrowseBikesList';
 import { getBikesWithinRadius } from '../../api/bikes';
 import LocationServices from '../../utility/location';
+import filterBikes from '../../utility/filterBikes';
+import { mileToKm } from '../../utility/distanceConversion';
+
+const DEFAULT_SEARCH_RADIUS_MILES = 25;
 
 const BrowseBikes = ({ navigation }) => {
   const currentUserUID = firebase.auth().currentUser.uid;
@@ -15,10 +21,18 @@ const BrowseBikes = ({ navigation }) => {
   const [data, setData] = useState();
   const [err, setErr] = useState();
   // eslint-disable-next-line no-unused-vars
-  const [searchRadiusKm, setSearchRadiusKm] = useState(50);
+  const [searchRadiusMi, setSearchRadiusMi] = useState(DEFAULT_SEARCH_RADIUS_MILES);
   const [locationGranted, setLocationGranted] = useState(false);
   const [location, setLocation] = useState();
   const [selectedBikeID, setSelectedBikeID] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+  const [filterValues, setFilterValues] = useState({
+    name: '',
+    style: '',
+    frame: 'Size', // Native Base Pickers do not show placeholders, so this is a workaround
+    keywords: '',
+    distanceMi: DEFAULT_SEARCH_RADIUS_MILES
+  });
 
   useEffect(() => {
     async function getUserInfo() {
@@ -47,12 +61,12 @@ const BrowseBikes = ({ navigation }) => {
     });
   }
 
-  if (location && !data && !err) {
+  if (location && !err && (!data || searchRadiusMi !== filterValues.distanceMi)) {
     const centerPoint = new firebase.firestore.GeoPoint(location.latitude, location.longitude);
-    const radiusKm = searchRadiusKm;
-    getBikesWithinRadius(centerPoint, radiusKm)
+    getBikesWithinRadius(centerPoint, mileToKm(filterValues.distanceMi))
       .then((bikes) => {
         setData(bikes);
+        setSearchRadiusMi(filterValues.distanceMi);
       })
       .catch((e) => {
         setErr(e);
@@ -75,18 +89,34 @@ const BrowseBikes = ({ navigation }) => {
     );
   }
 
+  const filteredBikes = filterBikes(data, filterValues);
+
   return (
     <Container>
+      <Modal visible={modalVisible}>
+        <BrowseBikesForm
+          setModalVisible={setModalVisible}
+          filterValues={filterValues}
+          setFilterValues={setFilterValues}
+        />
+      </Modal>
       <Grid>
         <Row>
-          <BrowseBikesMap bikes={data} location={location} selectedBikeID={selectedBikeID} setSelectedBikeID={setSelectedBikeID}/>
+          <BrowseBikesMap bikes={filteredBikes} location={location} selectedBikeID={selectedBikeID} setSelectedBikeID={setSelectedBikeID}/>
         </Row>
         <Row>
           <Content>
-            <BrowseBikesList bikes={data} searchRadiusKm={searchRadiusKm} navigation={navigation} selectedBikeID={selectedBikeID} setSelectedBikeID={setSelectedBikeID}/>
+            <BrowseBikesList bikes={filteredBikes} searchRadiusMi={searchRadiusMi} navigation={navigation} selectedBikeID={selectedBikeID} setSelectedBikeID={setSelectedBikeID}/>
           </Content>
         </Row>
       </Grid>
+      <BrowseBikesFab
+        centerPoint={new firebase.firestore.GeoPoint(location.latitude, location.longitude)}
+        radiusMi={searchRadiusMi}
+        setData={setData}
+        setErr={setErr}
+        setModalVisible={setModalVisible}
+      />
     </Container>
   );
 };
