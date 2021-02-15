@@ -9,10 +9,10 @@ const RideModeHome = ({ navigation }) => (
     </Button>
   </Container>
 );
+
 RideModeHome.propTypes = {
   navigation: PropTypes.shape({
     push: PropTypes.func.isRequired,
-    replace: PropTypes.func.isRequired,
   }).isRequired,
 };
 

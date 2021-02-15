@@ -1,9 +1,8 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-use-before-define */
 import React, { useState } from 'react';
 import { StyleSheet, View, TextInput, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Text, Button } from 'native-base';
+import PropTypes from 'prop-types';
 import Stars from 'react-native-stars'; // Link to docs: https://www.npmjs.com/package/react-native-stars
 import { addBikeRating } from '../../api/bikeRatings';
 import { addUserComment } from '../../api/userComments';
@@ -88,5 +87,13 @@ const styles = StyleSheet.create({
     margin: 10,
   },
 });
+
+DropOffSubmit.propTypes = {
+  navigation: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+    navigate: PropTypes.string.isRequired,
+    goBack: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
 export default DropOffSubmit;
