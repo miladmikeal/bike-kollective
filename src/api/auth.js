@@ -3,21 +3,25 @@ import "firebase/firestore";
 import { Alert } from "react-native";
 
 export const getUserInfo = async (uid) => {
-  const db = firebase.firestore();
-  const userRef = await db.collection("users")
-    .doc(uid)
-    .get();
+  try {
+    const db = firebase.firestore();
+    const userRef = await db.collection("users")
+      .doc(uid)
+      .get();
 
-  if (!userRef.exists) {
-    Alert.alert('No user data found!');
+    if (!userRef.exists) {
+      Alert.alert('No user data found!');
+    }
+    return userRef.data();
+  } catch (error) {
+    Alert.alert('Error: person not found');
   }
-  return userRef.data();
 };
 
 export const signUp = async (email, password, lastName, firstName) => {
   try {
     await firebase.auth().createUserWithEmailAndPassword(email, password);
-    const { currentUser } = firebase.auth();
+    const { currentUser } = await firebase.auth();
 
     const db = firebase.firestore();
     await db.collection("users")
@@ -37,12 +41,17 @@ export const signIn = async (email, password) => {
   try {
     await firebase
       .auth()
-      .signInWithEmailAndPassword(email, password);
-    const { currentUser } = firebase.auth();
+      .signInWithEmailAndPassword(email, password)
+      .catch(err => Alert.alert(err.message));
+
+    const { currentUser } = await firebase.auth();
+    if (!currentUser) {
+      return new Error('No user found!');
+    }
 
     return getUserInfo(currentUser.uid);
   } catch (err) {
-    Alert.alert("There is something wrong!", err.message);
+    Alert.alert("Error when signing in!", err.message);
   }
 };
 

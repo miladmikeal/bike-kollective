@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import * as firebase from 'firebase';
 import PropTypes from 'prop-types';
-import { Alert, Modal } from 'react-native';
+import { Modal } from 'react-native';
 import { Container, Content, Grid, Row, Text, Spinner } from 'native-base';
 import BrowseBikesFab from '../../components/BrowseBikesFab';
 import BrowseBikesForm from '../../components/BrowseBikesForm';
@@ -15,7 +15,6 @@ import { mileToKm } from '../../utility/distanceConversion';
 const DEFAULT_SEARCH_RADIUS_MILES = 25;
 
 const BrowseBikes = ({ navigation }) => {
-  const currentUserUID = firebase.auth().currentUser.uid;
   // eslint-disable-next-line no-unused-vars
   const [firstName, setFirstName] = useState('');
   const [data, setData] = useState();
@@ -32,20 +31,6 @@ const BrowseBikes = ({ navigation }) => {
     frame: 'Size', // Native Base Pickers do not show placeholders, so this is a workaround
     keywords: '',
     distanceMi: DEFAULT_SEARCH_RADIUS_MILES
-  });
-
-  useEffect(() => {
-    async function getUserInfo() {
-      const doc = await firebase.firestore().collection('users').doc(currentUserUID).get();
-
-      if (!doc.exists) {
-        Alert.alert('No user data found!');
-      } else {
-        const dataObj = doc.data();
-        setFirstName(dataObj.firstName);
-      }
-    }
-    getUserInfo();
   });
 
   if (!locationGranted) {
