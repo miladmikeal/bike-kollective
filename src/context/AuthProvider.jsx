@@ -1,5 +1,5 @@
 import React, { createContext, useState } from 'react';
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import { signIn, signOut } from '../api/auth';
 
@@ -18,9 +18,17 @@ export const AuthProvider = ({ children }) => {
       currentUser,
       setCurrentUser,
       login: async (email, password) => {
-        const user = await signIn(email, password);
-        setCurrentUser(user);
-        AsyncStorage.setItem('user', JSON.stringify(user));
+        let user;
+        try {
+          user = await signIn(email, password);
+        } catch (error) {
+          Alert.alert(error.message);
+          setCurrentUser(null);
+        }
+        if (user.email) {
+          setCurrentUser(user);
+          AsyncStorage.setItem('user', JSON.stringify(user));
+        }
       },
       logout: async () => {
         await signOut();
