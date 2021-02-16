@@ -11,7 +11,7 @@ const BikeDetails = ({ navigation, route }) => {
       <Content>
         <Text>Hello Bike Details Screen!</Text>
         <Text>Bike ID is: {bike.getBikeId()}</Text>
-        <Button onPress={() => navigation.push('CheckoutConfirmation')}>
+        <Button onPress={() => navigation.push('CheckoutConfirmation', { bike })}>
           <Text>To Bike Checkout Confirmation</Text>
         </Button>
       </Content>
