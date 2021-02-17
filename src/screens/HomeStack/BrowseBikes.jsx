@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as firebase from 'firebase';
 import PropTypes from 'prop-types';
 import { Modal } from 'react-native';
 import { Container, Content, Grid, Row, Text, Spinner } from 'native-base';
+import { useFocusEffect } from '@react-navigation/native';
+import haversine from 'haversine';
 import BrowseBikesFab from '../../components/BrowseBikesFab';
 import BrowseBikesForm from '../../components/BrowseBikesForm';
 import BrowseBikesMap from '../../components/BrowseBikesMap';
@@ -13,6 +15,8 @@ import filterBikes from '../../utility/filterBikes';
 import { mileToKm } from '../../utility/distanceConversion';
 
 const DEFAULT_SEARCH_RADIUS_MILES = 25;
+const RERESH_INTERVAL_MS = 5000; // Time interval to check new position
+const RERENDER_DISTANCE_METERS = 10; // Travel from state distance that will lead to a rerender
 
 const BrowseBikes = ({ navigation }) => {
   // eslint-disable-next-line no-unused-vars
@@ -31,6 +35,23 @@ const BrowseBikes = ({ navigation }) => {
     frame: 'Size', // Native Base Pickers do not show placeholders, so this is a workaround
     keywords: '',
     distanceMi: DEFAULT_SEARCH_RADIUS_MILES
+  });
+
+  useFocusEffect(() => {
+    const interval = setInterval(() => {
+      if (locationGranted) {
+        LocationServices.getCurrentLocation().then((currentLocation) => {
+          const distDelta = haversine(location, currentLocation.coords, {unit: 'meter'});
+          if (distDelta > RERENDER_DISTANCE_METERS) {
+            setLocation({
+              latitude: currentLocation.coords.latitude,
+              longitude: currentLocation.coords.longitude,
+            });
+          }
+        });
+      }
+    }, RERESH_INTERVAL_MS);
+    return () => clearInterval(interval);
   });
 
   if (!locationGranted) {
@@ -91,7 +112,7 @@ const BrowseBikes = ({ navigation }) => {
         </Row>
         <Row>
           <Content>
-            <BrowseBikesList bikes={filteredBikes} searchRadiusMi={searchRadiusMi} navigation={navigation} selectedBikeID={selectedBikeID} setSelectedBikeID={setSelectedBikeID}/>
+            <BrowseBikesList bikes={filteredBikes} location={location} searchRadiusMi={searchRadiusMi} navigation={navigation} selectedBikeID={selectedBikeID} setSelectedBikeID={setSelectedBikeID}/>
           </Content>
         </Row>
       </Grid>

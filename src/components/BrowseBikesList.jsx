@@ -4,7 +4,7 @@ import { List, ListItem, Text } from 'native-base';
 import Bike from '../models/Bike';
 import BrowseBikesListItem from './BrowseBikesListItem';
 
-const BrowseBikesList = ({ bikes, searchRadiusMi, navigation, selectedBikeID, setSelectedBikeID }) => {
+const BrowseBikesList = ({ bikes, searchRadiusMi, navigation, selectedBikeID, setSelectedBikeID, location }) => {
   // Verify that the query returned at least one open bike
   let availableBikes = 0;
   for (let i = 0; i < bikes.length; i += 1) {
@@ -36,6 +36,7 @@ const BrowseBikesList = ({ bikes, searchRadiusMi, navigation, selectedBikeID, se
             navigation={navigation}
             selectedBikeID={selectedBikeID}
             setSelectedBikeID={setSelectedBikeID}
+            location={location}
           />;
         }
         return null;
@@ -51,7 +52,11 @@ BrowseBikesList.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
   selectedBikeID: PropTypes.string.isRequired,
-  setSelectedBikeID: PropTypes.func.isRequired
+  setSelectedBikeID: PropTypes.func.isRequired,
+  location: PropTypes.shape({
+    latitude: PropTypes.number,
+    longitude: PropTypes.number,
+  }).isRequired,
 };
 
 export default BrowseBikesList;
