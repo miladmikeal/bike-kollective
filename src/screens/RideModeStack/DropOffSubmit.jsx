@@ -6,19 +6,22 @@ import PropTypes from 'prop-types';
 import Stars from 'react-native-stars'; // Link to docs: https://www.npmjs.com/package/react-native-stars
 import { addBikeRating } from '../../api/bikeRatings';
 import { addUserComment } from '../../api/userComments';
+import { checkInBike } from '../../api/checkBike';
 
-const DropOffSubmit = ({ navigation }) => {
-  const [starRating, setStarRating] = useState(3.5);
+const DropOffSubmit = ({ navigation, route }) => {
+  const bike = route.params.bike;
+  const [starRating, setStarRating] = useState(2.5);
   const [feedback, setFeedback] = useState('');
 
-  // This function will submit the rating and user's feedback to db
-  // then navigate the user back to the HomeStack
-  const endRide = async () => {
-    // id is a placeholder value until the bike id is passed from HomeStack
-    const id = 'LLjhXrjG2xagRG6U63A1';
-    await addBikeRating(starRating, id);
-    await addUserComment(feedback, id);
-    navigation.navigate('Home');
+  // This function will submit the rating and user's feedback to db check the bike
+  // back into the system and then navigate the user back to the HomeStack
+  const endRide = async (bikeId) => {
+    await addBikeRating(starRating, bikeId);
+    await addUserComment(feedback, bikeId);
+    checkInBike(bikeId);
+    navigation.navigate('Home', {
+      screen: 'BrowseBikes',
+    });
   };
 
   return (
@@ -51,7 +54,7 @@ const DropOffSubmit = ({ navigation }) => {
           />
         </View>
 
-        <Button style={styles.buttonStyle} onPress={() => endRide()}>
+        <Button style={styles.buttonStyle} onPress={() => endRide(bike.id)}>
           <Text>Drop Bike Here</Text>
         </Button>
         <Button style={styles.buttonStyle} onPress={() => navigation.goBack()}>
@@ -94,6 +97,7 @@ DropOffSubmit.propTypes = {
     navigate: PropTypes.string.isRequired,
     goBack: PropTypes.string.isRequired,
   }).isRequired,
+  route: PropTypes.isRequired,
 };
 
 export default DropOffSubmit;

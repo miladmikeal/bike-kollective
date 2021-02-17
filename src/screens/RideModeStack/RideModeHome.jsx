@@ -6,7 +6,7 @@ const RideModeHome = ({ navigation, route }) => {
   const bike = route.params.bike;
   return (
     <Container>
-      <Button onPress={() => navigation.push('DropOffSubmit')}>
+      <Button onPress={() => navigation.push('DropOffSubmit', { bike })}>
         <Text>To bike drop off submit</Text>
       </Button>
     </Container>
