@@ -3,9 +3,13 @@ import PropTypes from 'prop-types';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { Button, Content, Input, Picker, Text, View } from 'native-base';
+import { useFocusEffect } from '@react-navigation/native';
+import haversine from 'haversine';
 import globalStyles from '../styles/styles';
 import LocationServices from '../utility/location';
 
+const RERESH_INTERVAL_MS = 5000; // Time interval to check new position
+const RERENDER_DISTANCE_METERS = 10; // Travel from state distance that will lead to a rerender
 const initialValues = {
   name: '',
   style: '',
@@ -32,12 +36,29 @@ const AddBikeFormSchema = Yup.object().shape({
 const AddBikeForm = ({ navigation }) => {
   const [locationGranted, setLocationGranted] = useState(false);
   const [location, setLocation] = useState();
-
   const handleSubmit = (values) => navigation.push('AddBikeWaiver', { values: { values }, location: { location } });
 
   if (!locationGranted) {
     LocationServices.getLocationPermission().then((permission) => setLocationGranted(permission));
   }
+
+  useFocusEffect(() => {
+    const interval = setInterval(() => {
+      if (locationGranted) {
+        LocationServices.getCurrentLocation().then((currentLocation) => {
+          const distDelta = haversine(location, currentLocation.coords, {unit: 'meter'});
+          if (distDelta > RERENDER_DISTANCE_METERS) {
+            setLocation({
+              latitude: currentLocation.coords.latitude,
+              longitude: currentLocation.coords.longitude,
+            });
+          }
+        });
+      }
+    }, RERESH_INTERVAL_MS);
+    return () => clearInterval(interval);
+  });  
+
 
   // TODO implement logic to update location every couple seconds
   if (!location) {

@@ -12,13 +12,13 @@ import {
   Text,
 } from 'native-base';
 import { TouchableOpacity } from 'react-native';
+import haversine from 'haversine';
 import Bike from '../models/Bike';
-import { kmToMile } from '../utility/distanceConversion';
 import globalStyles from '../styles/styles';
 
 // Pic -> Frame -> Style -> Distance (miles) -> rating -> next icon
 // Incorporate Listitem Selected later
-const BrowseBikesListItem = ({ bike, navigation, selectedBikeID, setSelectedBikeID }) => (
+const BrowseBikesListItem = ({ bike, navigation, selectedBikeID, setSelectedBikeID, location }) => (
   <ListItem
     keyExtractor={{ item: bike, index: bike.id }}
     selected={bike.id === selectedBikeID}
@@ -45,7 +45,9 @@ const BrowseBikesListItem = ({ bike, navigation, selectedBikeID, setSelectedBike
         <Col>
           <TouchableOpacity onPress={() => {setSelectedBikeID(bike.id); }}>
             <Text>Distance</Text>
-            <Text note>{kmToMile(bike.distance).toFixed(1)} mi</Text>
+            <Text note>
+              {haversine({latitude: bike.latitude, longitude: bike.longitude}, location, {unit: 'mile'}).toFixed(1)} mi
+            </Text>
           </TouchableOpacity>
         </Col>
       </Row>
@@ -68,7 +70,11 @@ BrowseBikesListItem.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
   selectedBikeID: PropTypes.string.isRequired,
-  setSelectedBikeID: PropTypes.func.isRequired
+  setSelectedBikeID: PropTypes.func.isRequired,
+  location: PropTypes.shape({
+    latitude: PropTypes.number,
+    longitude: PropTypes.number,
+  }).isRequired,
 };
 
 export default BrowseBikesListItem;
