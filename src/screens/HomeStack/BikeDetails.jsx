@@ -3,6 +3,7 @@ import { Image } from 'react-native';
 import PropTypes from 'prop-types';
 import { Button, Container, Content, Icon, Spinner, Text } from 'native-base';
 import Stars from 'react-native-stars';
+import CommentList from '../../components/CommentList';
 import Bike from '../../models/Bike';
 import globalStyles from '../../styles/styles';
 import { getBikeRatingCountAndAvg } from '../../api/bikeRatings';
@@ -38,7 +39,7 @@ const BikeDetails = ({ navigation, route }) => {
   if (err) {
     return (
       <Container>
-        <Text>There was an unexpected error!</Text>
+        <Text>There was an unexpected error</Text>
         <Text>{err}</Text>
       </Container>
     );
@@ -51,8 +52,6 @@ const BikeDetails = ({ navigation, route }) => {
       </Container>
     );
   }
-
-  console.log(comments);
 
   return (
     <Container>
@@ -68,7 +67,7 @@ const BikeDetails = ({ navigation, route }) => {
           <Text style={styles.boldText}>Bike Name</Text>
           <Text style={styles.dataView} note>{bike.name}</Text>
           <Text style={styles.boldText}>Frame Size</Text>
-          <Text style={styles.dataView} note>{bike.name}</Text>
+          <Text style={styles.dataView} note>{bike.frame}</Text>
           <Text style={styles.boldText}>Distance</Text>
           <Text style={styles.dataView} note>{route.params.distance} miles</Text>
           <Text style={styles.boldText}>Tags</Text>
@@ -89,9 +88,11 @@ const BikeDetails = ({ navigation, route }) => {
               'No ratings'
           }</Text>
           <Text style={styles.boldText}>Comments ({comments.length})</Text>
-          <Text style={styles.dataView} note>{comments[0]}</Text>
-          <Text style={styles.dataView} note>{comments[1]}</Text>
-          <Text style={styles.dataView} note>{comments[2]}</Text>
+          {comments.length > 0 ?
+            <CommentList comments={comments}/>
+            :
+            <Text style={styles.dataView} note>No comments</Text>
+          }
         </Content>
       </Content>
     </Container>
@@ -107,7 +108,7 @@ BikeDetails.propTypes = {
       bike: PropTypes.shape({
         bike: PropTypes.instanceOf(Bike).isRequired,
       }).isRequired,
-      distance: PropTypes.number.isRequired,
+      distance: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
 };
