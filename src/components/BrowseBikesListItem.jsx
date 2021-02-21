@@ -56,7 +56,10 @@ const BrowseBikesListItem = ({ bike, navigation, selectedBikeID, setSelectedBike
       <Button
         transparent
         iconRight
-        onPress={() => navigation.push('BikeDetails', { bike: { bike } })}
+        onPress={() => navigation.push('BikeDetails', {
+          bike: { bike },
+          distance: haversine({latitude: bike.latitude, longitude: bike.longitude}, location, {unit: 'mile'}).toFixed(1) 
+        })}
       >
         <Icon type="MaterialIcons" name="navigate-next" style={globalStyles.listNextIcon} />
       </Button>
