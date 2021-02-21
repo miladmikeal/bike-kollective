@@ -6,7 +6,6 @@ import Bike from '../models/Bike';
 import globalStyles from '../styles/styles';
 
 // This defines the initial zoom level of the map
-// Roughly 40 miles wide the in the middle of the US
 const LATITUDE_DELTA = 0.125;
 
 // This ratio is important for the map to not look distorted
