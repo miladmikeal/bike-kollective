@@ -36,7 +36,7 @@ const AddBikeFormSchema = Yup.object().shape({
 const AddBikeForm = ({ navigation }) => {
   const [locationGranted, setLocationGranted] = useState(false);
   const [location, setLocation] = useState();
-  const handleSubmit = (values) => navigation.push('AddBikeWaiver', { values: { values }, location: { location } });
+  const handleSubmit = (values) => navigation.push('CameraInput', { values: { values }, location: { location } });
 
   if (!locationGranted) {
     LocationServices.getLocationPermission().then((permission) => setLocationGranted(permission));
@@ -73,7 +73,7 @@ const AddBikeForm = ({ navigation }) => {
   return (
     <Formik
       initialValues={initialValues}
-      validationSchema={AddBikeFormSchema}
+      // validationSchema={AddBikeFormSchema}
       onSubmit={handleSubmit}
     >
       {(formikProps) => (

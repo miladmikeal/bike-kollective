@@ -13,7 +13,6 @@
         "prettier/react"
     ],
     "parser": "babel-eslint",
-    
     "parserOptions": {
         "ecmaFeatures": {
             "jsx": true,
@@ -26,9 +25,15 @@
         "react",
         "react-native"
     ],
-    
     "rules": {
-        "no-use-before-define": ["error", {"functions": true, "classes": true, "variables": false}],
+        "no-use-before-define": [
+            "error",
+            {
+                "functions": true,
+                "classes": true,
+                "variables": false
+            }
+        ],
         // allow .js files to contain JSX code
         "react/jsx-filename-extension": [
             1,
@@ -52,7 +57,9 @@
         "no-multi-spaces": [
             "error"
         ],
-        "prefer-destructuring": "off"
+        "prefer-destructuring": "off",
+        "no-underscore-dangle": "off",
+        "react/no-unescaped-entities": "off"
     },
     "settings": {
         "import/resolver": {
