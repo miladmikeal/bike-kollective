@@ -6,7 +6,7 @@ export const addUserComment = async (comment, id) => {
   const db = firebase.firestore();
 
   // if user didn't submit feedback, dont add to db
-  if (comment === '') {
+  if (!comment || comment === '') {
     return;
   }
 
