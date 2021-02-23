@@ -5,6 +5,11 @@ import 'firebase/firestore';
 export const addUserComment = async (comment, id) => {
   const db = firebase.firestore();
 
+  // if user didn't submit feedback, dont add to db
+  if (comment === '') {
+    return;
+  }
+
   await db.collection('comments').add({
     bike_id: id,
     comment,

@@ -7,8 +7,20 @@ const RideModeStackNav = createStackNavigator();
 
 const RideModeStack = () => (
   <RideModeStackNav.Navigator initialRouteName="RideModeHome">
-    <RideModeStackNav.Screen name="RideModeHome" component={RideModeHome} />
-    <RideModeStackNav.Screen name="DropOffSubmit" component={DropOffSubmit} />
+    <RideModeStackNav.Screen
+      name="RideModeHome"
+      component={RideModeHome}
+      options={{
+        title: 'Ride Mode',
+      }}
+    />
+    <RideModeStackNav.Screen
+      name="DropOffSubmit"
+      component={DropOffSubmit}
+      options={{
+        title: 'Return Bike',
+      }}
+    />
   </RideModeStackNav.Navigator>
 );
 

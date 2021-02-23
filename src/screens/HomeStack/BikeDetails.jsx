@@ -56,7 +56,7 @@ const BikeDetails = ({ navigation, route }) => {
   return (
     <Container>
       <Content>
-        <Image style={styles.img} source={{uri: bike.picUrl}}/>
+        <Image style={styles.img} source={{ uri: bike.picUrl }} />
         <Button
           style={globalStyles.addBikeButton}
           onPress={() => navigation.push('CheckoutConfirmation', { bike })}
@@ -65,34 +65,47 @@ const BikeDetails = ({ navigation, route }) => {
         </Button>
         <Content style={styles.dataView}>
           <Text style={styles.boldText}>Bike Name</Text>
-          <Text style={styles.dataView} note>{bike.name}</Text>
+          <Text style={styles.dataView} note>
+            {bike.name}
+          </Text>
           <Text style={styles.boldText}>Frame Size</Text>
-          <Text style={styles.dataView} note>{bike.frame}</Text>
+          <Text style={styles.dataView} note>
+            {bike.frame}
+          </Text>
           <Text style={styles.boldText}>Distance</Text>
-          <Text style={styles.dataView} note>{route.params.distance} miles</Text>
+          <Text style={styles.dataView} note>
+            {route.params.distance} miles
+          </Text>
           <Text style={styles.boldText}>Tags</Text>
-          <Text style={styles.dataView} note>{keywordText}</Text>
+          <Text style={styles.dataView} note>
+            {keywordText}
+          </Text>
           <Text style={styles.boldText}>Rating ({rating.sample})</Text>
-          <Text style={styles.dataView} note>{
-            rating.sample > 0 ?
+          <Text style={styles.dataView} note>
+            {rating.sample > 0 ? (
               <Stars
                 display={rating.score}
                 spacing={4}
                 starSize={20}
                 count={5}
                 fullStar={<Icon name="star" style={[styles.starStyle]} />}
-                emptyStar={<Icon name="star-outline" style={[styles.starStyle, styles.emptyStarStyle]} />}
+                emptyStar={
+                  <Icon name="star-outline" style={[styles.starStyle, styles.emptyStarStyle]} />
+                }
                 halfStar={<Icon name="star-half" style={[styles.starStyle]} />}
               />
-              :
+            ) : (
               'No ratings'
-          }</Text>
+            )}
+          </Text>
           <Text style={styles.boldText}>Comments ({comments.length})</Text>
-          {comments.length > 0 ?
-            <CommentList comments={comments}/>
-            :
-            <Text style={styles.dataView} note>No comments</Text>
-          }
+          {comments.length > 0 ? (
+            <CommentList comments={comments} />
+          ) : (
+            <Text style={styles.dataView} note>
+              No comments
+            </Text>
+          )}
         </Content>
       </Content>
     </Container>
@@ -117,16 +130,16 @@ const styles = {
   img: {
     width: '100%',
     height: undefined,
-    aspectRatio: 1.5, // This assumes the image is going to be landscape to look OK 
+    aspectRatio: 1.5, // This assumes the image is going to be landscape to look OK
     alignSelf: 'center',
-    resizeMode: 'contain'
+    resizeMode: 'contain',
   },
   boldText: {
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   dataView: {
     width: '90%',
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   starStyle: {
     color: 'yellow',

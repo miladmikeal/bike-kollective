@@ -13,15 +13,32 @@ const HomeStack = () => {
   const { logout } = useContext(AuthContext);
   return (
     <HomeStackNav.Navigator initialRouteName="BrowseBikes">
-      <HomeStackNav.Screen name="BrowseBikes" component={BrowseBikes} options={{
-        headerRight: () => (
-          <Button transparent buttonPadding={20} icon onPress={() => logout()}>
-            <AntDesign name="logout" size={24} color="black" />
-          </Button>
-        )
-      }} />
-      <HomeStackNav.Screen name="BikeDetails" component={BikeDetails} />
-      <HomeStackNav.Screen name="CheckoutConfirmation" component={CheckoutConfirmation} />
+      <HomeStackNav.Screen
+        name="BrowseBikes"
+        component={BrowseBikes}
+        options={{
+          title: 'Browse Bikes',
+          headerRight: () => (
+            <Button transparent buttonPadding={20} icon onPress={() => logout()}>
+              <AntDesign name="logout" size={24} color="black" />
+            </Button>
+          ),
+        }}
+      />
+      <HomeStackNav.Screen
+        name="BikeDetails"
+        component={BikeDetails}
+        options={{
+          title: 'Bike Details',
+        }}
+      />
+      <HomeStackNav.Screen
+        name="CheckoutConfirmation"
+        component={CheckoutConfirmation}
+        options={{
+          title: 'Checkout Confirmation',
+        }}
+      />
     </HomeStackNav.Navigator>
   );
 };

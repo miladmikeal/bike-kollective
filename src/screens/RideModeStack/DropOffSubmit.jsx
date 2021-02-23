@@ -30,12 +30,13 @@ const DropOffSubmit = ({ navigation, route }) => {
         Keyboard.dismiss();
       }}
     >
-      <View>
+      <View style={styles.container}>
+        <Text style={{ paddingBottom: 10 }}>Rate your ride</Text>
         <Stars
           default={2.5}
           count={5}
           half
-          starSize={50}
+          starSize={60}
           update={(val) => {
             setStarRating(val);
           }}
@@ -54,11 +55,8 @@ const DropOffSubmit = ({ navigation, route }) => {
           />
         </View>
 
-        <Button style={styles.buttonStyle} onPress={() => endRide(bike.id)}>
-          <Text>Drop Bike Here</Text>
-        </Button>
-        <Button style={styles.buttonStyle} onPress={() => navigation.goBack()}>
-          <Text>Keep Riding!</Text>
+        <Button style={styles.button} onPress={() => endRide(bike.id)}>
+          <Text>Confirm Drop Off</Text>
         </Button>
       </View>
     </TouchableWithoutFeedback>
@@ -66,6 +64,12 @@ const DropOffSubmit = ({ navigation, route }) => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+    marginBottom: 100,
+  },
   myStarStyle: {
     color: 'yellow',
     backgroundColor: 'transparent',
@@ -81,13 +85,15 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     backgroundColor: '#F0EEEE',
     height: 50,
+    width: '50%',
     borderRadius: 5,
     marginHorizontal: 15,
     // allow TextInput and icon to show up on same line
     flexDirection: 'row',
   },
-  buttonStyle: {
-    margin: 10,
+  button: {
+    alignSelf: 'center',
+    width: '50%',
   },
 });
 
