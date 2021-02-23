@@ -28,7 +28,7 @@ const CheckoutConfirmation = ({ navigation, route }) => {
     const interval = setInterval(() => {
       if (locationGranted) {
         LocationServices.getCurrentLocation().then((currentLocation) => {
-          const distDelta = haversine(location, currentLocation.coords, {unit: 'meter'});
+          const distDelta = haversine(location, currentLocation.coords, { unit: 'meter' });
           if (distDelta > RERENDER_DISTANCE_METERS) {
             setLocation({
               latitude: currentLocation.coords.latitude,
@@ -64,7 +64,7 @@ const CheckoutConfirmation = ({ navigation, route }) => {
     <Container>
       <Grid>
         <Row>
-          <BikePickUpMap bike={bike} location={location}/>
+          <BikePickUpMap bike={bike} location={location} />
         </Row>
         <Row>
           <Grid>
@@ -85,12 +85,15 @@ const CheckoutConfirmation = ({ navigation, route }) => {
                     <Text>Timeline: The bike must be returned within 24 hours</Text>
                   </Unorderedlist>
                   <Unorderedlist>
-                    <Text>Return: Lock the bike and follow app instructions when you are ready to return it</Text>
+                    <Text>
+                      Return: Lock the bike and follow app instructions when you are ready to return
+                      it
+                    </Text>
                   </Unorderedlist>
                 </View>
               </ScrollView>
             </Row>
-            <Row style={{height: '20%'}}>
+            <Row style={{ height: '20%' }}>
               <Button
                 style={globalStyles.addBikeButton}
                 onPress={() => {
@@ -113,17 +116,17 @@ const CheckoutConfirmation = ({ navigation, route }) => {
 
 const styles = {
   boldText: {
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   dataView: {
     width: '90%',
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
 };
 
 CheckoutConfirmation.propTypes = {
   navigation: PropTypes.shape({
-    navigate: PropTypes.func.isRequired
+    navigate: PropTypes.func.isRequired,
   }).isRequired,
   route: PropTypes.shape({
     params: PropTypes.shape({
