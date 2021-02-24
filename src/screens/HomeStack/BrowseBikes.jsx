@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import * as firebase from 'firebase';
 import PropTypes from 'prop-types';
 import { Modal } from 'react-native';
 import { Container, Content, Grid, Row, Text, Spinner } from 'native-base';
 import { useFocusEffect } from '@react-navigation/native';
 import haversine from 'haversine';
+import { AuthContext } from '../../context/AuthProvider';
 import BrowseBikesFab from '../../components/BrowseBikesFab';
 import BrowseBikesForm from '../../components/BrowseBikesForm';
 import BrowseBikesMap from '../../components/BrowseBikesMap';
 import BrowseBikesList from '../../components/BrowseBikesList';
-import { getBikesWithinRadius } from '../../api/bikes';
+import { getBikesWithinRadius, getUserBikes } from '../../api/bikes';
 import LocationServices from '../../utility/location';
 import filterBikes from '../../utility/filterBikes';
 import { mileToKm } from '../../utility/distanceConversion';
@@ -19,11 +20,8 @@ const RERESH_INTERVAL_MS = 5000; // Time interval to check new position
 const RERENDER_DISTANCE_METERS = 10; // Travel from state distance that will lead to a rerender
 
 const BrowseBikes = ({ navigation }) => {
-  // eslint-disable-next-line no-unused-vars
-  const [firstName, setFirstName] = useState('');
   const [data, setData] = useState();
   const [err, setErr] = useState();
-  // eslint-disable-next-line no-unused-vars
   const [searchRadiusMi, setSearchRadiusMi] = useState(DEFAULT_SEARCH_RADIUS_MILES);
   const [locationGranted, setLocationGranted] = useState(false);
   const [location, setLocation] = useState();
@@ -53,6 +51,23 @@ const BrowseBikes = ({ navigation }) => {
     }, RERESH_INTERVAL_MS);
     return () => clearInterval(interval);
   });
+
+  const { currentUser } = useContext(AuthContext);
+  getUserBikes(currentUser.email)
+    .then((userBikes) => {
+      if (userBikes.length > 1) {
+        setErr(`Error: user, ${currentUser.email}, has more than 1 bike checked out.`);
+      } else if (userBikes.length > 0) {
+        const bike = userBikes[0];
+        navigation.navigate('Ride Mode', {
+          screen: 'RideModeHome',
+          params: { bike }
+        });
+      }
+    })
+    .catch((e) => {
+      setErr(e);
+    });
 
   if (!locationGranted) {
     LocationServices.getLocationPermission().then((permission) => setLocationGranted(permission));
@@ -131,6 +146,7 @@ BrowseBikes.propTypes = {
   navigation: PropTypes.shape({
     push: PropTypes.func.isRequired,
     replace: PropTypes.func.isRequired,
+    navigate: PropTypes.func.isRequired,
   }).isRequired,
 };
 
