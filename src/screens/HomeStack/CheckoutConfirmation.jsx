@@ -98,7 +98,7 @@ const CheckoutConfirmation = ({ navigation, route }) => {
                 style={globalStyles.addBikeButton}
                 onPress={() => {
                   checkOutBike(userEmail, bikeId);
-                  navigation.navigate('Ride Mode (temporary tab)', {
+                  navigation.navigate('Ride Mode', {
                     screen: 'RideModeHome',
                     params: { bike },
                   });
