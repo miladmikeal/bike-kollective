@@ -6,6 +6,7 @@ import Unorderedlist from 'react-native-unordered-list';
 import { useFocusEffect } from '@react-navigation/native';
 import haversine from 'haversine';
 import BikePickUpMap from '../../components/BikePickUpMap';
+import LocationDenialWarning from '../../components/LocationDenialWarning';
 import { AuthContext } from '../../context/AuthProvider';
 import LocationServices from '../../utility/location';
 import { checkOutBike } from '../../api/checkBike';
@@ -14,10 +15,12 @@ import globalStyles from '../../styles/styles';
 
 const RERENDER_DISTANCE_METERS = 1;
 const RERESH_INTERVAL_MS = 1000;
+const USER_LOCATION_DENIAL = 'USER_LOCATION_DENIAL';
 
 const CheckoutConfirmation = ({ navigation, route }) => {
-  const [locationGranted, setLocationGranted] = useState(false);
+  const [locationGranted, setLocationGranted] = useState();
   const [location, setLocation] = useState();
+  const [err, setErr] = useState();
 
   const { currentUser } = useContext(AuthContext);
   const bike = route.params.bike;
@@ -41,18 +44,37 @@ const CheckoutConfirmation = ({ navigation, route }) => {
     return () => clearInterval(interval);
   });
 
-  if (!locationGranted) {
-    LocationServices.getLocationPermission().then((permission) => setLocationGranted(permission));
+  if (locationGranted === undefined) {
+    LocationServices.getLocationPermission()
+      .then((permission) => {
+        if (permission === false) {
+          setErr(USER_LOCATION_DENIAL);
+          setLocationGranted(permission);
+        } else {
+          setLocationGranted(permission);
+        }
+      })
+      .catch((e) => setErr(e));
   }
 
-  if (!location) {
+  if (!location && locationGranted) {
     LocationServices.getCurrentLocation().then((currentLocation) => {
       setLocation({
         latitude: currentLocation.coords.latitude,
         longitude: currentLocation.coords.longitude,
       });
     });
+  }
 
+  if (err && err === USER_LOCATION_DENIAL) {
+    return (
+      <Container>
+        <LocationDenialWarning setErr={ setErr } setLocationGranted={ setLocationGranted } />
+      </Container>
+    );
+  }
+
+  if (!location) {
     return (
       <Container>
         <Spinner />

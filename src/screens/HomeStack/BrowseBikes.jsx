@@ -6,6 +6,7 @@ import { Container, Content, Grid, Row, Text, Spinner } from 'native-base';
 import { useFocusEffect } from '@react-navigation/native';
 import haversine from 'haversine';
 import { AuthContext } from '../../context/AuthProvider';
+import LocationDenialWarning from '../../components/LocationDenialWarning';
 import BrowseBikesFab from '../../components/BrowseBikesFab';
 import BrowseBikesForm from '../../components/BrowseBikesForm';
 import BrowseBikesMap from '../../components/BrowseBikesMap';
@@ -18,12 +19,13 @@ import { mileToKm } from '../../utility/distanceConversion';
 const DEFAULT_SEARCH_RADIUS_MILES = 25;
 const RERESH_INTERVAL_MS = 5000; // Time interval to check new position
 const RERENDER_DISTANCE_METERS = 10; // Travel from state distance that will lead to a rerender
+const USER_LOCATION_DENIAL = 'USER_LOCATION_DENIAL';
 
 const BrowseBikes = ({ navigation }) => {
   const [data, setData] = useState();
   const [err, setErr] = useState();
   const [searchRadiusMi, setSearchRadiusMi] = useState(DEFAULT_SEARCH_RADIUS_MILES);
-  const [locationGranted, setLocationGranted] = useState(false);
+  const [locationGranted, setLocationGranted] = useState();
   const [location, setLocation] = useState();
   const [selectedBikeID, setSelectedBikeID] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
@@ -65,15 +67,24 @@ const BrowseBikes = ({ navigation }) => {
         });
       }
     })
-    .catch((e) => {
-      setErr(e);
-    });
+    .catch((e) => setErr(e));
 
-  if (!locationGranted) {
-    LocationServices.getLocationPermission().then((permission) => setLocationGranted(permission));
+  // Asking for location and being denied repeatedly causes Expo to
+  // crash, so only ask once.
+  if (locationGranted === undefined) {
+    LocationServices.getLocationPermission()
+      .then((permission) => {
+        if (permission === false) {
+          setErr(USER_LOCATION_DENIAL);
+          setLocationGranted(permission);
+        } else {
+          setLocationGranted(permission);
+        }
+      })
+      .catch((e) => setErr(e));
   }
 
-  if (!location) {
+  if (!location && locationGranted) {
     LocationServices.getCurrentLocation().then((currentLocation) => {
       setLocation({
         latitude: currentLocation.coords.latitude,
@@ -89,11 +100,17 @@ const BrowseBikes = ({ navigation }) => {
         setData(bikes);
         setSearchRadiusMi(filterValues.distanceMi);
       })
-      .catch((e) => {
-        setErr(e);
-      });
+      .catch((e) => setErr(e));
   }
 
+  if (err && err === USER_LOCATION_DENIAL) {
+    return (
+      <Container>
+        <LocationDenialWarning setErr={ setErr } setLocationGranted={ setLocationGranted } />
+      </Container>
+    );
+  }
+  
   if (err) {
     return (
       <Container>

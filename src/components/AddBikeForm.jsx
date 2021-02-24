@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { Button, Content, Input, Picker, Text, View } from 'native-base';
+import { Button, Container, Content, Input, Picker, Text, View } from 'native-base';
 import { useFocusEffect } from '@react-navigation/native';
 import haversine from 'haversine';
+import LocationDenialWarning from './LocationDenialWarning';
 import globalStyles from '../styles/styles';
 import LocationServices from '../utility/location';
 
@@ -16,6 +17,7 @@ const initialValues = {
   frame: '',
   keywords: '',
 };
+const USER_LOCATION_DENIAL = 'USER_LOCATION_DENIAL';
 
 const AddBikeFormSchema = Yup.object().shape({
   name: Yup.string().required('Name is required').max(50),
@@ -34,13 +36,10 @@ const AddBikeFormSchema = Yup.object().shape({
 });
 
 const AddBikeForm = ({ navigation }) => {
-  const [locationGranted, setLocationGranted] = useState(false);
+  const [locationGranted, setLocationGranted] = useState();
   const [location, setLocation] = useState();
+  const [err, setErr] = useState();
   const handleSubmit = (values) => navigation.push('AddBikeWaiver', { values: { values }, location: { location } });
-
-  if (!locationGranted) {
-    LocationServices.getLocationPermission().then((permission) => setLocationGranted(permission));
-  }
 
   useFocusEffect(() => {
     const interval = setInterval(() => {
@@ -59,15 +58,34 @@ const AddBikeForm = ({ navigation }) => {
     return () => clearInterval(interval);
   });  
 
+  if (locationGranted === undefined) {
+    LocationServices.getLocationPermission()
+      .then((permission) => {
+        if (permission === false) {
+          setErr(USER_LOCATION_DENIAL);
+          setLocationGranted(permission);
+        } else {
+          setLocationGranted(permission);
+        }
+      })
+      .catch((e) => setErr(e));
+  }
 
-  // TODO implement logic to update location every couple seconds
-  if (!location) {
+  if (!location && locationGranted) {
     LocationServices.getCurrentLocation().then((currentLocation) => {
       setLocation({
         latitude: currentLocation.coords.latitude,
         longitude: currentLocation.coords.longitude,
       });
     });
+  }
+
+  if (err && err === USER_LOCATION_DENIAL) {
+    return (
+      <Container>
+        <LocationDenialWarning setErr={ setErr } setLocationGranted={ setLocationGranted } />
+      </Container>
+    );
   }
 
   return (
