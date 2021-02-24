@@ -110,3 +110,37 @@ saveBike.propTypes = {
   }).isRequired,
   geoFirestore: PropTypes.instanceOf(geofirestore.GeoFirestore).isRequired
 };
+
+// Gets an array of bikes checked out by the user. For our app, this
+// array should only have length of 0 or 1.
+export const getUserBikes = async (userEmail) => {
+  const db = firebase.firestore();
+  const bikes = [];
+
+  const snapshot = await db.collection('bikes').where('user_id', '==', userEmail).get();
+  snapshot.forEach((bikeDoc) => {
+    const bikeProperties = bikeDoc.data();
+    const bike = new Bike(
+      bikeDoc.id,
+      bikeProperties.checked_out,
+      bikeProperties.frame,
+      bikeProperties.g.geohash,
+      bikeProperties.g.geopoint.U,
+      bikeProperties.g.geopoint.k,
+      bikeProperties.keywords,
+      bikeProperties.name,
+      bikeProperties.pic_url,
+      bikeProperties.style,
+      bikeProperties.user_id,
+      bikeDoc.distance,
+      bikeProperties.lock
+    );
+    bikes.push(bike);
+  });
+
+  return bikes;
+};
+
+getUserBikes.propTypes = {
+  userEmail: PropTypes.string.isRequired,
+};
