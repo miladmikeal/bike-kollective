@@ -36,7 +36,8 @@ const LocationDenialWarning = ({ setErr, setLocationGranted }) => (
 );
 
 LocationDenialWarning.propTypes = {
-  setErr: PropTypes.func.isRequired
+  setErr: PropTypes.func.isRequired,
+  setLocationGranted: PropTypes.func.isRequired,
 };
 
 const styles = {
