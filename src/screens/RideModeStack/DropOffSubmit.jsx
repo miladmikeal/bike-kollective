@@ -7,17 +7,20 @@ import Stars from 'react-native-stars'; // Link to docs: https://www.npmjs.com/p
 import { addBikeRating } from '../../api/bikeRatings';
 import { addUserComment } from '../../api/userComments';
 import { checkInBike } from '../../api/checkBike';
+import { deleteBikeRental } from '../../api/bikeRental';
 
 const DropOffSubmit = ({ navigation, route }) => {
   const bike = route.params.bike;
   const [starRating, setStarRating] = useState(2.5);
   const [feedback, setFeedback] = useState('');
 
-  // This function will submit the rating and user's feedback to db check the bike
-  // back into the system and then navigate the user back to the HomeStack
+  // This function will submit the rating and user's feedback to db, check the bike
+  // back into the system, delete the rental document and then navigate the user
+  // back to the HomeStack
   const endRide = async (bikeId) => {
     await addBikeRating(starRating, bikeId);
     await addUserComment(feedback, bikeId);
+    deleteBikeRental(bikeId);
     checkInBike(bikeId);
     navigation.navigate('Home', {
       screen: 'BrowseBikes',
@@ -68,7 +71,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
-    marginBottom: 100,
   },
   myStarStyle: {
     color: 'yellow',

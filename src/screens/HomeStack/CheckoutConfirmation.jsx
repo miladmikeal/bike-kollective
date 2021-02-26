@@ -12,6 +12,7 @@ import LocationServices from '../../utility/location';
 import { checkOutBike } from '../../api/checkBike';
 import Bike from '../../models/Bike';
 import globalStyles from '../../styles/styles';
+import { createBikeRental } from '../../api/bikeRental';
 
 const RERENDER_DISTANCE_METERS = 1;
 const RERESH_INTERVAL_MS = 1000;
@@ -69,7 +70,7 @@ const CheckoutConfirmation = ({ navigation, route }) => {
   if (err && err === USER_LOCATION_DENIAL) {
     return (
       <Container>
-        <LocationDenialWarning setErr={ setErr } setLocationGranted={ setLocationGranted } />
+        <LocationDenialWarning setErr={setErr} setLocationGranted={setLocationGranted} />
       </Container>
     );
   }
@@ -120,6 +121,7 @@ const CheckoutConfirmation = ({ navigation, route }) => {
                 style={globalStyles.addBikeButton}
                 onPress={() => {
                   checkOutBike(userEmail, bikeId);
+                  createBikeRental(userEmail, bikeId);
                   navigation.navigate('Ride Mode', {
                     screen: 'RideModeHome',
                     params: { bike },
