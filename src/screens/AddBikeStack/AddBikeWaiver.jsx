@@ -5,8 +5,9 @@ import Unorderedlist from 'react-native-unordered-list';
 import globalStyles from '../../styles/styles';
 
 const AddBikeWaiver = ({ navigation, route }) => {
-  const bike = route.params.values.values;
-  const location = route.params.location.location;
+  const bike = route.params.values;
+  const location = route.params.location;
+  const imgUri = route.params.imgUri;
 
   return (
     <Container>
@@ -34,7 +35,7 @@ const AddBikeWaiver = ({ navigation, route }) => {
           </Unorderedlist>
         </View>
         <Button
-          onPress={() => navigation.push('AddBikeSubmit', { bike: { bike }, location: { location } })}
+          onPress={() => navigation.push('AddBikeSubmit', { bike, location, imgUri })}
           style={globalStyles.addBikeButton}
         >
           <Text>Agree</Text>
@@ -51,20 +52,17 @@ AddBikeWaiver.propTypes = {
   route: PropTypes.shape({
     params: PropTypes.shape({
       values: PropTypes.shape({
-        values: PropTypes.shape({
-          name: PropTypes.string.isRequired,
-          style: PropTypes.string.isRequired,
-          frame: PropTypes.string.isRequired,
-          keywords: PropTypes.string,
-          lock: PropTypes.string.isRequired
-        }).isRequired,
+        name: PropTypes.string.isRequired,
+        style: PropTypes.string.isRequired,
+        frame: PropTypes.string.isRequired,
+        keywords: PropTypes.string,
+        lock: PropTypes.string.isRequired
       }).isRequired,
       location: PropTypes.shape({
-        location: PropTypes.shape({
-          latitude: PropTypes.number.isRequired,
-          longitude: PropTypes.number.isRequired
-        })
-      }).isRequired
+        latitude: PropTypes.number.isRequired,
+        longitude: PropTypes.number.isRequired
+      }),
+      imgUri: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
 };

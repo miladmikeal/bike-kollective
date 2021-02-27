@@ -2,6 +2,7 @@ import * as firebase from "firebase";
 import "firebase/firestore";
 import PropTypes from 'prop-types';
 import { Alert } from "react-native";
+import uuid from 'uuid';
 import * as geofirestore from 'geofirestore';
 import getGeoStore from './geofirestore';
 import Bike from '../models/Bike';
@@ -143,4 +144,24 @@ export const getUserBikes = async (userEmail) => {
 
 getUserBikes.propTypes = {
   userEmail: PropTypes.string.isRequired,
+};
+
+// saveBikeImg will save the blob supplied at imgUri
+// to firebase storage, and return the download url
+// for the image.
+export const saveBikeImg = async (imgUri) => {
+  const resp = await fetch(imgUri);
+  const blob = await resp.blob();
+  const ref = firebase
+    .storage()
+    .ref()
+    .child(uuid.v4());
+  const snapshot = await ref.put(blob);
+  blob.close();
+  const imgUrl = await snapshot.ref.getDownloadURL();
+  return imgUrl;
+};
+
+saveBikeImg.propTypes = {
+  imgUri: PropTypes.string.isRequired,
 };

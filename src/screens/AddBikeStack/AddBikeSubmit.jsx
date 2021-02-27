@@ -6,25 +6,33 @@ import * as firebase from "firebase";
 import confirmation from '../../../assets/confirmation.png';
 import globalStyles from '../../styles/styles';
 import getGeoStore from '../../api/geofirestore';
-import { saveBike } from '../../api/bikes';
+import { saveBike, saveBikeImg } from '../../api/bikes';
 
 const AddBikeSubmit = ({ navigation, route }) => {
-  const bike = route.params.bike.bike;
-  const location = route.params.location.location;
+  const bike = route.params.bike;
+  const location = route.params.location;
+  const imgUri = route.params.imgUri;
 
   const handleConfirm = async () => {
     const geostore = getGeoStore();
     const bikeData = bike;
     bikeData.coordinates = new firebase.firestore.GeoPoint(location.latitude, location.longitude);
-    // TODO - remove this when camera is integrated
-    bikeData.pic_url = 'https://firebasestorage.googleapis.com/v0/b/bikekollective-434ce.appspot.com/o/bikeKollective.png?alt=media&token=c0420ea5-624b-43f7-b1d0-d4ddd24525c3';
+
+    let picUrl;
+    try {
+      picUrl = await saveBikeImg(imgUri);
+    } catch (err) {
+      Alert.alert(`There as an unexpected error saving the bike image to the data store: ${err}`);
+    }
+
+    bikeData.pic_url = picUrl;
     
     try {
-      await saveBike(geostore, bike)
+      await saveBike(geostore, bike);
     } catch (err) {
       Alert.alert(`There was an unexpected error saving the bike to the data store: ${err}`);
     }
-    Alert.alert('Your bike has been added to the bike-kollective. Thanks for your participation!');
+    Alert.alert('Your bike has been added to the bike-kollective!');
     navigation.navigate('AddBikeFormScreen');
   };
 
@@ -61,20 +69,17 @@ AddBikeSubmit.propTypes = {
   route: PropTypes.shape({
     params: PropTypes.shape({
       bike: PropTypes.shape({
-        bike: PropTypes.shape({
-          name: PropTypes.string.isRequired,
-          style: PropTypes.string.isRequired,
-          frame: PropTypes.string.isRequired,
-          keywords: PropTypes.string,
-          lock: PropTypes.string.isRequired
-        }).isRequired,
+        name: PropTypes.string.isRequired,
+        style: PropTypes.string.isRequired,
+        frame: PropTypes.string.isRequired,
+        keywords: PropTypes.string,
+        lock: PropTypes.string.isRequired
       }).isRequired,
       location: PropTypes.shape({
-        location: PropTypes.shape({
-          latitude: PropTypes.number.isRequired,
-          longitude: PropTypes.number.isRequired
-        })
-      }).isRequired
+        latitude: PropTypes.number.isRequired,
+        longitude: PropTypes.number.isRequired
+      }).isRequired,
+      imgUri: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
 };
