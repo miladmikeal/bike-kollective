@@ -21,11 +21,6 @@ const RideModeHome = ({ navigation, route }) => {
       .then((rental) => {
         const timeNow = new Date();
         const rideReturnTime = new Date(rental.returnTime);
-        console.log('in rental ID update');
-        console.log(rental);
-        console.log(rideReturnTime);
-        console.log(timeNow);
-        console.log((rideReturnTime - timeNow) / 1000);
         setTimeRemaining((rideReturnTime - timeNow) / 1000);
         setRentalId(route.params.rentalId);
       })
@@ -79,6 +74,7 @@ const RideModeHome = ({ navigation, route }) => {
         timeToShow={['H', 'M', 'S']}
         size={40}
       />
+      <Text style={{ margin: 20 }}>Unlock code: {bike.lock}</Text>
       <Button
         style={styles.button}
         onPress={() => {

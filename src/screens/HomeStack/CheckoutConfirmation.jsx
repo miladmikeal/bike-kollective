@@ -108,9 +108,6 @@ const CheckoutConfirmation = ({ navigation, route }) => {
                 <View style={styles.dataView}>
                   <Text style={styles.boldText}>Confirmation Details</Text>
                   <Unorderedlist>
-                    <Text>Unlock code: {bike.lock}</Text>
-                  </Unorderedlist>
-                  <Unorderedlist>
                     <Text>Safety: Always perform a full inspection before riding a bike</Text>
                   </Unorderedlist>
                   <Unorderedlist>
