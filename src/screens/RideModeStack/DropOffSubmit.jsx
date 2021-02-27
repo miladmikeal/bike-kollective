@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Text, Button } from 'native-base';
 import PropTypes from 'prop-types';
 import Stars from 'react-native-stars'; // Link to docs: https://www.npmjs.com/package/react-native-stars
+import Bike from '../../models/Bike';
 import { addBikeRating } from '../../api/bikeRatings';
 import { addUserComment } from '../../api/userComments';
 import { checkInBike } from '../../api/checkBike';
@@ -102,10 +103,13 @@ const styles = StyleSheet.create({
 DropOffSubmit.propTypes = {
   navigation: PropTypes.shape({
     push: PropTypes.func.isRequired,
-    navigate: PropTypes.string.isRequired,
-    goBack: PropTypes.string.isRequired,
+    navigate: PropTypes.func.isRequired,
   }).isRequired,
-  route: PropTypes.isRequired,
+  route: PropTypes.shape({
+    params: PropTypes.shape({
+      bike: PropTypes.instanceOf(Bike).isRequired
+    }).isRequired
+  }).isRequired,
 };
 
 export default DropOffSubmit;
