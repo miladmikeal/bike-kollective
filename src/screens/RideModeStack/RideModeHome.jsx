@@ -1,7 +1,6 @@
-/* eslint-disable no-alert */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet } from 'react-native';
+import { Alert, StyleSheet } from 'react-native';
 import { Button, Container, Text, Spinner } from 'native-base';
 import CountDown from 'react-native-countdown-component';
 import Bike from '../../models/Bike';
@@ -30,7 +29,7 @@ const RideModeHome = ({ navigation, route }) => {
   // If the user is beyond their rental period, they will be hit with an alert
   // to turn in the bike and the bike will be force returned.
   const returnBikeNow = async () => {
-    alert(
+    Alert.alert(
       'You have exceded your rental duration. Please lock up the bike. Thanks for riding with BikeKollective!'
     );
     await deleteBikeRental(bike.id);

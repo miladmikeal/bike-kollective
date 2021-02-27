@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Image } from 'react-native';
+import { Alert, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import PropTypes from 'prop-types';
 import { Button, Container, Content, Text, Title } from 'native-base';
@@ -14,7 +14,7 @@ const AddBikePic = ({ navigation, route }) => {
   const pickImage = async () => {
     const permissions = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permissions.status !== 'granted') {
-      alert('Camera roll permissions are required, please enable them in your device settings.');
+      Alert.alert('Camera roll permissions are required, please enable them in your device settings.');
     } else {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,

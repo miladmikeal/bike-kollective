@@ -6,7 +6,7 @@ import * as firebase from "firebase";
 import confirmation from '../../../assets/confirmation.png';
 import globalStyles from '../../styles/styles';
 import getGeoStore from '../../api/geofirestore';
-import { saveBike } from '../../api/bikes';
+import { saveBike, saveBikeImg } from '../../api/bikes';
 
 const AddBikeSubmit = ({ navigation, route }) => {
   const bike = route.params.bike;
@@ -17,8 +17,15 @@ const AddBikeSubmit = ({ navigation, route }) => {
     const geostore = getGeoStore();
     const bikeData = bike;
     bikeData.coordinates = new firebase.firestore.GeoPoint(location.latitude, location.longitude);
-    // TODO - remove this when camera is integrated
-    bikeData.pic_url = 'https://firebasestorage.googleapis.com/v0/b/bikekollective-434ce.appspot.com/o/bikeKollective.png?alt=media&token=c0420ea5-624b-43f7-b1d0-d4ddd24525c3';
+
+    let picUrl;
+    try {
+      picUrl = await saveBikeImg(imgUri);
+    } catch (err) {
+      Alert.alert(`There as an unexpected error saving the bike image to the data store: ${err}`);
+    }
+
+    bikeData.pic_url = picUrl;
     
     try {
       await saveBike(geostore, bike);
