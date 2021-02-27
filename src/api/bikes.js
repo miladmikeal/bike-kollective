@@ -160,7 +160,7 @@ export const saveBikeImg = async (imgUri) => {
   blob.close();
   const imgUrl = await snapshot.ref.getDownloadURL();
   return imgUrl;
-}
+};
 
 saveBikeImg.propTypes = {
   imgUri: PropTypes.string.isRequired,
