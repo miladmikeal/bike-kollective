@@ -15,6 +15,7 @@ import { getBikesWithinRadius, getUserBikes } from '../../api/bikes';
 import LocationServices from '../../utility/location';
 import filterBikes from '../../utility/filterBikes';
 import { mileToKm } from '../../utility/distanceConversion';
+import { getRentalDetails } from '../../api/bikeRental';
 
 const DEFAULT_SEARCH_RADIUS_MILES = 25;
 const RERESH_INTERVAL_MS = 5000; // Time interval to check new position
@@ -60,11 +61,16 @@ const BrowseBikes = ({ navigation }) => {
       if (userBikes.length > 1) {
         setErr(`Error: user, ${currentUser.email}, has more than 1 bike checked out.`);
       } else if (userBikes.length > 0) {
-        const bike = userBikes[0];
-        navigation.navigate('Ride Mode', {
-          screen: 'RideModeHome',
-          params: { bike }
-        });
+        getRentalDetails(userBikes[0].id)
+          .then((rental) => {
+            const bike = userBikes[0];
+            const rentalId = rental.id;
+            navigation.navigate('Ride Mode', {
+              screen: 'RideModeHome',
+              params: { bike, rentalId }
+            });
+          })
+          .catch((e) => setErr(e));
       }
     })
     .catch((e) => setErr(e));

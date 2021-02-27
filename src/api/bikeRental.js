@@ -9,6 +9,7 @@ const RENTAL_LENGTH_HOURS = 2;
 
 // This function will add a bike rental to the db, the userId cooresponds
 // to the user's email and the bike ID is the unique value created by Firestore
+// It will return the id of the rental document created.
 export const createBikeRental = async (userId, bikeId) => {
   const db = firebase.firestore();
 
@@ -19,11 +20,13 @@ export const createBikeRental = async (userId, bikeId) => {
   // turn date object into string
   returnTime = returnTime.toString();
   // add rental to db
-  await db.collection('rentals').add({
+  const res = await db.collection('rentals').add({
     user_id: userId,
     bike_id: bikeId,
     return_time: returnTime,
   });
+  // return id
+  return res.id;
 };
 
 // This function will return the userId and return time for a rental

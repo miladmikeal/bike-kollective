@@ -9,10 +9,28 @@ import { checkInBike } from '../../api/checkBike';
 import { deleteBikeRental, getRentalDetails } from '../../api/bikeRental';
 
 const RideModeHome = ({ navigation, route }) => {
-  const bike = route.params.bike;
   const [timeRemaining, setTimeRemaining] = useState();
   const [rentalId, setRentalId] = useState();
   const [err, setErr] = useState();
+
+  const bike = route.params.bike;
+
+  // If this is a new rental, update timeRemaining
+  if (rentalId !== route.params.rentalId) {
+    getRentalDetails(bike.id)
+      .then((rental) => {
+        const timeNow = new Date();
+        const rideReturnTime = new Date(rental.returnTime);
+        console.log('in rental ID update');
+        console.log(rental);
+        console.log(rideReturnTime);
+        console.log(timeNow);
+        console.log((rideReturnTime - timeNow) / 1000);
+        setTimeRemaining((rideReturnTime - timeNow) / 1000);
+        setRentalId(route.params.rentalId);
+      })
+      .catch((e) => setErr(e));
+  }
 
   // If the user is beyond their rental period, they will be hit with an alert
   // to turn in the bike and the bike will be force returned.
@@ -27,22 +45,6 @@ const RideModeHome = ({ navigation, route }) => {
       screen: 'BrowseBikes',
     });
   };
-
-  if (!timeRemaining) {
-    getRentalDetails(bike.id)
-      .then((rental) => {
-        const timeNow = new Date();
-        const rideReturnTime = new Date(rental.returnTime);
-        console.log('in rental details');
-        console.log(rental);
-        console.log(rideReturnTime);
-        console.log(timeNow);
-        console.log((rideReturnTime - timeNow) / 1000);
-        setTimeRemaining((rideReturnTime - timeNow) / 1000);
-        setRentalId(rental.id);
-      })
-      .catch((e) => setErr(e));
-  }
 
   if (err) {
     return (
@@ -71,13 +73,11 @@ const RideModeHome = ({ navigation, route }) => {
     <Container style={styles.container}>
       <Text style={{ margin: 20 }}>Ride Time Remaining: </Text>
       <CountDown
-        id={rentalId}
         until={Math.trunc(timeRemaining)}
         digitStyle={{ backgroundColor: '#FFF' }}
         onFinish={() => returnBikeNow()}
         timeToShow={['H', 'M', 'S']}
         size={40}
-        running
       />
       <Button
         style={styles.button}
@@ -112,7 +112,8 @@ RideModeHome.propTypes = {
   }).isRequired,
   route: PropTypes.shape({
     params: PropTypes.shape({
-      bike: PropTypes.instanceOf(Bike).isRequired
+      bike: PropTypes.instanceOf(Bike).isRequired,
+      rentalId: PropTypes.string.isRequired
     }).isRequired
   }).isRequired,
 };
