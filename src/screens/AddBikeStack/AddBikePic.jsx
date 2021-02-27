@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Alert, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import PropTypes from 'prop-types';
-import { Button, Container, Content, Text, Title } from 'native-base';
+import { Button, Container, Content, Icon, Text, Title } from 'native-base';
 import globalStyles from '../../styles/styles';
 
 const AddBikePic = ({ navigation, route }) => {
@@ -14,13 +14,31 @@ const AddBikePic = ({ navigation, route }) => {
   const pickImage = async () => {
     const permissions = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permissions.status !== 'granted') {
-      Alert.alert('Camera roll permissions are required, please enable them in your device settings.');
+      Alert.alert('Media library permissions are required, please enable them in your device settings.');
     } else {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [4, 3],
-        quality: 1,
+        quality: 0.5,
+      });
+
+      if (!result.cancelled) {
+        setImgUri(result.uri);
+      }
+    }
+  };
+
+  const takePicture = async () => {
+    const permissions = await ImagePicker.requestCameraPermissionsAsync();
+    if (permissions.status !== 'granted') {
+      Alert.alert('Camera permissions are required, please enable them in your device settings.');
+    } else {
+      const result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 0.5,
       });
 
       if (!result.cancelled) {
@@ -42,12 +60,14 @@ const AddBikePic = ({ navigation, route }) => {
           style={globalStyles.addBikeButton}
         >
           <Text>Upload Image from Gallery</Text>
+          <Icon type="MaterialIcons" name="image" style={globalStyles.listNextIcon} />
         </Button>
         <Button
-          onPress={() => console.log('handle camera')}
+          onPress={takePicture}
           style={globalStyles.addBikeButton}
         >
           <Text>Take a Photo Now</Text>
+          <Icon type="MaterialIcons" name="camera-alt" style={globalStyles.listNextIcon} />
         </Button>
         {imgUri &&
           <Image style={styles.img} source={{ uri: imgUri }} />

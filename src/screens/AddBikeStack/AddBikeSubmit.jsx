@@ -32,7 +32,7 @@ const AddBikeSubmit = ({ navigation, route }) => {
     } catch (err) {
       Alert.alert(`There was an unexpected error saving the bike to the data store: ${err}`);
     }
-    Alert.alert('Your bike has been added to the bike-kollective. Thanks for your participation!');
+    Alert.alert('Your bike has been added to the bike-kollective!');
     navigation.navigate('AddBikeFormScreen');
   };
 
