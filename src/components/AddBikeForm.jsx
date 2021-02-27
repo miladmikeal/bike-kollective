@@ -39,7 +39,7 @@ const AddBikeForm = ({ navigation }) => {
   const [locationGranted, setLocationGranted] = useState();
   const [location, setLocation] = useState();
   const [err, setErr] = useState();
-  const handleSubmit = (values) => navigation.push('AddBikeWaiver', { values: { values }, location: { location } });
+  const handleSubmit = (values) => navigation.push('AddBikePic', { values, location });
 
   useFocusEffect(() => {
     const interval = setInterval(() => {

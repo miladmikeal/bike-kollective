@@ -9,8 +9,9 @@ import getGeoStore from '../../api/geofirestore';
 import { saveBike } from '../../api/bikes';
 
 const AddBikeSubmit = ({ navigation, route }) => {
-  const bike = route.params.bike.bike;
-  const location = route.params.location.location;
+  const bike = route.params.bike;
+  const location = route.params.location;
+  const imgUri = route.params.imgUri;
 
   const handleConfirm = async () => {
     const geostore = getGeoStore();
@@ -20,7 +21,7 @@ const AddBikeSubmit = ({ navigation, route }) => {
     bikeData.pic_url = 'https://firebasestorage.googleapis.com/v0/b/bikekollective-434ce.appspot.com/o/bikeKollective.png?alt=media&token=c0420ea5-624b-43f7-b1d0-d4ddd24525c3';
     
     try {
-      await saveBike(geostore, bike)
+      await saveBike(geostore, bike);
     } catch (err) {
       Alert.alert(`There was an unexpected error saving the bike to the data store: ${err}`);
     }
@@ -61,20 +62,17 @@ AddBikeSubmit.propTypes = {
   route: PropTypes.shape({
     params: PropTypes.shape({
       bike: PropTypes.shape({
-        bike: PropTypes.shape({
-          name: PropTypes.string.isRequired,
-          style: PropTypes.string.isRequired,
-          frame: PropTypes.string.isRequired,
-          keywords: PropTypes.string,
-          lock: PropTypes.string.isRequired
-        }).isRequired,
+        name: PropTypes.string.isRequired,
+        style: PropTypes.string.isRequired,
+        frame: PropTypes.string.isRequired,
+        keywords: PropTypes.string,
+        lock: PropTypes.string.isRequired
       }).isRequired,
       location: PropTypes.shape({
-        location: PropTypes.shape({
-          latitude: PropTypes.number.isRequired,
-          longitude: PropTypes.number.isRequired
-        })
-      }).isRequired
+        latitude: PropTypes.number.isRequired,
+        longitude: PropTypes.number.isRequired
+      }).isRequired,
+      imgUri: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
 };
