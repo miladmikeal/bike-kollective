@@ -14,7 +14,7 @@ const AddBikePic = ({ navigation, route }) => {
   const pickImage = async () => {
     const permissions = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permissions.status !== 'granted') {
-      Alert.alert('Media library permissions are required, please enable them in your device settings.');
+      Alert.alert('Media library permissions are required, please enable in settings');
     } else {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -32,7 +32,7 @@ const AddBikePic = ({ navigation, route }) => {
   const takePicture = async () => {
     const permissions = await ImagePicker.requestCameraPermissionsAsync();
     if (permissions.status !== 'granted') {
-      Alert.alert('Camera permissions are required, please enable them in your device settings.');
+      Alert.alert('Camera permissions are required, please enable in settings');
     } else {
       const result = await ImagePicker.launchCameraAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
