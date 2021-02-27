@@ -18,7 +18,7 @@ const BikeDetails = ({ navigation, route }) => {
 
   let keywordText = '';
   if (bike.keywords.length > 0) {
-    keywordText = bike.keywords.replace(',', ' #');
+    keywordText = bike.keywords.split(',').join(' #');
     keywordText = '#'.concat(keywordText);
   } else {
     keywordText = 'None';

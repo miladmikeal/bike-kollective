@@ -45,6 +45,18 @@ const CheckoutConfirmation = ({ navigation, route }) => {
     return () => clearInterval(interval);
   });
 
+  function handleConfirm() {
+    checkOutBike(userEmail, bikeId);
+    createBikeRental(userEmail, bikeId)
+      .then((rentalId) => {
+        navigation.navigate('Ride Mode', {
+          screen: 'RideModeHome',
+          params: { bike, rentalId },
+        });
+      })
+      .catch((e) => setErr(e));
+  }
+
   if (locationGranted === undefined) {
     LocationServices.getLocationPermission()
       .then((permission) => {
@@ -96,9 +108,6 @@ const CheckoutConfirmation = ({ navigation, route }) => {
                 <View style={styles.dataView}>
                   <Text style={styles.boldText}>Confirmation Details</Text>
                   <Unorderedlist>
-                    <Text>Unlock code: {bike.lock}</Text>
-                  </Unorderedlist>
-                  <Unorderedlist>
                     <Text>Safety: Always perform a full inspection before riding a bike</Text>
                   </Unorderedlist>
                   <Unorderedlist>
@@ -119,14 +128,7 @@ const CheckoutConfirmation = ({ navigation, route }) => {
             <Row style={{ height: '20%' }}>
               <Button
                 style={globalStyles.addBikeButton}
-                onPress={() => {
-                  checkOutBike(userEmail, bikeId);
-                  createBikeRental(userEmail, bikeId);
-                  navigation.navigate('Ride Mode', {
-                    screen: 'RideModeHome',
-                    params: { bike },
-                  });
-                }}
+                onPress={handleConfirm}
               >
                 <Text>Confirm Checkout</Text>
               </Button>

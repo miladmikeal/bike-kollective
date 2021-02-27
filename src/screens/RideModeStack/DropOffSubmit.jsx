@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Text, Button } from 'native-base';
 import PropTypes from 'prop-types';
 import Stars from 'react-native-stars'; // Link to docs: https://www.npmjs.com/package/react-native-stars
+import Bike from '../../models/Bike';
 import { addBikeRating } from '../../api/bikeRatings';
 import { addUserComment } from '../../api/userComments';
 import { checkInBike } from '../../api/checkBike';
@@ -34,7 +35,7 @@ const DropOffSubmit = ({ navigation, route }) => {
       }}
     >
       <View style={styles.container}>
-        <Text style={{ paddingBottom: 10 }}>Rate your ride</Text>
+        <Text style={styles.title}>Rate your ride</Text>
         <Stars
           default={2.5}
           count={5}
@@ -43,11 +44,11 @@ const DropOffSubmit = ({ navigation, route }) => {
           update={(val) => {
             setStarRating(val);
           }}
-          fullStar={<Icon name="star" style={[styles.myStarStyle]} />}
+          fullStar={<Icon name="star" size={60} style={[styles.myStarStyle]} />}
           emptyStar={
-            <Icon name="star-outline" style={[styles.myStarStyle, styles.myEmptyStarStyle]} />
+            <Icon name="star-outline" size={60} style={[styles.myStarStyle, styles.myEmptyStarStyle]} />
           }
-          halfStar={<Icon name="star-half" style={[styles.myStarStyle]} />}
+          halfStar={<Icon name="star-half" size={60} style={[styles.myStarStyle]} />}
         />
         <View style={styles.textInputContainer}>
           <TextInput
@@ -55,6 +56,7 @@ const DropOffSubmit = ({ navigation, route }) => {
             autoCorrect={false}
             placeholder="Leave Feedback"
             onChangeText={(userText) => setFeedback(userText)}
+            style={styles.input}
           />
         </View>
 
@@ -71,6 +73,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
+  },
+  title: {
+    paddingBottom: 10,
+    fontSize: 48 
   },
   myStarStyle: {
     color: 'yellow',
@@ -93,6 +99,16 @@ const styles = StyleSheet.create({
     // allow TextInput and icon to show up on same line
     flexDirection: 'row',
   },
+  input: {
+    borderWidth: 1,
+    borderColor: 'gray',
+    padding: 10,
+    margin: 5,
+    fontSize: 18,
+    borderRadius: 4,
+    width: '100%',
+    alignSelf: 'center'
+  },
   button: {
     alignSelf: 'center',
     width: '50%',
@@ -102,10 +118,13 @@ const styles = StyleSheet.create({
 DropOffSubmit.propTypes = {
   navigation: PropTypes.shape({
     push: PropTypes.func.isRequired,
-    navigate: PropTypes.string.isRequired,
-    goBack: PropTypes.string.isRequired,
+    navigate: PropTypes.func.isRequired,
   }).isRequired,
-  route: PropTypes.isRequired,
+  route: PropTypes.shape({
+    params: PropTypes.shape({
+      bike: PropTypes.instanceOf(Bike).isRequired
+    }).isRequired
+  }).isRequired,
 };
 
 export default DropOffSubmit;
