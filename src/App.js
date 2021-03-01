@@ -12,8 +12,8 @@ import Routes from './Routes';
 import firebaseConfig from '../config/firebase.config.js';
 import { AuthProvider } from './context/AuthProvider';
 
-// Something is setting massive timeouts
-LogBox.ignoreLogs(['Setting a timer']);
+// Disables a handful of warnings that do not apply to our use cases
+LogBox.ignoreAllLogs();
 
 const getFonts = () => Font.loadAsync({
   'roboto-medium': require('../assets/fonts/Roboto-Medium.ttf'),
