@@ -1,11 +1,11 @@
 /* eslint-disable no-shadow */
 import React, { useState, useContext } from 'react';
-import { Alert, ScrollView, Keyboard, Image, TouchableWithoutFeedback } from 'react-native';
+import { Alert, ScrollView, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { Content, Button, Form, Input, Text, H1, View } from 'native-base';
 import PropTypes from 'prop-types';
 import { AuthContext } from '../../context/AuthProvider';
+import SignInImage from '../../components/SignInImage';
 import globalStyles from '../../styles/styles';
-import bikeKollective from '../../../assets/bikeKollective.png';
 
 const SignIn = ({ navigation }) => {
   const { login } = useContext(AuthContext);
@@ -57,9 +57,10 @@ const SignIn = ({ navigation }) => {
             <Button block transparent onPress={() => navigation.navigate('SignUp')}>
               <Text>Sign Up</Text>
             </Button>
+            <SignInImage />
           </Content>
         </ScrollView>
-        <Image source={bikeKollective} />
+        
       </View>
     </TouchableWithoutFeedback>
   );
