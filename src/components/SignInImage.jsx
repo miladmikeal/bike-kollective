@@ -9,7 +9,7 @@ function SvgComponent(props) {
       data-name="Layer 1"
       xmlns="http://www.w3.org/2000/svg"
       width={400}
-      height={275}
+      height={250}
       viewBox="0 0 937.597 653.445"
       {...props}
     >
