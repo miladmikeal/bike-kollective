@@ -13,9 +13,8 @@ const RideModeHome = ({ navigation, route }) => {
   const [err, setErr] = useState();
 
   const bike = route.params.bike;
-
   // If this is a new rental, update timeRemaining
-  if (rentalId !== route.params.rentalId) {
+  if (rentalId !== route.params.rentalId || timeRemaining === null) {
     getRentalDetails(bike.id)
       .then((rental) => {
         const timeNow = new Date();
@@ -47,7 +46,7 @@ const RideModeHome = ({ navigation, route }) => {
       </Container>
     );
   }
-
+  console.log('timeRemaining:', timeRemaining);
   if (!timeRemaining) {
     return (
       <Container>
@@ -58,9 +57,7 @@ const RideModeHome = ({ navigation, route }) => {
 
   if (timeRemaining < 0) {
     returnBikeNow();
-    return (
-      <Text style={{ margin: 20 }}>Maximum ride time exceeded</Text>
-    );
+    return <Text style={{ margin: 20 }}>Maximum ride time exceeded</Text>;
   }
 
   return (
@@ -77,7 +74,7 @@ const RideModeHome = ({ navigation, route }) => {
       <Button
         style={styles.button}
         onPress={() => {
-          setTimeRemaining();
+          // setTimeRemaining();
           navigation.push('DropOffSubmit', { bike });
         }}
       >
@@ -108,8 +105,8 @@ RideModeHome.propTypes = {
   route: PropTypes.shape({
     params: PropTypes.shape({
       bike: PropTypes.instanceOf(Bike).isRequired,
-      rentalId: PropTypes.string.isRequired
-    }).isRequired
+      rentalId: PropTypes.string.isRequired,
+    }).isRequired,
   }).isRequired,
 };
 
