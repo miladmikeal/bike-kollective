@@ -60,16 +60,6 @@ const BrowseBikesListItem = ({ bike, navigation, selectedBikeID, setSelectedBike
                 setSelectedBikeID(bike.id);
               }}
             >
-              <Text>Style</Text>
-              <Text note>{bike.style}</Text>
-            </TouchableOpacity>
-          </Col>
-          <Col>
-            <TouchableOpacity
-              onPress={() => {
-                setSelectedBikeID(bike.id);
-              }}
-            >
               <Text>Dist</Text>
               <Text note>
                 {haversine({ latitude: bike.latitude, longitude: bike.longitude }, location, {
