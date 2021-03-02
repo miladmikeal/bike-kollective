@@ -1,11 +1,12 @@
 /* eslint-disable no-shadow */
 import React, { useState, useContext } from 'react';
-import { Alert, ScrollView, Keyboard, Image, TouchableWithoutFeedback } from 'react-native';
+import { Alert, StyleSheet, ScrollView, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { Content, Button, Form, Input, Text, H1, View } from 'native-base';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import PropTypes from 'prop-types';
 import { AuthContext } from '../../context/AuthProvider';
+import SignInImage from '../../components/SignInImage';
 import globalStyles from '../../styles/styles';
-import bikeKollective from '../../../assets/bikeKollective.png';
 
 const SignIn = ({ navigation }) => {
   const { login } = useContext(AuthContext);
@@ -34,8 +35,12 @@ const SignIn = ({ navigation }) => {
     >
       <View>
         <ScrollView style={globalStyles.formContainer} onBlur={Keyboard.dismiss}>
-          <Content>
-            <H1>Sign in to your account:</H1>
+          <Content style={styles.content}>
+            <Text styles={styles.row}>
+              <Text style={styles.bike}>Bike</Text>
+              <Text style={styles.kollective}>Kollective</Text>
+            </Text>
+            <H1 style={styles.instructions}>Sign in to your account:</H1>
             <Form>
               <Input
                 placeholder="Enter your email"
@@ -50,20 +55,48 @@ const SignIn = ({ navigation }) => {
                 secureTextEntry
               />
               <Button block onPress={handlePress}>
-                <Text>Sumbit</Text>
+                <Text>Submit</Text>
               </Button>
             </Form>
-            <Text>Need an account?</Text>
-            <Button block transparent onPress={() => navigation.navigate('SignUp')}>
-              <Text>Sign Up</Text>
-            </Button>
+            <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+              <Text style={styles.signUpLink}>Need an account? Sign Up</Text>
+            </TouchableOpacity>
+            <SignInImage />
           </Content>
         </ScrollView>
-        <Image source={bikeKollective} />
+        
       </View>
     </TouchableWithoutFeedback>
   );
 };
+
+const styles = StyleSheet.create({
+  content: {
+    padding: 5
+  },
+  row: {
+    margin: 20,
+    padding: 30,
+  },
+  bike: {
+    fontSize: 38,
+    color: '#64B5F6',
+    textAlign: 'center'
+  },
+  kollective: {
+    fontSize: 38,
+    color: '#2196F3'
+  },
+  instructions: {
+    marginTop: 25
+  },
+  signUpLink: {
+    marginTop: 15,
+    textAlign: 'center',
+    fontSize: 18,
+    color: '#2196F3'
+  }
+});
 
 SignIn.propTypes = {
   navigation: PropTypes.shape({
