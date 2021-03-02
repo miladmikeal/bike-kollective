@@ -46,7 +46,7 @@ const RideModeHome = ({ navigation, route }) => {
       </Container>
     );
   }
-  console.log('timeRemaining:', timeRemaining);
+
   if (!timeRemaining) {
     return (
       <Container>
@@ -74,7 +74,6 @@ const RideModeHome = ({ navigation, route }) => {
       <Button
         style={styles.button}
         onPress={() => {
-          // setTimeRemaining();
           navigation.push('DropOffSubmit', { bike });
         }}
       >
