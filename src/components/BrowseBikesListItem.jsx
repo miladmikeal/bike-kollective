@@ -19,9 +19,6 @@ const BrowseBikesListItem = ({ bike, navigation, selectedBikeID, setSelectedBike
         setRating(bikeRating.score);
       })
       .catch((e) => setErr(e));
-    
-    
-    
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
