@@ -16,8 +16,8 @@ import { AuthProvider } from './context/AuthProvider';
 LogBox.ignoreAllLogs();
 
 const getFonts = () => Font.loadAsync({
-  'roboto-medium': require('../assets/fonts/Roboto-Medium.ttf'),
-  'roboto-bold': require('../assets/fonts/Roboto-Bold.ttf'),
+  'Roboto_medium': require('../assets/fonts/Roboto-Medium.ttf'),
+  'Roboto_bold': require('../assets/fonts/Roboto-Bold.ttf'),
 });
 
 const App = () => {
