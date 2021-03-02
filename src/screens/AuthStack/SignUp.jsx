@@ -1,9 +1,11 @@
 /* eslint-disable no-shadow */
 import React, { useState } from 'react';
-import { Alert, ScrollView, Keyboard, TouchableWithoutFeedback } from 'react-native';
-import { Container, Content, Button, Text, Form, Item, Input, H1 } from 'native-base';
+import { Alert, StyleSheet, ScrollView, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { Container, Content, Button, Text, Form, Input, H1 } from 'native-base';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import PropTypes from 'prop-types';
 import { signUp } from '../../api/auth';
+import SignUpImage from '../../components/SignUpImage';
 import globalStyles from '../../styles/styles';
 
 const SignUp = ({ navigation }) => {
@@ -48,63 +50,84 @@ const SignUp = ({ navigation }) => {
     >
       <Container>
         <ScrollView style={globalStyles.formContainer} onBlur={Keyboard.dismiss}>
-          <Content>
-            <H1>Create an account </H1>
-
+          <Content style={styles.content}>
+            <Text styles={styles.row}>
+              <Text style={styles.bike}>Bike</Text>
+              <Text style={styles.kollective}>Kollective</Text>
+            </Text>
+            <H1 style={styles.instructions}>Create account:</H1>
             <Form>
-              <Item>
-                <Input
-                  placeholder="First name*"
-                  value={firstName}
-                  onChangeText={(firstName) => setFirstName(firstName)}
-                />
-              </Item>
-              <Item>
-                <Input
-                  placeholder="Last name"
-                  value={lastName}
-                  onChangeText={(lastName) => setLastName(lastName)}
-                />
-              </Item>
-              <Item>
-                <Input
-                  placeholder="Enter your email*"
-                  value={email}
-                  onChangeText={(email) => setEmail(email)}
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                />
-              </Item>
-              <Item>
-                <Input
-                  placeholder="Enter your password*"
-                  value={password}
-                  onChangeText={(password) => setPassword(password)}
-                  secureTextEntry
-                />
-              </Item>
-              <Item>
-                <Input
-                  placeholder="Retype your password to confirm*"
-                  value={confirmPassword}
-                  onChangeText={(password2) => setConfirmPassword(password2)}
-                  secureTextEntry
-                />
-              </Item>
+              <Input
+                placeholder="First name*"
+                value={firstName}
+                onChangeText={(firstName) => setFirstName(firstName)}
+              />
+              <Input
+                placeholder="Last name"
+                value={lastName}
+                onChangeText={(lastName) => setLastName(lastName)}
+              />
+              <Input
+                placeholder="Enter your email*"
+                value={email}
+                onChangeText={(email) => setEmail(email)}
+                keyboardType="email-address"
+                autoCapitalize="none"
+              />
+              <Input
+                placeholder="Enter your password*"
+                value={password}
+                onChangeText={(password) => setPassword(password)}
+                secureTextEntry
+              />
+              <Input
+                placeholder="Retype your password to confirm*"
+                value={confirmPassword}
+                onChangeText={(password2) => setConfirmPassword(password2)}
+                secureTextEntry
+              />
               <Button block onPress={handlePress}>
                 <Text>Sign Up</Text>
               </Button>
             </Form>
-            <Text>Already have an account?</Text>
-            <Button block transparent onPress={() => navigation.navigate('SignIn')}>
-              <Text>Sign In</Text>
-            </Button>
+            <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
+              <Text style={styles.signUpLink}>Already have an account? Sign In</Text>
+            </TouchableOpacity>
+            <SignUpImage />
           </Content>
         </ScrollView>
       </Container>
     </TouchableWithoutFeedback>
   );
 };
+
+const styles = StyleSheet.create({
+  content: {
+    padding: 5
+  },
+  row: {
+    margin: 20,
+    padding: 30,
+  },
+  bike: {
+    fontSize: 38,
+    color: '#64B5F6',
+    textAlign: 'center'
+  },
+  kollective: {
+    fontSize: 38,
+    color: '#2196F3'
+  },
+  instructions: {
+    marginTop: 25
+  },
+  signUpLink: {
+    marginTop: 15,
+    textAlign: 'center',
+    fontSize: 18,
+    color: '#2196F3'
+  }
+});
 
 SignUp.propTypes = {
   navigation: PropTypes.shape({
