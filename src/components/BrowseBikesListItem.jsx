@@ -60,7 +60,7 @@ const BrowseBikesListItem = ({ bike, navigation, selectedBikeID, setSelectedBike
                 setSelectedBikeID(bike.id);
               }}
             >
-              <Text>Dist</Text>
+              <Text>Distance</Text>
               <Text note>
                 {haversine({ latitude: bike.latitude, longitude: bike.longitude }, location, {
                   unit: 'mile',
