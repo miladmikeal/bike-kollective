@@ -15,8 +15,13 @@ const BrowseBikesListItem = ({ bike, navigation, selectedBikeID, setSelectedBike
 
   useEffect(() => {
     getBikeRatingCountAndAvg(bike.id)
-      .then((bikeRating) => setRating(bikeRating))
+      .then((bikeRating) => {
+        setRating(bikeRating.score);
+      })
       .catch((e) => setErr(e));
+    
+    
+    
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -84,9 +89,9 @@ const BrowseBikesListItem = ({ bike, navigation, selectedBikeID, setSelectedBike
               }}
             >
               <Text>Rating</Text>
-              {rating.score ? (
+              {rating ? (
                 <Text note>
-                  {rating.score}
+                  {rating}
                 </Text>
               ) : (
                 <Text note>
