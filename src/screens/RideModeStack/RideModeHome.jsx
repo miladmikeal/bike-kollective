@@ -14,7 +14,7 @@ const RideModeHome = ({ navigation, route }) => {
 
   const bike = route.params.bike;
   // If this is a new rental, update timeRemaining
-  if (rentalId !== route.params.rentalId || timeRemaining === null) {
+  if (rentalId !== route.params.rentalId) {
     getRentalDetails(bike.id)
       .then((rental) => {
         const timeNow = new Date();
