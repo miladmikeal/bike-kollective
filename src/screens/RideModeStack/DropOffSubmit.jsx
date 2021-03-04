@@ -12,6 +12,7 @@ import { deleteBikeRental } from '../../api/bikeRental';
 
 const DropOffSubmit = ({ navigation, route }) => {
   const bike = route.params.bike;
+  const resetRentalId = route.params.resetRentalId;
   const [starRating, setStarRating] = useState(2.5);
   const [feedback, setFeedback] = useState('');
 
@@ -21,6 +22,7 @@ const DropOffSubmit = ({ navigation, route }) => {
   const endRide = async (bikeId) => {
     await addBikeRating(starRating, bikeId);
     await addUserComment(feedback, bikeId);
+    resetRentalId();
     deleteBikeRental(bikeId);
     checkInBike(bikeId);
     navigation.navigate('Home', {
@@ -122,7 +124,8 @@ DropOffSubmit.propTypes = {
   }).isRequired,
   route: PropTypes.shape({
     params: PropTypes.shape({
-      bike: PropTypes.instanceOf(Bike).isRequired
+      bike: PropTypes.instanceOf(Bike).isRequired,
+      resetRentalId: PropTypes.func.isRequired,
     }).isRequired
   }).isRequired,
 };

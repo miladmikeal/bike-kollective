@@ -114,7 +114,7 @@ const CheckoutConfirmation = ({ navigation, route }) => {
                     <Text>Use: Follow all applicable traffic laws while riding the bike</Text>
                   </Unorderedlist>
                   <Unorderedlist>
-                    <Text>Timeline: The bike must be returned within 24 hours</Text>
+                    <Text>Timeline: The bike must be returned within 2 hours</Text>
                   </Unorderedlist>
                   <Unorderedlist>
                     <Text>
