@@ -16,11 +16,13 @@ const RideModeHome = ({ navigation, route }) => {
 
   const bike = route.params.bike;
   // If this is a new rental, update timeRemaining
-  if (rentalId !== route.params.rentalId) {
+  if (!rentalId || rentalId !== route.params.rentalId) {
     getRentalDetails(bike.id)
       .then((rental) => {
+        console.log('in rental details callback');
         const timeNow = new Date();
         const rideReturnTime = new Date(rental.returnTime);
+        console.log(rideReturnTime);
         setTimeRemaining((rideReturnTime - timeNow) / 1000);
         setRentalId(route.params.rentalId);
       })
@@ -50,7 +52,7 @@ const RideModeHome = ({ navigation, route }) => {
     );
   }
 
-  if (!timeRemaining) {
+  if (!timeRemaining || !rentalId || rentalId !== route.params.rentalId) {
     return (
       <Container>
         <Spinner />
