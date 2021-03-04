@@ -12,7 +12,7 @@ const RideModeHome = ({ navigation, route }) => {
   const [rentalId, setRentalId] = useState();
   const [err, setErr] = useState();
 
-  const resetRentalId = () => setRentalId(null);
+  const resetRentalId = () => setRentalId();
 
   const bike = route.params.bike;
   // If this is a new rental, update timeRemaining
