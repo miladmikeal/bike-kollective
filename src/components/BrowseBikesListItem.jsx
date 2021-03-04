@@ -16,7 +16,11 @@ const BrowseBikesListItem = ({ bike, navigation, selectedBikeID, setSelectedBike
   useEffect(() => {
     getBikeRatingCountAndAvg(bike.id)
       .then((bikeRating) => {
-        setRating(bikeRating.score);
+        let score = bikeRating.score;
+        if (typeof bikeRating.score === 'number') {
+          score = bikeRating.score.toFixed(2);
+        }
+        setRating(score);
       })
       .catch((e) => setErr(e));
   // eslint-disable-next-line react-hooks/exhaustive-deps
