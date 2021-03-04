@@ -12,6 +12,8 @@ const RideModeHome = ({ navigation, route }) => {
   const [rentalId, setRentalId] = useState();
   const [err, setErr] = useState();
 
+  const resetRentalId = () => setRentalId(null);
+
   const bike = route.params.bike;
   // If this is a new rental, update timeRemaining
   if (rentalId !== route.params.rentalId) {
@@ -34,6 +36,7 @@ const RideModeHome = ({ navigation, route }) => {
     await deleteBikeRental(bike.id);
     await checkInBike(bike.id);
     setTimeRemaining();
+    setRentalId();
     navigation.navigate('Home', {
       screen: 'BrowseBikes',
     });
@@ -74,7 +77,7 @@ const RideModeHome = ({ navigation, route }) => {
       <Button
         style={styles.button}
         onPress={() => {
-          navigation.push('DropOffSubmit', { bike });
+          navigation.push('DropOffSubmit', { bike, resetRentalId });
         }}
       >
         <Text>Return Bike</Text>
